@@ -1,0 +1,60 @@
+======================================================================
+Work Package A: GTET-L hard_v2 calibration sweep
+======================================================================
+
+--- baseline ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- deadline_tight ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- deadline_tighter ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- belt_risk_0.4 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- belt_risk_0.5 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.550 goal=0.550 warn=0.0 unlock=0.0 n=20 err=0
+
+--- belt_risk_0.6 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.550 goal=0.550 warn=0.0 unlock=0.0 n=20 err=0
+
+--- belt_frac_0.3 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- belt_frac_0.4 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- tight+risk_0.4 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+--- tight+risk_0.5 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.550 goal=0.550 warn=0.0 unlock=0.0 n=20 err=0
+
+--- tighter+risk_0.4 ---
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+Done.

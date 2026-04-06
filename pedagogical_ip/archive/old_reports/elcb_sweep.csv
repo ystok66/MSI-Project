@@ -1,0 +1,4 @@
+condition,SBCR,SR,n
+no_tutor,0.55,1.0,20
+warn_only,0.55,1.0,20
+robot_belief_post,0.55,1.0,20

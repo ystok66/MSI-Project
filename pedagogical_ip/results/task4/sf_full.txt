@@ -1,0 +1,75 @@
+Task 4 - SlowFast Transfer Shadow Evaluation
+  family=baseline_v2, episodes=15, seeds=5
+================================================================================
+
+--- Mode: fresh ---
+  ep=0: surv=0.200 goal=0.200 steps=10.0 risk_w=0.306 n=5
+  ep=1: surv=0.200 goal=0.200 steps=9.6 risk_w=0.356 n=5
+  ep=2: surv=0.200 goal=0.200 steps=10.8 risk_w=0.473 n=5
+  ep=3: surv=0.400 goal=0.400 steps=14.6 risk_w=0.363 n=5
+  ep=4: surv=0.600 goal=0.600 steps=18.2 risk_w=0.237 n=5
+  ep=5: surv=0.000 goal=0.000 steps=4.6 risk_w=0.385 n=5
+  ep=6: surv=0.400 goal=0.400 steps=13.2 risk_w=0.304 n=5
+  ep=7: surv=0.400 goal=0.400 steps=13.6 risk_w=0.421 n=5
+  ep=8: surv=0.200 goal=0.200 steps=13.0 risk_w=0.528 n=5
+  ep=9: surv=0.400 goal=0.400 steps=14.8 risk_w=0.340 n=5
+  ep=10: surv=0.200 goal=0.200 steps=12.0 risk_w=0.393 n=5
+  ep=11: surv=0.400 goal=0.400 steps=17.4 risk_w=0.332 n=5
+  ep=12: surv=0.400 goal=0.400 steps=15.2 risk_w=0.295 n=5
+  ep=13: surv=0.600 goal=0.600 steps=21.6 risk_w=0.337 n=5
+  ep=14: surv=0.600 goal=0.600 steps=19.6 risk_w=0.274 n=5
+
+--- Mode: persist ---
+  ep=0: surv=0.200 goal=0.200 steps=10.0 risk_w=0.306 n=5
+  ep=1: surv=0.200 goal=0.200 steps=14.2 risk_w=0.370 n=5
+  ep=2: surv=0.400 goal=0.400 steps=16.4 risk_w=0.312 n=5
+  ep=3: surv=0.400 goal=0.400 steps=17.4 risk_w=0.260 n=5
+  ep=4: surv=0.800 goal=0.800 steps=25.2 risk_w=0.113 n=5
+  ep=5: surv=0.400 goal=0.400 steps=15.6 risk_w=0.176 n=5
+  ep=6: surv=0.600 goal=0.600 steps=19.6 risk_w=0.155 n=5
+  ep=7: surv=0.400 goal=0.400 steps=15.2 risk_w=0.347 n=5
+  ep=8: surv=0.400 goal=0.400 steps=19.4 risk_w=0.286 n=5
+  ep=9: surv=0.600 goal=0.600 steps=20.6 risk_w=0.154 n=5
+  ep=10: surv=0.600 goal=0.600 steps=23.8 risk_w=0.154 n=5
+  ep=11: surv=0.800 goal=0.800 steps=29.2 risk_w=0.163 n=5
+  ep=12: surv=0.800 goal=0.800 steps=25.8 risk_w=0.100 n=5
+  ep=13: surv=1.000 goal=1.000 steps=33.6 risk_w=0.019 n=5
+  ep=14: surv=1.000 goal=1.000 steps=33.0 risk_w=0.015 n=5
+
+--- Mode: slowfast ---
+  ep=0: surv=0.200 goal=0.200 steps=10.0 risk_w=0.306 n=5
+  ep=1: surv=0.200 goal=0.200 steps=9.6 risk_w=0.353 n=5
+  ep=2: surv=0.200 goal=0.200 steps=10.8 risk_w=0.460 n=5
+  ep=3: surv=0.400 goal=0.400 steps=14.6 risk_w=0.358 n=5
+  ep=4: surv=0.600 goal=0.600 steps=18.6 risk_w=0.238 n=5
+  ep=5: surv=0.200 goal=0.200 steps=10.0 risk_w=0.299 n=5
+  ep=6: surv=0.600 goal=0.600 steps=18.8 risk_w=0.166 n=5
+  ep=7: surv=0.400 goal=0.400 steps=14.4 risk_w=0.397 n=5
+  ep=8: surv=0.200 goal=0.200 steps=13.4 risk_w=0.508 n=5
+  ep=9: surv=0.600 goal=0.600 steps=20.2 risk_w=0.216 n=5
+  ep=10: surv=0.400 goal=0.400 steps=17.8 risk_w=0.336 n=5
+  ep=11: surv=0.600 goal=0.600 steps=23.4 risk_w=0.207 n=5
+  ep=12: surv=0.600 goal=0.600 steps=19.0 risk_w=0.231 n=5
+  ep=13: surv=0.800 goal=0.800 steps=27.0 risk_w=0.191 n=5
+  ep=14: surv=0.600 goal=0.600 steps=20.4 risk_w=0.268 n=5
+  SF diag (seed=0): {'n_episodes': 15, 'slow_cost_w_norm_final': 0.003170017846834986, 'slow_risk_w_norm_final': 0.34261044321013046, 'mean_fast_cost_delta': 0.034094397373711345, 'mean_fast_risk_delta': 0.3548398189728423, 'mean_updates_per_ep': 11.266666666666667}
+  SF diag (seed=1): {'n_episodes': 15, 'slow_cost_w_norm_final': 0.009337034460458426, 'slow_risk_w_norm_final': 0.2403129318797027, 'mean_fast_cost_delta': 0.03371493792037588, 'mean_fast_risk_delta': 0.3554174306423133, 'mean_updates_per_ep': 14.066666666666666}
+  SF diag (seed=2): {'n_episodes': 15, 'slow_cost_w_norm_final': 0.006757748635282526, 'slow_risk_w_norm_final': 0.1780077987588929, 'mean_fast_cost_delta': 0.028310971341637868, 'mean_fast_risk_delta': 0.30290701404404496, 'mean_updates_per_ep': 15.866666666666667}
+  SF diag (seed=3): {'n_episodes': 15, 'slow_cost_w_norm_final': 0.0012313470246041393, 'slow_risk_w_norm_final': 0.02006090712176143, 'mean_fast_cost_delta': 0.008688851657210487, 'mean_fast_risk_delta': 0.04620309216509799, 'mean_updates_per_ep': 30.066666666666666}
+  SF diag (seed=4): {'n_episodes': 15, 'slow_cost_w_norm_final': 0.003574357653029468, 'slow_risk_w_norm_final': 0.21020995022850475, 'mean_fast_cost_delta': 0.027987755171299002, 'mean_fast_risk_delta': 0.34292479514514046, 'mean_updates_per_ep': 11.4}
+
+================================================================================
+CROSS-MODE COMPARISON (averaged over all episodes)
+================================================================================
+      Mode |   Surv |   Goal |  Steps |  risk_w
+-----------------------------------------------
+     fresh |  0.347 |  0.347 |   13.9 |   0.356
+   persist |  0.573 |  0.573 |   21.3 |   0.195
+  slowfast |  0.440 |  0.440 |   16.5 |   0.302
+
+================================================================================
+LATE-EPISODE COMPARISON (ep >= half)
+================================================================================
+       fresh: surv=0.400 goal=0.400 n=40
+     persist: surv=0.700 goal=0.700 n=40
+    slowfast: surv=0.525 goal=0.525 n=40

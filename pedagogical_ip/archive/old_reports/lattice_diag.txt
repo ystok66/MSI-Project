@@ -1,0 +1,21 @@
+﻿Lattice Trap Diagnostic: No-Teacher Survival
+Grid: 5x6, 2/3 T-rows have traps, rho*=1.0
+Seeds: 200
+
+Avg shortest_any:  7.0
+Avg shortest_safe: 7.0
+Safe path reachable: 200/200
+
+ Ratio  T_max    CSR  Fatal  Timeout  HitTrap  AvgStep
+-------------------------------------------------------
+   1.2      8    66%    45      23      45      6.5
+   1.4      9    76%    45       2      45      6.6
+   1.6     11    78%    45       0      45      6.6
+   1.8     12    78%    45       0      45      6.6
+
+Example layouts (first 5 seeds):
+  seed=0: traps=[(2, 2), (4, 2)]  shortest_safe=7  shortest_any=7
+  seed=1: traps=[(0, 4), (2, 1)]  shortest_safe=7  shortest_any=7
+  seed=2: traps=[(0, 2), (2, 2)]  shortest_safe=7  shortest_any=7
+  seed=3: traps=[(0, 1), (2, 1)]  shortest_safe=7  shortest_any=7
+  seed=4: traps=[(2, 3), (4, 4)]  shortest_safe=7  shortest_any=7

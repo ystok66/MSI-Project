@@ -1,0 +1,18 @@
+=================================================================
+GTET-L Dual-Belt Calibration — 30 seeds
+=================================================================
+
+--- difficulty: hard ---
+  FULL                : surv=0.733 goal=0.733 warn=1.0 n=30
+  G_ONLY              : surv=0.733 goal=0.733 warn=1.0 n=30
+  G_THETA             : surv=0.733 goal=0.733 warn=1.0 n=30
+  G_Z                 : surv=0.733 goal=0.733 warn=2.0 n=30
+  THETA_Z             : surv=0.733 goal=0.733 warn=2.0 n=30
+  no_warn             : surv=0.600 goal=0.600 warn=0.0 n=30
+  no_tutor            : surv=0.333 goal=0.333 warn=0.0 n=30
+
+  Δ_joint = +0.000  (FULL=0.733 best_ablated=0.733)
+  no_tutor=0.333
+  no_warn=0.600
+
+Done.

@@ -1,0 +1,50 @@
+  baseline/hazard_belt: TBSR=0.160 Crash=0.840
+  baseline/hazard_belt_high: TBSR=0.000 Crash=1.000
+  baseline/deadline_gate: TBSR=0.580 Crash=0.000
+  baseline/fork_trap: TBSR=0.900 Crash=0.100
+  baseline/fork_trap_necessary: TBSR=0.900 Crash=0.100
+  baseline/elcb_po: TBSR=0.220 Crash=0.780
+  original/hazard_belt: TBSR=0.160 Crash=0.840
+  original/hazard_belt_high: TBSR=0.000 Crash=1.000
+  original/deadline_gate: TBSR=0.580 Crash=0.000
+  original/fork_trap: TBSR=0.900 Crash=0.100
+  original/fork_trap_necessary: TBSR=0.900 Crash=0.100
+  original/elcb_po: TBSR=0.220 Crash=0.780
+  N1/hazard_belt: TBSR=0.160 Crash=0.840
+  N1/hazard_belt_high: TBSR=0.000 Crash=1.000
+  N1/deadline_gate: TBSR=0.580 Crash=0.000
+  N1/fork_trap: TBSR=0.900 Crash=0.100
+  N1/fork_trap_necessary: TBSR=0.900 Crash=0.100
+  N1/elcb_po: TBSR=0.220 Crash=0.780
+  N2/hazard_belt: TBSR=0.160 Crash=0.840
+  N2/hazard_belt_high: TBSR=0.000 Crash=1.000
+  N2/deadline_gate: TBSR=0.580 Crash=0.000
+  N2/fork_trap: TBSR=0.900 Crash=0.100
+  N2/fork_trap_necessary: TBSR=0.900 Crash=0.100
+  N2/elcb_po: TBSR=0.220 Crash=0.780
+  N3/hazard_belt: TBSR=0.160 Crash=0.840
+  N3/hazard_belt_high: TBSR=0.000 Crash=1.000
+  N3/deadline_gate: TBSR=0.580 Crash=0.000
+  N3/fork_trap: TBSR=0.900 Crash=0.100
+  N3/fork_trap_necessary: TBSR=0.900 Crash=0.100
+  N3/elcb_po: TBSR=0.220 Crash=0.780
+  N2+none/hazard_belt: TBSR=0.160
+  N2+none/hazard_belt_high: TBSR=0.000
+  N2+none/deadline_gate: TBSR=0.580
+  N2+none/fork_trap: TBSR=0.900
+  N2+none/fork_trap_necessary: TBSR=0.900
+  N2+none/elcb_po: TBSR=0.220
+  N2+M1/hazard_belt: TBSR=0.160
+  N2+M1/hazard_belt_high: TBSR=0.000
+  N2+M1/deadline_gate: TBSR=0.580
+  N2+M1/fork_trap: TBSR=0.900
+  N2+M1/fork_trap_necessary: TBSR=0.900
+  N2+M1/elcb_po: TBSR=0.220
+  N2+M2/hazard_belt: TBSR=0.160
+  N2+M2/hazard_belt_high: TBSR=0.000
+  N2+M2/deadline_gate: TBSR=0.580
+  N2+M2/fork_trap: TBSR=0.900
+  N2+M2/fork_trap_necessary: TBSR=0.900
+  N2+M2/elcb_po: TBSR=0.220
+
+Report -> results/step5a1_necessity_gate/step5a1_report.md (1.8s)

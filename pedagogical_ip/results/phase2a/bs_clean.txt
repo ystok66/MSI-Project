@@ -1,0 +1,39 @@
+Phase 2A - Basis-Only Shadow Evaluation
+  episodes=3, seeds=2
+================================================================================
+
+--- linear_fresh ---
+  ep=0: surv=0.500 goal=0.500 steps=18.5 risk_w=0.223 n=2
+  ep=1: surv=0.000 goal=0.000 steps=5.0 risk_w=0.370 n=2
+  ep=2: surv=0.000 goal=0.000 steps=4.5 risk_w=0.538 n=2
+
+--- linear_persist ---
+  ep=0: surv=0.500 goal=0.500 steps=18.5 risk_w=0.223 n=2
+  ep=1: surv=0.500 goal=0.500 steps=19.0 risk_w=0.216 n=2
+  ep=2: surv=0.500 goal=0.500 steps=18.5 risk_w=0.261 n=2
+
+--- basis_fresh ---
+
+--- basis_persist ---
+
+================================================================================
+OVERALL SUMMARY
+================================================================================
+       Condition |   Surv |   Goal |  Steps |    N
+--------------------------------------------------
+    linear_fresh |  0.167 |  0.167 |    9.3 |    6
+  linear_persist |  0.500 |  0.500 |   18.7 |    6
+
+================================================================================
+LATE-EPISODE COMPARISON (ep >= 1)
+================================================================================
+      linear_fresh: surv=0.000 goal=0.000 n=4
+    linear_persist: surv=0.500 goal=0.500 n=4
+
+================================================================================
+VERDICT
+================================================================================
+Q1: basis_fresh (0.000) vs linear_fresh (0.167)
+  → basis < linear by 0.167: needs investigation
+Q2: linear transfer bonus = 0.333, basis transfer bonus = 0.000
+  → basis reduces transfer value: INVESTIGATE

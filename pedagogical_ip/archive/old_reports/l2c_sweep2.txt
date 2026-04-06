@@ -1,0 +1,28 @@
+﻿===============================================================================================
+L2C-minimal Experiment Sweep
+Working point: trap_risk=[0.3,0.5], ratio=1.3, N=100
+===============================================================================================
+
+[1] Main 6-condition matrix
+  no_tutor                             surv=   9% goal=   9% cls=0.0 wrn=0.0 rsk=5.1 stp=10.6 cue=15.2 shf=0.0
+  door_budget_2                        surv=  48% goal=  48% cls=1.9 wrn=0.0 rsk=3.2 stp=29.7 cue=13.5 shf=0.0
+  warning_only                         surv=   9% goal=   9% cls=0.0 wrn=1.6 rsk=5.1 stp=10.6 cue=15.2 shf=0.0
+  door_2 + fixed_warn                  surv=  48% goal=  48% cls=1.9 wrn=1.9 rsk=3.1 stp=29.6 cue=13.4 shf=0.0
+  door_2 + select_warn                 surv=  48% goal=  48% cls=1.9 wrn=1.9 rsk=3.1 stp=29.6 cue=13.4 shf=0.0
+  door_budget_3                        surv=  87% goal=  87% cls=2.5 wrn=0.0 rsk=1.6 stp=33.5 cue=10.1 shf=0.0
+
+[2] Persistent vs Reset Learning (10 ep x 30 seeds)
+  no_tutor                 persistent  : surv=7%  goal=7% (n=300)
+  no_tutor                 reset       : surv=7%  goal=7% (n=300)
+  door_2                   persistent  : surv=46%  goal=46% (n=300)
+  door_2                   reset       : surv=43%  goal=43% (n=300)
+  door_2 + fixed_warn      persistent  : surv=52%  goal=52% (n=300)
+  door_2 + fixed_warn      reset       : surv=47%  goal=47% (n=300)
+
+[3] Additional comparisons
+  always_close_3                       surv= 100% goal= 100% cls=3.0 wrn=0.0 rsk=0.0 stp=36.5 cue=6.0 shf=0.0
+  always_close_2                       surv=  45% goal=  45% cls=2.0 wrn=0.0 rsk=3.1 stp=30.8 cue=13.2 shf=0.0
+  always_2 + warn                      surv=  45% goal=  45% cls=2.0 wrn=1.0 rsk=3.1 stp=30.8 cue=13.2 shf=0.0
+
+===============================================================================================
+Done.

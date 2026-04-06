@@ -1,0 +1,6 @@
+WARN: p_safe_orig=0.4112 p_safe_cf=0.4330 lift=0.0218
+  alpha=0.10 lift=0.0440 p_cf=0.4551
+  alpha=0.15 lift=0.0218 p_cf=0.4330
+  alpha=0.20 lift=-0.0000 p_cf=0.4112
+  branch[0]: safety=0.875 risk=0.000
+  branch[1]: safety=0.300 risk=0.250

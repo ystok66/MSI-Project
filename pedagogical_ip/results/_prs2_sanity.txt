@@ -1,0 +1,27 @@
+=== PRS-2 SANITY: session_shared ===
+  tbsr_A                    = 0.6666666666666666
+  tbsr_B                    = 0.0
+  tbsr_C                    = 0.5
+  tbsr_D                    = 0.5
+  n_A                       = 3
+  n_B                       = 2
+  n_C                       = 2
+  n_D                       = 2
+  Block A: updates=[53, 104, 149] weight_mode=['session_shared', 'session_shared', 'session_shared']
+  Block B: updates=[192, 235] weight_mode=['session_shared', 'session_shared']
+  Block C: updates=[275, 328] weight_mode=['session_shared', 'session_shared']
+  Block D: updates=[379, 417] weight_mode=['session_shared', 'session_shared']
+
+=== PRS-2 SANITY: episode_random ===
+  tbsr_A                    = 0.6666666666666666
+  tbsr_B                    = 0.5
+  tbsr_C                    = 1.0
+  tbsr_D                    = 0.5
+
+=== COMPARISON ===
+  tbsr_A: shared=0.667 random=0.667 Δ=+0.000
+  tbsr_B: shared=0.000 random=0.500 Δ=-0.500
+  tbsr_C: shared=0.500 random=1.000 Δ=-0.500
+  tbsr_D: shared=0.500 random=0.500 Δ=+0.000
+
+PRS-2 SANITY OK

@@ -1,0 +1,4 @@
+﻿FAIL s=0 safe=21 any=21 dim=5x24
+FAIL s=1 safe=21 any=21 dim=5x24
+FAIL s=2 safe=20 any=20 dim=5x23
+50 seeds: fails=50 delta min=0 max=0 mean=0.0

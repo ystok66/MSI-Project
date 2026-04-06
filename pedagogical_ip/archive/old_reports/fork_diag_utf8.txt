@@ -1,0 +1,16 @@
+﻿Running 100 episodes on Deceptive Fork (no teacher)
+Grid: 6x8, L_A=6, L_B=8, trap rho*=1.0, door on B
+
+  Branch A (bait):   98 / 100  = 98%
+  Branch B (safe):    2 / 100  = 2%
+  Neither:            0 / 100  = 0%
+  Hit trap:         100 / 100  = 100%
+  Success (CSR):      0 / 100  = 0%
+  Avg steps:        5.3
+
+Example trajectories (first 5):
+  seed=0: branch=A, trap=True, success=False, steps=5, final=(1, 4)
+  seed=1: branch=A, trap=True, success=False, steps=5, final=(1, 4)
+  seed=2: branch=B, trap=True, success=False, steps=7, final=(1, 4)
+  seed=3: branch=A, trap=True, success=False, steps=5, final=(1, 4)
+  seed=4: branch=A, trap=True, success=False, steps=5, final=(1, 4)

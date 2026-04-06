@@ -1,0 +1,26 @@
+Family               Teacher             SR    DR    TR  Warn Unlock  Steps
+--------------------------------------------------------------------------------
+baseline_v2          no_tutor            0%  100%    0%   0.0    0.0    8.1
+baseline_v2          warning_only       70%   30%    0%   2.9    0.0   29.6
+baseline_v2          unlock_only         0%  100%    0%   0.0    0.0    8.1
+baseline_v2          item_only          10%   90%    0%   0.0    0.0   13.4
+baseline_v2          robot_belief       75%   25%    0%   3.0    0.0   30.8
+
+fork_trap            no_tutor            5%   95%    0%   0.0    0.0    4.7
+fork_trap            warning_only       30%   70%    0%   1.0    0.0    6.4
+fork_trap            unlock_only         5%   95%    0%   0.0    0.0    4.7
+fork_trap            item_only          35%   65%    0%   0.0    0.0    5.9
+fork_trap            robot_belief       30%   70%    0%   1.0    0.0    6.4
+
+hazard_belt          no_tutor           25%   75%    0%   0.0    0.0   13.8
+hazard_belt          warning_only       40%   60%    0%   2.2    0.0   15.6
+hazard_belt          unlock_only        25%   75%    0%   0.0    0.0   13.8
+hazard_belt          item_only          55%   45%    0%   0.0    0.0   17.4
+hazard_belt          robot_belief       40%   60%    0%   3.0    0.0   15.6
+
+deadline_gate        no_tutor           95%    5%    0%   0.0    0.0   23.8
+deadline_gate        warning_only       90%   10%    0%   3.0    0.0   23.6
+deadline_gate        unlock_only         0%    0%  100%   0.0    1.0   29.0
+deadline_gate        item_only          95%    5%    0%   0.0    0.0   23.8
+deadline_gate        robot_belief        0%    0%  100%   2.0    1.0   29.0
+

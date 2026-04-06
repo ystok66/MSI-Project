@@ -1,0 +1,7 @@
+═══ T7 Goal Posterior + Multi-Type Audit ═══
+
+  T7-1 done
+  T7-2 done
+  T7-3 done
+
+Report → results/t7_compositional_posterior_audit.md

@@ -1,0 +1,33 @@
+﻿==========================================================================================
+L2C.1: Planner-Relevant Warning Experiments
+Working point: trap_risk=[0.3,0.5], ratio=1.3, dt=1, N=100
+==========================================================================================
+
+[0] Geometry check (dt=1)
+  delta: min=6 max=6 mean=6.0
+
+[1] Main conditions
+  no_tutor                             surv=   9% goal=   9% cls=0.0 wrn=0.0 rsk=5.8
+  door_2                               surv=  68% goal=  68% cls=1.9 wrn=0.5 rsk=2.4
+  warning_only_fixed                   surv=  80% goal=  80% cls=0.0 wrn=2.8 rsk=1.7
+  warning_only_selected                surv=  80% goal=  80% cls=0.0 wrn=2.8 rsk=1.7
+  door_2 + warn (old tutor)            surv=  68% goal=  68% cls=1.9 wrn=0.5 rsk=2.4
+  warn_first (new tutor)               surv=  68% goal=  68% cls=1.9 wrn=0.5 rsk=2.4
+  door_3                               surv=  99% goal=  99% cls=2.3 wrn=0.7 rsk=0.3
+  always_close_3                       surv= 100% goal= 100% cls=3.0 wrn=0.0 rsk=0.0
+
+[2] Lambda lane_warn sweep (warning_only_fixed)
+  warn_only lw=1                       surv=   9% goal=   9% cls=0.0 wrn=1.8 rsk=5.8
+  warn_only lw=3                       surv=  46% goal=  46% cls=0.0 wrn=2.4 rsk=3.6
+  warn_only lw=5                       surv=  80% goal=  80% cls=0.0 wrn=2.8 rsk=1.7
+  warn_only lw=7                       surv= 100% goal= 100% cls=0.0 wrn=3.0 rsk=0.0
+  warn_only lw=10                      surv= 100% goal= 100% cls=0.0 wrn=3.0 rsk=0.0
+
+[3] Transfer evaluation: train 20ep, freeze, test 100 new seeds
+  train=no_tutor     learn=persistent  : test_surv=16% (n=100)
+  train=no_tutor     learn=reset       : test_surv=16% (n=100)
+  train=warn_first   learn=persistent  : test_surv=16% (n=100)
+  train=warn_first   learn=reset       : test_surv=16% (n=100)
+
+==========================================================================================
+Done.

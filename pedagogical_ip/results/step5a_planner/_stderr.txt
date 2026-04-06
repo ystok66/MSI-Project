@@ -1,0 +1,26 @@
+  baseline/hazard_belt: TBSR=0.200 Crash=0.800 Timeout=0.000 Detour=0.0
+  baseline/hazard_belt_high: TBSR=0.000 Crash=1.000 Timeout=0.000 Detour=0.0
+  baseline/deadline_gate: TBSR=0.767 Crash=0.000 Timeout=0.233 Detour=0.0
+  baseline/fork_trap: TBSR=0.767 Crash=0.233 Timeout=0.000 Detour=0.0
+  baseline/fork_trap_necessary: TBSR=0.800 Crash=0.200 Timeout=0.000 Detour=0.0
+  baseline/elcb_po: TBSR=0.200 Crash=0.800 Timeout=0.000 Detour=0.0
+  A1/hazard_belt: TBSR=0.167 Crash=0.833 Timeout=0.000 Detour=0.0
+  A1/hazard_belt_high: TBSR=0.000 Crash=1.000 Timeout=0.000 Detour=0.0
+  A1/deadline_gate: TBSR=0.367 Crash=0.000 Timeout=0.633 Detour=0.0
+  A1/fork_trap: TBSR=0.733 Crash=0.267 Timeout=0.000 Detour=0.0
+  A1/fork_trap_necessary: TBSR=0.800 Crash=0.200 Timeout=0.000 Detour=0.0
+  A1/elcb_po: TBSR=0.233 Crash=0.767 Timeout=0.000 Detour=0.0
+  A2/hazard_belt: TBSR=0.200 Crash=0.800 Timeout=0.000 Detour=0.0
+  A2/hazard_belt_high: TBSR=0.000 Crash=1.000 Timeout=0.000 Detour=0.0
+  A2/deadline_gate: TBSR=0.533 Crash=0.000 Timeout=0.467 Detour=0.0
+  A2/fork_trap: TBSR=0.900 Crash=0.100 Timeout=0.000 Detour=0.0
+  A2/fork_trap_necessary: TBSR=0.633 Crash=0.367 Timeout=0.000 Detour=0.0
+  A2/elcb_po: TBSR=0.300 Crash=0.700 Timeout=0.000 Detour=0.0
+  A3/hazard_belt: TBSR=0.133 Crash=0.867 Timeout=0.000 Detour=0.0
+  A3/hazard_belt_high: TBSR=0.000 Crash=1.000 Timeout=0.000 Detour=0.0
+  A3/deadline_gate: TBSR=0.600 Crash=0.000 Timeout=0.400 Detour=0.0
+  A3/fork_trap: TBSR=0.833 Crash=0.167 Timeout=0.000 Detour=0.0
+  A3/fork_trap_necessary: TBSR=0.833 Crash=0.167 Timeout=0.000 Detour=0.0
+  A3/elcb_po: TBSR=0.133 Crash=0.867 Timeout=0.000 Detour=0.0
+
+Report -> results/step5a_planner/step5a_report.md (0.3s)

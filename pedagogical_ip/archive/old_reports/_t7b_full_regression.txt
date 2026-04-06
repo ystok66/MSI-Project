@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collected 226 items
+
+tests/test_intervention_semantics.py ...............                     [  6%]
+tests/test_option_intervention_controller.py ............                [ 11%]
+tests/test_goal_temptation_posterior.py ...........                      [ 16%]
+tests/test_consequence_grounded_option_rollout.py ..........             [ 21%]
+tests/test_pomdp_interface.py ....................                       [ 30%]
+tests/test_shadow_bridge.py ...........                                  [ 34%]
+tests/test_t3_followup.py ...............                                [ 41%]
+tests/test_internalization_observer.py ................................. [ 56%]
+......................                                                   [ 65%]
+tests/test_intervention_policy.py ........                               [ 69%]
+tests/test_interventions_api.py ........                                 [ 73%]
+tests/test_item_drop.py .........                                        [ 76%]
+tests/test_compositional_goal_hypotheses.py ............                 [ 82%]
+tests/test_joint_goal_pref_posterior.py ...............                  [ 88%]
+tests/test_compositional_goal_bridge.py ............                     [ 94%]
+tests/test_composite_goal_compatibility.py .............                 [100%]
+
+============================= 226 passed in 5.47s ==============================

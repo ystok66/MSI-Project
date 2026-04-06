@@ -1,0 +1,16 @@
+# BCICTv4 2-act Canonical Configuration
+# SOFT (dose=0.5) removed — confirmed near-redundant (P3-B/C/D)
+# use_dose: false restricts action space to {WAIT, WARN}
+
+lambda_teach: 3.5
+lambda_over: 4.0
+lambda_sd: 1.5
+lambda_dep: 2.0
+use_dose: false        # ← canonical: 2-act {WAIT, WARN}
+use_bridge: true
+use_calibrated_zones: true
+
+# Shadow-mode research flags (all OFF for canonical)
+use_epu_shadow: false
+use_belief_horizon_pself: false
+use_eig_observation: false

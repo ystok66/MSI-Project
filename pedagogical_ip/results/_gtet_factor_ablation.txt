@@ -1,0 +1,88 @@
+GTET-L Factor Ablation — medium, 10 seeds
+=================================================================
+  FULL       seed= 0 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 1 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 2 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 3 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 4 OK D warn=0 unlock=0 steps=40
+  FULL       seed= 5 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 6 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 7 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 8 OK S warn=0 unlock=0 steps=51
+  FULL       seed= 9 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 0 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 1 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 2 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 3 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 4 OK D warn=0 unlock=0 steps=40
+  G_THETA    seed= 5 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 6 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 7 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 8 OK S warn=0 unlock=0 steps=51
+  G_THETA    seed= 9 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 0 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 1 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 2 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 3 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 4 OK D warn=0 unlock=0 steps=40
+  G_Z        seed= 5 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 6 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 7 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 8 OK S warn=0 unlock=0 steps=51
+  G_Z        seed= 9 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 0 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 1 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 2 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 3 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 4 OK D warn=0 unlock=0 steps=40
+  THETA_Z    seed= 5 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 6 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 7 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 8 OK S warn=0 unlock=0 steps=51
+  THETA_Z    seed= 9 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 0 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 1 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 2 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 3 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 4 OK D warn=0 unlock=0 steps=40
+  G_ONLY     seed= 5 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 6 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 7 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 8 OK S warn=0 unlock=0 steps=51
+  G_ONLY     seed= 9 OK S warn=0 unlock=0 steps=51
+
+=================================================================
+Exp 3: Survival & Goal Reach
+-----------------------------------------------------------------
+  FULL        : surv=0.900 goal=0.900 warn=0.0 unlock=0.0 n=10 err=0
+  G_THETA     : surv=0.900 goal=0.900 warn=0.0 unlock=0.0 n=10 err=0
+  G_Z         : surv=0.900 goal=0.900 warn=0.0 unlock=0.0 n=10 err=0
+  THETA_Z     : surv=0.900 goal=0.900 warn=0.0 unlock=0.0 n=10 err=0
+  G_ONLY      : surv=0.900 goal=0.900 warn=0.0 unlock=0.0 n=10 err=0
+
+Δ_joint = +0.000
+→ Approximately equal
+
+=================================================================
+Exp 2: Action Divergence Rate (ADR)
+-----------------------------------------------------------------
+  G_THETA     : ADR_mean=0.000 ADR_max=0.000 nonzero=0/10
+  G_Z         : ADR_mean=0.000 ADR_max=0.000 nonzero=0/10
+  THETA_Z     : ADR_mean=0.000 ADR_max=0.000 nonzero=0/10
+  G_ONLY      : ADR_mean=0.000 ADR_max=0.000 nonzero=0/10
+
+=================================================================
+Exp 1: Integration Sanity (first seed with action divergence)
+-----------------------------------------------------------------
+  WARNING: No action divergence found across all factor modes!
+  → Factor integration may not be reaching tutor decisions.
+
+=================================================================
+GTET Posterior Diagnostics (factor-restricted)
+-----------------------------------------------------------------
+  G_THETA     : KL_mean=0.0000 KL_max=0.0000 risk_mean=0.0547
+  G_Z         : KL_mean=0.0000 KL_max=0.0000 risk_mean=0.0547
+  THETA_Z     : KL_mean=0.0000 KL_max=0.0000 risk_mean=0.0547
+  G_ONLY      : KL_mean=0.0000 KL_max=0.0000 risk_mean=0.0547
+
+Done.

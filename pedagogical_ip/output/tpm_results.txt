@@ -1,0 +1,15 @@
+Family         Teacher           SR    DR    TR  Steps
+--------------------------------------------------------
+fork_trap      no_tutor          5%   95%    0%    4.7
+fork_trap      warning           5%   95%    0%    4.7
+fork_trap      robot_belief     65%   35%    0%    8.7
+
+hazard_belt    no_tutor         30%   70%    0%   14.3
+hazard_belt    warning          30%   70%    0%   14.3
+hazard_belt    item_only        60%   40%    0%   17.9
+hazard_belt    robot_belief     40%   60%    0%   15.6
+
+deadline_gate  no_tutor         70%   30%    0%   22.4
+deadline_gate  unlock_only     100%    0%    0%   26.0
+deadline_gate  robot_belief    100%    0%    0%   26.0
+

@@ -1,0 +1,23 @@
+DTMB-L Main Evaluation: 10 seeds × ['easy', 'medium', 'hard']
+======================================================================
+
+--- EASY ---
+  canonical   : surv=0.70 goal=0.70 steps=34.0 risky=1.8 warn=0.8 unlock=0.2 (10 ok, 0 fail)
+  no_tutor    : surv=0.30 goal=0.30 steps=33.1 risky=1.5 warn=0.0 unlock=0.0 (10 ok, 0 fail)
+  oracle      : surv=1.00 goal=0.00 steps=43.0 risky=0.0 warn=0.0 unlock=1.0 (10 ok, 0 fail)
+  LIFT surv: +0.40  goal: +0.40
+
+--- MEDIUM ---
+  canonical   : surv=0.30 goal=0.30 steps=42.2 risky=2.7 warn=0.3 unlock=0.8 (10 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=40.2 risky=1.1 warn=0.0 unlock=0.0 (10 ok, 0 fail)
+  oracle      : surv=1.00 goal=0.00 steps=51.3 risky=0.0 warn=0.0 unlock=1.0 (10 ok, 0 fail)
+  LIFT surv: +0.30  goal: +0.30
+
+--- HARD ---
+  canonical   : surv=0.00 goal=0.00 steps=54.0 risky=2.2 warn=0.1 unlock=1.2 (10 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=53.2 risky=1.2 warn=0.0 unlock=0.0 (10 ok, 0 fail)
+  oracle      : surv=1.00 goal=0.00 steps=65.8 risky=0.0 warn=0.0 unlock=1.0 (10 ok, 0 fail)
+  LIFT surv: +0.00  goal: +0.00
+
+======================================================================
+Done.

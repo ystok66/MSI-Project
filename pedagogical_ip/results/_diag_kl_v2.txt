@@ -1,0 +1,19 @@
+Initial weights shape: (8, 2, 4)
+Initial entropy: 3.9169069280961857
+Initial weight sample (first 5 flat): [0.03751109 0.02813332 0.01875554 0.00937777 0.03751109]
+Is product? max diff: 0.0
+
+After 10 updates:
+  Entropy: 3.4876
+  MAP: JointHypothesis(goal_label='collect_red', theta='shiny', z_tempt=0.0)
+  Marginal goal: {'collect_red': 0.20712918636977629, 'avoid_blue': 0.0856350254785181, 'use_safe': 0.08437732993002547, 'reach_fast': 0.13825663962148707, 'collect_red+avoid_blue': 0.13807807005640493, 'collect_red+use_safe': 0.13790489567740458, 'avoid_blue+use_safe': 0.07318850041358706, 'reach_fast+avoid_blue': 0.1354303524527966}
+  Marginal pref: {'safe': 0.0742423869944857, 'shiny': 0.9257576130055144}
+  Marginal tempt: {0.0: 0.17455598871822214, 0.3: 0.23984647332121534, 0.6: 0.27991546103305, 0.9: 0.3056820769275125}
+
+  Max |w - product(marginals)|: 0.025806
+  Are weights factored? NO (correlations exist!)
+  KL(full || FULL      ) = 0.000000
+  KL(full || G_THETA   ) = 0.087036
+  KL(full || G_Z       ) = 0.546444
+  KL(full || THETA_Z   ) = 0.213391
+  KL(full || G_ONLY    ) = 0.619352

@@ -1,0 +1,4 @@
+agent_level,teacher_condition,env_condition,n,success_rate,success_rate_sem,death_rate,timeout_rate,cost_mean,cost_std,risk_mean,intervention_count_mean,cost_error_mean,calibration_gap_mean,uncertainty_reduction_mean,info_gain_mean,boredom_mean,frustration_mean,timing_quality_mean
+medium,no_tutor,medium,3,0.0,0.0,1.0,0.0,5.0,0.816496580927726,3.0,0.0,0.0,0.0,0.0,0.0,0.6,0.7349223946784923,0.0
+medium,warning_only,medium,3,1.0,0.0,0.0,0.0,32.666666666666664,1.8856180831641267,1.0,3.0,0.0,0.0,0.0,0.0,0.6,0.6277161862527717,0.5
+medium,robot_belief,medium,3,1.0,0.0,0.0,0.0,32.666666666666664,1.8856180831641267,1.0,3.0,0.0,0.0,0.0,0.0,0.6,0.6277161862527717,0.5

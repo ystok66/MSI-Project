@@ -1,0 +1,219 @@
+
+======================================================================
+ ANOMALY 1: hazard_belt — checking all intervention paths
+======================================================================
+
+=== hazard_belt map analysis (latent_mode=False) ===
+Belt segment: cols=8-13
+Belt risky_cells: [(1, 9), (1, 10), (1, 11), (1, 12), (3, 9), (3, 10), (3, 11), (3, 12)]
+  (1,9): type=RISKY, risk=0.450
+  (1,10): type=RISKY, risk=0.450
+  (1,11): type=RISKY, risk=0.450
+  (1,12): type=RISKY, risk=0.450
+  (3,9): type=RISKY, risk=0.450
+  (3,10): type=RISKY, risk=0.450
+  (3,11): type=RISKY, risk=0.450
+  (3,12): type=RISKY, risk=0.450
+Belt safe_cells: []
+ScenarioConfig: belt_regime=unavoidable, requires_item=True
+Shortest path (any): 25
+Shortest path (avoid risky entry): 25
+t_max: 39
+
+--- hazard_belt × no_tutor ---
+  Family=hazard_belt, Teacher=no_tutor
+  Agent start=(2, 1), Goal=(2, 20)
+  t_max=37
+  tutor_mode=none, warning_mode=none
+  robot_belief_mode=False
+  intervention_family_mode=False
+  item_drop_enabled=False
+  inventory=None
+  allowed_interventions=None
+  closure_budget=None
+  n_segments=3
+    seg[0]: cols=2-6, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=3, n_safe=12
+    seg[1]: cols=8-13, risky_row=1, safe_row=3, risky_entry=(1, 8), n_risky=8, n_safe=0
+    seg[2]: cols=15-19, risky_row=1, safe_row=3, risky_entry=(1, 15), n_risky=3, n_safe=12
+  all_door_positions=[(1, 2), (1, 8), (1, 15)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.112
+  t=  2 pos=(1, 2) type=NORMAL   risk=0.099
+  t=  2 pos=(1, 3) type=RISKY    risk=0.141
+  Result: DEATH after 3 steps (unlocks=0, warns=0, risky_entered=1, traps=1)
+
+--- hazard_belt × warning_only ---
+  Family=hazard_belt, Teacher=warning_only
+  Agent start=(2, 1), Goal=(2, 20)
+  t_max=37
+  tutor_mode=none, warning_mode=fixed
+  robot_belief_mode=False
+  intervention_family_mode=False
+  item_drop_enabled=False
+  inventory=None
+  allowed_interventions=None
+  closure_budget=None
+  n_segments=3
+    seg[0]: cols=2-6, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=3, n_safe=12
+    seg[1]: cols=8-13, risky_row=1, safe_row=3, risky_entry=(1, 8), n_risky=8, n_safe=0
+    seg[2]: cols=15-19, risky_row=1, safe_row=3, risky_entry=(1, 15), n_risky=3, n_safe=12
+  all_door_positions=[(1, 2), (1, 8), (1, 15)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.112
+  t=  2 pos=(1, 2) type=NORMAL   risk=0.099
+  t=  2 pos=(1, 3) type=RISKY    risk=0.141
+  Result: DEATH after 3 steps (unlocks=0, warns=1, risky_entered=1, traps=1)
+
+--- hazard_belt × robot_belief ---
+  Family=hazard_belt, Teacher=robot_belief
+  Agent start=(2, 1), Goal=(2, 20)
+  t_max=37
+  tutor_mode=none, warning_mode=none
+  robot_belief_mode=True
+  intervention_family_mode=True
+  item_drop_enabled=True
+  inventory=InventoryState(shield=0, shield_risk_reduction=0.5)
+  allowed_interventions=None
+  closure_budget=None
+  n_segments=3
+    seg[0]: cols=2-6, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=3, n_safe=12
+    seg[1]: cols=8-13, risky_row=1, safe_row=3, risky_entry=(1, 8), n_risky=8, n_safe=0
+    seg[2]: cols=15-19, risky_row=1, safe_row=3, risky_entry=(1, 15), n_risky=3, n_safe=12
+  all_door_positions=[(1, 2), (1, 8), (1, 15)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.112, shield=0  → action=WARN, scores={W:-4.67, Wr:-1.00, U:-2.00, I:-1.50}, reason=warning_shifts_prefix
+  t=  2 pos=(1, 2) type=NORMAL   risk=0.099, shield=0  → action=WARN, scores={W:-4.77, Wr:-1.00, U:-2.00, I:-1.50}, reason=warning_shifts_prefix
+  t=  2 pos=(1, 3) type=RISKY    risk=0.141, shield=0  → action=WARN, scores={W:-4.77, Wr:-1.00, U:-2.00, I:-1.50}, reason=warning_shifts_prefix
+  Result: DEATH after 3 steps (unlocks=0, warns=3, risky_entered=1, traps=1)
+
+======================================================================
+ ANOMALY 2: fork_trap unlock_only — gate blocking check
+======================================================================
+
+=== fork_trap map analysis ===
+Segment: cols=2-7
+Risky row=1, Safe row=3
+Risky entry gate=(np.int64(1), 2)
+Safe entry gate=(3, 2)
+t_max: 14
+Shortest (any): 9, Shortest (safe only): 11
+Shortest (risky only): 9
+
+--- fork_trap × unlock_only ---
+  Family=fork_trap, Teacher=unlock_only
+  Agent start=(2, 1), Goal=(2, 8)
+  t_max=14
+  tutor_mode=time_aware, warning_mode=none
+  robot_belief_mode=False
+  intervention_family_mode=False
+  item_drop_enabled=False
+  inventory=None
+  allowed_interventions=None
+  closure_budget=3
+  n_segments=1
+    seg[0]: cols=2-7, risky_row=1, safe_row=3, risky_entry=(np.int64(1), 2), n_risky=4, n_safe=13
+  all_door_positions=[(np.int64(1), 2)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.081
+  t=  2 pos=(3, 2) type=NORMAL   risk=0.089
+  t=  3 pos=(3, 3) type=NORMAL   risk=0.226
+  t=  4 pos=(4, 3) type=NORMAL   risk=0.242
+  t=  5 pos=(4, 4) type=NORMAL   risk=0.230
+  t=  6 pos=(4, 5) type=NORMAL   risk=0.256
+  t=  7 pos=(3, 5) type=NORMAL   risk=0.182
+  t=  8 pos=(3, 6) type=NORMAL   risk=0.182
+  t=  9 pos=(3, 7) type=NORMAL   risk=0.089
+  t= 10 pos=(2, 7) type=NORMAL   risk=0.081
+  t= 10 pos=(2, 8) type=TARGET   risk=0.081
+  Result: GOAL after 11 steps (unlocks=1, warns=0, risky_entered=0, traps=0)
+
+======================================================================
+ ANOMALY 3: deadline_gate unlock_only — shortcut gate check
+======================================================================
+
+=== deadline_gate map analysis ===
+Segments: 4
+all_door_positions: [(1, 2)]
+Shortcut gate at (1, 2): type=LOCKED_DOOR
+Gate passable? cost=inf
+ScenarioConfig: gate_mode=unlock_shortcut
+t_max: 27
+Safe long path: 24
+Shortcut path (gate open): 20
+Slack: t_max - safe_dist = 3
+
+Checking _find_unlockable_cells behavior:
+  Gate cell passable? False
+  seg[0].risky_entry_gate=(1, 2), type=LOCKED_DOOR, passable=False
+    *** THIS is the shortcut gate — risky_entry_gate matches LOCKED_DOOR
+  seg[1].risky_entry_gate=(1, 2), type=LOCKED_DOOR, passable=False
+    *** THIS is the shortcut gate — risky_entry_gate matches LOCKED_DOOR
+  seg[2].risky_entry_gate=(1, 8), type=RISKY, passable=True
+    (not the shortcut gate)
+  seg[3].risky_entry_gate=(1, 14), type=RISKY, passable=True
+    (not the shortcut gate)
+
+--- deadline_gate × unlock_only ---
+  Family=deadline_gate, Teacher=unlock_only
+  Agent start=(2, 1), Goal=(2, 19)
+  t_max=31
+  tutor_mode=time_aware, warning_mode=none
+  robot_belief_mode=False
+  intervention_family_mode=False
+  item_drop_enabled=False
+  inventory=None
+  allowed_interventions=None
+  closure_budget=3
+  n_segments=4
+    seg[0]: cols=2-18, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=16, n_safe=0
+    seg[1]: cols=2-6, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=0, n_safe=10
+    seg[2]: cols=8-12, risky_row=1, safe_row=3, risky_entry=(1, 8), n_risky=0, n_safe=10
+    seg[3]: cols=14-18, risky_row=1, safe_row=3, risky_entry=(1, 14), n_risky=0, n_safe=10
+  all_door_positions=[(1, 2)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.103
+  t=  2 pos=(3, 2) type=NORMAL   risk=0.088
+  t=  3 pos=(3, 3) type=NORMAL   risk=0.088
+  t=  4 pos=(4, 3) type=NORMAL   risk=0.098
+  t=  5 pos=(4, 4) type=NORMAL   risk=0.116
+  t=  6 pos=(4, 5) type=NORMAL   risk=0.088
+  t=  7 pos=(3, 5) type=NORMAL   risk=0.093
+  t=  8 pos=(3, 6) type=NORMAL   risk=0.103
+  t=  9 pos=(2, 6) type=NORMAL   risk=0.103
+  t= 10 pos=(1, 6) type=RISKY    risk=0.476
+  t= 11 pos=(1, 7) type=RISKY    risk=0.358
+  t= 11 pos=(1, 8) type=RISKY    risk=0.439
+  Result: DEATH after 12 steps (unlocks=1, warns=0, risky_entered=3, traps=1)
+
+--- deadline_gate × warning_only ---
+  Family=deadline_gate, Teacher=warning_only
+  Agent start=(2, 1), Goal=(2, 19)
+  t_max=31
+  tutor_mode=none, warning_mode=fixed
+  robot_belief_mode=False
+  intervention_family_mode=False
+  item_drop_enabled=False
+  inventory=None
+  allowed_interventions=None
+  closure_budget=None
+  n_segments=4
+    seg[0]: cols=2-18, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=16, n_safe=0
+    seg[1]: cols=2-6, risky_row=1, safe_row=3, risky_entry=(1, 2), n_risky=0, n_safe=10
+    seg[2]: cols=8-12, risky_row=1, safe_row=3, risky_entry=(1, 8), n_risky=0, n_safe=10
+    seg[3]: cols=14-18, risky_row=1, safe_row=3, risky_entry=(1, 14), n_risky=0, n_safe=10
+  all_door_positions=[(1, 2)]
+  t=  1 pos=(2, 2) type=NORMAL   risk=0.103
+  t=  2 pos=(3, 2) type=NORMAL   risk=0.088
+  t=  3 pos=(3, 3) type=NORMAL   risk=0.088
+  t=  4 pos=(4, 3) type=NORMAL   risk=0.098
+  t=  5 pos=(4, 4) type=NORMAL   risk=0.116
+  t=  6 pos=(4, 5) type=NORMAL   risk=0.088
+  t=  7 pos=(3, 5) type=NORMAL   risk=0.093
+  t=  8 pos=(3, 6) type=NORMAL   risk=0.103
+  t=  9 pos=(2, 6) type=NORMAL   risk=0.103
+  t= 10 pos=(2, 7) type=NORMAL   risk=0.103
+  t= 29 pos=(2, 19) type=TARGET   risk=0.103
+  Result: GOAL after 30 steps (unlocks=0, warns=4, risky_entered=0, traps=0)
+
+======================================================================
+ ANOMALY 4: deadline_gate warning 100% — slack analysis
+======================================================================
+
+  easy    : safe=18, shortcut=14, t_max=22, slack=4, shortcut_advantage=4
+  medium  : safe=24, shortcut=20, t_max=27, slack=3, shortcut_advantage=4
+  hard    : safe=24, shortcut=20, t_max=25, slack=1, shortcut_advantage=4

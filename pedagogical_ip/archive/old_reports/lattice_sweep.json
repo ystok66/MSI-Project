@@ -1,0 +1,344 @@
+{
+  "dp=0.5_tr=1.2": {
+    "no_teacher": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 23.1,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 23.1,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 23.1,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 23.1,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.5_tr=1.4": {
+    "no_teacher": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 27.1,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 27.1,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 27.1,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 27.1,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.5_tr=1.6": {
+    "no_teacher": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 30.9,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 30.9,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 30.9,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 20.0,
+      "Steps": 9.6,
+      "MaxSteps": 30.9,
+      "Doors": 0.0,
+      "WarnRate": 0.3,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.7_tr=1.2": {
+    "no_teacher": {
+      "CSR": 0.0,
+      "Steps": 6.7,
+      "MaxSteps": 25.9,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 0.0,
+      "Steps": 6.7,
+      "MaxSteps": 25.9,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 0.0,
+      "Steps": 6.8,
+      "MaxSteps": 25.9,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 0.0,
+      "Steps": 6.8,
+      "MaxSteps": 25.9,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.7_tr=1.4": {
+    "no_teacher": {
+      "CSR": 2.0,
+      "Steps": 6.8,
+      "MaxSteps": 30.2,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 2.0,
+      "Steps": 6.8,
+      "MaxSteps": 30.2,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 2.0,
+      "Steps": 6.9,
+      "MaxSteps": 30.2,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 2.0,
+      "Steps": 6.9,
+      "MaxSteps": 30.2,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.7_tr=1.6": {
+    "no_teacher": {
+      "CSR": 2.0,
+      "Steps": 6.9,
+      "MaxSteps": 34.5,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 2.0,
+      "Steps": 6.9,
+      "MaxSteps": 34.5,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 2.0,
+      "Steps": 7.0,
+      "MaxSteps": 34.5,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 2.0,
+      "Steps": 7.0,
+      "MaxSteps": 34.5,
+      "Doors": 0.0,
+      "WarnRate": 0.08,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.9_tr=1.2": {
+    "no_teacher": {
+      "CSR": 2.0,
+      "Steps": 7.8,
+      "MaxSteps": 25.5,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 2.0,
+      "Steps": 7.8,
+      "MaxSteps": 25.5,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 2.0,
+      "Steps": 7.9,
+      "MaxSteps": 25.5,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 2.0,
+      "Steps": 7.9,
+      "MaxSteps": 25.5,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.9_tr=1.4": {
+    "no_teacher": {
+      "CSR": 2.0,
+      "Steps": 7.9,
+      "MaxSteps": 29.8,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 2.0,
+      "Steps": 7.9,
+      "MaxSteps": 29.8,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 2.0,
+      "Steps": 8.0,
+      "MaxSteps": 29.8,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 2.0,
+      "Steps": 8.0,
+      "MaxSteps": 29.8,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  },
+  "dp=0.9_tr=1.6": {
+    "no_teacher": {
+      "CSR": 2.0,
+      "Steps": 8.0,
+      "MaxSteps": 34.2,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_warn": {
+      "CSR": 2.0,
+      "Steps": 8.0,
+      "MaxSteps": 34.2,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0
+    },
+    "wait_block": {
+      "CSR": 2.0,
+      "Steps": 8.1,
+      "MaxSteps": 34.2,
+      "Doors": 0.0,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    },
+    "wait_warn_block": {
+      "CSR": 2.0,
+      "Steps": 8.1,
+      "MaxSteps": 34.2,
+      "Doors": 0.0,
+      "WarnRate": 0.06,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0
+    }
+  }
+}

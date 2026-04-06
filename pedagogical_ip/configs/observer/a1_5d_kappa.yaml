@@ -1,0 +1,48 @@
+# A1 5D Observer Configuration
+# Semantic: 5-dim state estimator for 3-layer architecture
+#
+# Layer 1 (State Estimator): τ̂, ν̂, γ̂_gen, γ̂_spec_state, κ̂
+# Layer 2 (Micro Decision):  τ̂, ν̂, γ̂_gen  (only 3D enters Q)
+# Layer 3 (Macro/Diagnostic): Full 5D
+#
+# Evidence:
+#   ΔR² = +0.126 (κ̂ non-redundant)
+#   Sign accuracy = 99.6%
+#   Corr(κ̂, δ_risk) = 0.876
+#   β-sweep robust [0.02, 0.20]
+#   48/48 tests pass
+
+# Core 3D (frozen A1 baseline)
+tau_hat_init: 0.3
+nu_hat_init: 0.1
+gamma_gen_hat_init: 0.0
+
+# Dim 4: γ̂_spec_state (behavioral state, NOT trait)
+gamma_spec_hat_init: 0.0
+alpha_gs_resist: 0.03
+alpha_gs_follow: 0.025
+gamma_spec_max: 1.0
+lure_threshold: 0.3
+
+# Dim 5: κ̂ (risk calibration, slow variable)
+kappa_hat_init: 0.3
+kappa_0: 0.3
+lambda_kappa: 0.02
+alpha_kappa_pos: 0.015
+alpha_kappa_neg: 0.012
+kappa_min: 0.0
+kappa_max: 1.0
+risk_gate_threshold: 0.1
+
+# Macro κ-bonus (TEACH only)
+beta_kappa_macro: 0.02    # minimum effective dose
+
+# A1 probe settings (all OFF)
+beta_tau_probe: 0.0
+beta_nu_probe: 0.0
+beta_gamma_probe: 0.0
+
+# Conditional reversion (weak)
+lambda_tau: 0.005
+lambda_nu: 0.005
+lambda_gamma: 0.005

@@ -1,0 +1,75 @@
+﻿======================================================================
+TEST 7: L0 vs RSA Comparison for Multi-Intent Overlap
+======================================================================
+
+Scene:
+  obj0: blue box
+  obj1: red solid
+  obj2: blue solid (overlaps: both blue AND solid)
+  obj3: green L
+
+==================================================
+Single Intent: Query 'blue'
+==================================================
+
+L0 posterior P(obj | 'blue'):
+  blue_box    : 0.6848
+  red_solid   : 0.0000
+  blue_solid  : 0.3152
+  green_L     : 0.0000
+
+RSA posterior P(obj | 'blue'):
+  blue_box    : 0.6848
+  red_solid   : 0.0000
+  blue_solid  : 0.3152
+  green_L     : 0.0000
+
+Comparison for 'blue' query:
+  blue_solid L0:  0.3152
+  blue_solid RSA: 0.3152
+
+==================================================
+Single Intent: Query 'solid'
+==================================================
+
+L0 posterior P(obj | 'solid'):
+  blue_box    : 0.0000
+  red_solid   : 0.9761
+  blue_solid  : 0.0239
+  green_L     : 0.0000
+
+RSA posterior P(obj | 'solid'):
+  blue_box    : 0.0000
+  red_solid   : 0.9761
+  blue_solid  : 0.0239
+  green_L     : 0.0000
+
+Comparison for 'solid' query:
+  blue_solid L0:  0.0239
+  blue_solid RSA: 0.0239
+
+==================================================
+Multi-Intent: '1 blue, 1 solid' (choose 1 blue AND 1 solid)
+==================================================
+
+L0-based joint probability (naive product, NO overlap penalty):
+  blue_box + red_solid               : 0.6684
+  blue_box + blue_solid              : 0.0164
+  blue_solid + red_solid             : 0.3077
+  blue_solid + blue_solid (OVERLAP)  : 0.0075
+
+RSA-based joint probability (with pragma penalizing overlap):
+  blue_box + red_solid               : 0.6730
+  blue_box + blue_solid              : 0.0165
+  blue_solid + red_solid             : 0.3098
+  blue_solid + blue_solid (OVERLAP)  : 0.0008 (penalized)
+
+==================================================
+KEY COMPARISON: blue_solid usage probability
+==================================================
+
+P(blue_solid used) under L0:  0.3316
+P(blue_solid used) under RSA: 0.3270
+
+CONFIRMED: blue_solid has HIGHER probability under L0
+RSA correctly down-weights the overlapping object!

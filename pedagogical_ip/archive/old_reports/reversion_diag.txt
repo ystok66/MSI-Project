@@ -1,0 +1,65 @@
+﻿Phase 2A Reversion Diagnosis
+Env-A (no door), segment warning, 200 seeds per experiment
+
+============================================================
+  Exp A: Original (epsilon=0.05)
+============================================================
+  N = 200
+  Branch A:       158 (79%)
+  Branch B:        41 (20%)
+  Hit trap:       162 (81%)
+  CSR:              9 (4%)
+  Fail timeout:    29  Fail fatal: 162
+
+  --- Fork Decision ---
+  Switch at fork:             0 (0%)
+  Commit B (2 steps on B):   11 (6%)
+  Revert A after switch:      0
+
+  --- Conditional Probabilities ---
+  P(commit_B | switch):     11.00
+  P(revert_A | switch):     0.00
+  P(success  | commit_B):   0.82  (n=11)
+  P(success  | branch_B):   0.22  (n=41)
+
+============================================================
+  Exp B: No randomness (epsilon=0)
+============================================================
+  N = 200
+  Branch A:       159 (80%)
+  Branch B:        40 (20%)
+  Hit trap:       160 (80%)
+  CSR:             11 (6%)
+  Fail timeout:    29  Fail fatal: 160
+
+  --- Fork Decision ---
+  Switch at fork:             0 (0%)
+  Commit B (2 steps on B):   11 (6%)
+  Revert A after switch:      0
+
+  --- Conditional Probabilities ---
+  P(commit_B | switch):     11.00
+  P(revert_A | switch):     0.00
+  P(success  | commit_B):   1.00  (n=11)
+  P(success  | branch_B):   0.28  (n=40)
+
+============================================================
+  Exp C: Commitment probe (force B 2 steps)
+============================================================
+  N = 200
+  Branch A:       158 (79%)
+  Branch B:        41 (20%)
+  Hit trap:       162 (81%)
+  CSR:              9 (4%)
+  Fail timeout:    29  Fail fatal: 162
+
+  --- Fork Decision ---
+  Switch at fork:             0 (0%)
+  Commit B (2 steps on B):   11 (6%)
+  Revert A after switch:      0
+
+  --- Conditional Probabilities ---
+  P(commit_B | switch):     11.00
+  P(revert_A | switch):     0.00
+  P(success  | commit_B):   0.82  (n=11)
+  P(success  | branch_B):   0.22  (n=41)

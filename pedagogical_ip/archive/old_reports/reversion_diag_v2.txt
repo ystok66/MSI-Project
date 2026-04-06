@@ -1,0 +1,98 @@
+﻿Phase 2A Reversion Diagnosis v2
+200 seeds per experiment
+
+=================================================================
+  Exp A: Original profile, eps=0.05
+=================================================================
+  N=200  warned=200
+  Overall:    A=164(82%)  B=35(18%)  trap=162(81%)  CSR=9(4%)
+  Fail:       fatal=162  timeout=29
+
+  Post-warn first move:  A=163  B=36  P(first_B|warn)=0.18
+  Commit B (2 steps):    29  P(commit|first_B)=0.81
+  Revert A after B:      4
+
+  P(success | commit_B):   0.31  (n=29)
+  P(success | first_B):    0.25  (n=36)
+
+  Example post-warn trajectories:
+    seed=  0: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  1: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  4: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  5: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  6: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  7: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+    seed=  8: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  9: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+
+=================================================================
+  Exp B: Original profile, eps=0
+=================================================================
+  N=200  warned=200
+  Overall:    A=162(81%)  B=37(18%)  trap=160(80%)  CSR=11(6%)
+  Fail:       fatal=160  timeout=29
+
+  Post-warn first move:  A=162  B=37  P(first_B|warn)=0.18
+  Commit B (2 steps):    32  P(commit|first_B)=0.86
+  Revert A after B:      2
+
+  P(success | commit_B):   0.34  (n=32)
+  P(success | first_B):    0.30  (n=37)
+
+  Example post-warn trajectories:
+    seed=  0: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  1: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  4: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  5: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  6: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  7: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+    seed=  8: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed=  9: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+
+=================================================================
+  Exp C: Front-loaded profile (0.55/0.75/0.90/0.30), eps=0.05
+=================================================================
+  N=200  warned=200
+  Overall:    A=15(8%)  B=160(80%)  trap=14(7%)  CSR=23(12%)
+  Fail:       fatal=14  timeout=163
+
+  Post-warn first move:  A=15  B=160  P(first_B|warn)=0.80
+  Commit B (2 steps):    126  P(commit|first_B)=0.79
+  Revert A after B:      1
+
+  P(success | commit_B):   0.18  (n=126)
+  P(success | first_B):    0.14  (n=160)
+
+  Example post-warn trajectories:
+    seed=  4: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed= 18: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+    seed= 21: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed= 37: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=7
+    seed= 42: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+    seed= 59: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+    seed=120: first=A  classes=AA        commit_B=False  revert=False  fatal     T_left=5
+    seed=122: first=A  classes=AAA       commit_B=False  revert=False  fatal     T_left=7
+
+=================================================================
+  Exp D: Front-loaded profile, eps=0
+=================================================================
+  N=200  warned=200
+  Overall:    A=0(0%)  B=172(86%)  trap=0(0%)  CSR=30(15%)
+  Fail:       fatal=0  timeout=170
+
+  Post-warn first move:  A=0  B=172  P(first_B|warn)=0.86
+  Commit B (2 steps):    140  P(commit|first_B)=0.81
+  Revert A after B:      0
+
+  P(success | commit_B):   0.21  (n=140)
+  P(success | first_B):    0.17  (n=172)
+
+  Example post-warn trajectories:
+    seed=  0: first=B  classes=BBBB      commit_B=True  revert=False  timeout   T_left=7
+    seed=  1: first=B  classes=BBBBB     commit_B=True  revert=False  success   T_left=7
+    seed=  2: first=B  classes=BBBBBB    commit_B=True  revert=False  timeout   T_left=7
+    seed=  3: first=B  classes=B         commit_B=False  revert=False  timeout   T_left=7
+    seed=  4: first=B  classes=BBBBBB    commit_B=True  revert=False  timeout   T_left=7
+    seed=  5: first=B  classes=B         commit_B=False  revert=False  timeout   T_left=7
+    seed=  6: first=B  classes=BBBBB     commit_B=True  revert=False  timeout   T_left=7
+    seed=  7: first=B  classes=BBBBB     commit_B=True  revert=False  timeout   T_left=7

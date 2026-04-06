@@ -1,0 +1,57 @@
+Phase 1B - Boredom Shadow Evaluation
+  seeds=3
+================================================================================
+
+--- DTMB x bore_weight=0.0 ---
+  n=3, surv=0.333, goal=0.000, steps=46.0
+  FP_wait=0.000, BoreRatio=0.485
+
+--- DTMB x bore_weight=0.3 ---
+  n=3, surv=0.333, goal=0.000, steps=46.0
+  FP_wait=0.000, BoreRatio=0.492
+
+--- DTMB x bore_weight=0.5 ---
+  n=3, surv=0.333, goal=0.000, steps=46.0
+  FP_wait=0.000, BoreRatio=0.492
+
+--- DTMB x bore_weight=1.0 ---
+  n=3, surv=0.333, goal=0.000, steps=46.0
+  FP_wait=0.000, BoreRatio=0.492
+
+--- GTET x bore_weight=0.0 ---
+  n=3, surv=1.000, goal=1.000, steps=51.0
+  FP_wait=0.500, BoreRatio=0.560
+
+--- GTET x bore_weight=0.3 ---
+  n=3, surv=1.000, goal=1.000, steps=51.0
+  FP_wait=0.000, BoreRatio=0.560
+
+--- GTET x bore_weight=0.5 ---
+  n=3, surv=1.000, goal=1.000, steps=51.0
+  FP_wait=0.000, BoreRatio=0.560
+
+--- GTET x bore_weight=1.0 ---
+  n=3, surv=1.000, goal=1.000, steps=51.0
+  FP_wait=0.000, BoreRatio=0.560
+
+================================================================================
+SUMMARY TABLE
+================================================================================
+Family  BoreWt |   Surv |   Goal |  Steps |  FP_wait |  BoreRatio |    N
+------------------------------------------------------------------------
+  DTMB     0.0 |  0.333 |  0.000 |   46.0 |    0.000 |      0.485 |    3
+  DTMB     0.3 |  0.333 |  0.000 |   46.0 |    0.000 |      0.492 |    3
+  DTMB     0.5 |  0.333 |  0.000 |   46.0 |    0.000 |      0.492 |    3
+  DTMB     1.0 |  0.333 |  0.000 |   46.0 |    0.000 |      0.492 |    3
+  GTET     0.0 |  1.000 |  1.000 |   51.0 |    0.500 |      0.560 |    3
+  GTET     0.3 |  1.000 |  1.000 |   51.0 |    0.000 |      0.560 |    3
+  GTET     0.5 |  1.000 |  1.000 |   51.0 |    0.000 |      0.560 |    3
+  GTET     1.0 |  1.000 |  1.000 |   51.0 |    0.000 |      0.560 |    3
+
+================================================================================
+VERDICT
+================================================================================
+VERDICT A: Boredom penalty effective.
+  Best beta_bore=0.3, FP_wait: 0.500 -> 0.000
+  Surv drop: 0.000 (within tolerance)
+  -> Promote to canonical with beta_bore=0.3

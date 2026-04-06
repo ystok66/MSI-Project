@@ -1,0 +1,40 @@
+# A1 Frozen Baseline — Canonical Observer Configuration
+#
+# This config is FROZEN. Do not modify these parameters.
+# Any new observer variant should create a separate config file.
+#
+# Frozen: 2026-03-28
+# Evidence: Corr_τ=1.0, Corr_ν=0.99, Corr_γ=0.98, ADR=0%
+#           Online micro infer-only: zero diverge (natural + temptation)
+#           Macro STOP: 99.2% agree; lesson ranking Kendall τ=0.998
+
+observer:
+  class: A1MtObserverFrozen
+  version: "1.0"
+  frozen: true
+
+  # ── Probe correction: OFF ──
+  beta_tau_probe: 0.0
+  beta_nu_probe: 0.0
+  beta_gamma_probe: 0.0
+
+  # ── Mean reversion: conditional, weak ──
+  lambda_tau: 0.005
+  lambda_nu: 0.005
+  lambda_gamma: 0.005
+
+  # ── Confidence: predictive-consistency ──
+  confidence_mode: predictive_consistency
+  rho_conf: 0.1
+
+  # ── Event weights (inherited from A1) ──
+  alpha_tau_trust: 0.03
+  alpha_tau_mistrust: 0.02
+  alpha_nu_blind: 0.04
+  alpha_nu_selfdisc: 0.03
+  alpha_gamma_pressure: 0.02
+  alpha_gamma_explore: 0.025
+
+  # ── Diagnostics ──
+  log_format: jsonl
+  enable_forensics: true

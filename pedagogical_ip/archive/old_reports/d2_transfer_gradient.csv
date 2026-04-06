@@ -1,0 +1,13 @@
+family,tier,sr_before,sr_after,delta
+fork_trap,T1_same_map,0.0,0.0,0.0
+fork_trap,T2_same_family,0.0,0.3,0.3
+fork_trap→hazard_belt,T3_held_out,0.0,0.5,0.5
+fork_trap→deadline_gate,T3_held_out,0.0,1.0,1.0
+hazard_belt,T1_same_map,0.0,0.0,0.0
+hazard_belt,T2_same_family,0.0,0.5,0.5
+hazard_belt→fork_trap,T3_held_out,0.0,0.3,0.3
+hazard_belt→deadline_gate,T3_held_out,0.0,1.0,1.0
+deadline_gate,T1_same_map,0.6,0.6,0.0
+deadline_gate,T2_same_family,0.6,1.0,0.4
+deadline_gate→fork_trap,T3_held_out,0.6,0.3,-0.3
+deadline_gate→hazard_belt,T3_held_out,0.6,0.5,-0.1

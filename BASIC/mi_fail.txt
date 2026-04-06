@@ -1,0 +1,45 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0
+rootdir: F:\SCAI\RSA-RESEARCH\project
+plugins: anyio-4.7.0, hydra-core-1.3.2, jaxtyping-0.3.2, typeguard-4.4.4
+collected 1 item
+
+tests\test_multi_intent.py F                                             [100%]
+
+================================== FAILURES ===================================
+__________ TestMultiIntentMarginals.test_l0_marginals_with_exactness __________
+
+self = <tests.test_multi_intent.TestMultiIntentMarginals object at 0x0000024065CEB610>
+
+    def test_l0_marginals_with_exactness(self):
+        """
+        Test that L0 marginals are correct with exactness constraint.
+    
+        Expected: bb > bs for "b" marginal, rs > bs for "solid" marginal
+        """
+        result = infer_posterior_multi_intent(
+            self.X, self.mask,
+            [(['b'], 1), (['solid'], 1)],
+            self.table,
+            use_rsa=False,
+            exactness_gamma=2.0
+        )
+    
+        m = self.compute_marginals(result)
+    
+        print("\nL0 Marginals (with exactness):")
+        print(f"  bb: {m[0]:.2f}, rb: {m[1]:.2f}, bs: {m[2]:.2f}, rs: {m[3]:.2f}")
+    
+        # bb should have highest marginal (best match for b)
+>       assert m[0] > m[2], f"bb should have higher marginal than bs"
+E       AssertionError: bb should have higher marginal than bs
+E       assert np.float64(0.2728959443185484) > np.float64(0.8172461236794973)
+
+tests\test_multi_intent.py:261: AssertionError
+---------------------------- Captured stdout call -----------------------------
+
+L0 Marginals (with exactness):
+  bb: 0.27, rb: 0.00, bs: 0.82, rs: 0.91
+=========================== short test summary info ===========================
+FAILED tests/test_multi_intent.py::TestMultiIntentMarginals::test_l0_marginals_with_exactness
+============================== 1 failed in 0.38s ==============================

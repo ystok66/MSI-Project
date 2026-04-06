@@ -1,0 +1,64 @@
+﻿======================================================================
+RSA vs L0 COMPARISON - 8 TEST CASES
+======================================================================
+
+TEST 1: Single Concept Generalization to Novel Shapes
+--------------------------------------------------
+Scene: green_L (0) vs blue_box (1), Query: 'g'
+  L0:  P(green_L)=1.0000, P(blue_box)=0.0000
+  RSA: P(green_L)=1.0000, P(blue_box)=0.0000
+  Correct? green_L should win: L0=True, RSA=True
+
+TEST 2: Token Independence from Templates
+--------------------------------------------------
+Scene: blue_L (0) vs red_box (1), Query: 'xyz' (trained on blue)
+  L0:  P(blue_L)=1.0000, P(red_box)=0.0000
+  RSA: P(blue_L)=1.0000, P(red_box)=0.0000
+  Correct? blue_L should win: L0=True, RSA=True
+
+TEST 3: Diverse Training Prevents Dimensional Dominance
+--------------------------------------------------
+Scene: green_L (0) vs red_box (1), Query: 'g'
+LOW diversity training (box+solid only):
+  L0:  P(green_L)=0.0000, P(red_box)=1.0000
+  RSA: P(green_L)=0.0000, P(red_box)=1.0000
+HIGH diversity training (all shapes):
+  L0:  P(green_L)=1.0000, P(red_box)=0.0000
+  RSA: P(green_L)=1.0000, P(red_box)=0.0000
+
+TEST 4: Empty Alternative Enables Single-Concept Discrimination
+--------------------------------------------------
+Scene: green_L (0) vs blue_box (1), Query: 'g' (single concept)
+  L0:  P(green_L)=1.0000, P(blue_box)=0.0000
+  RSA: P(green_L)=1.0000, P(blue_box)=0.0000
+
+TEST 5: Auto Alt From Table for Multi-Concept Discrimination
+--------------------------------------------------
+Scene: green_T (0) vs blue_T (1), Query: 'g' (with 'b' as competitor)
+  L0:  P(green_T)=1.0000, P(blue_T)=0.0000
+  RSA: P(green_T)=1.0000, P(blue_T)=0.0000
+
+TEST 6: Intersection Semantics (AND)
+--------------------------------------------------
+Scene: matches_a_only (0), matches_b_only (1), matches_both (2)
+Query: 'a b' (AND semantics)
+  L0:  P(0)=0.0000, P(1)=0.0000, P(2)=1.0000
+  RSA: P(0)=0.0000, P(1)=0.0000, P(2)=1.0000
+  Correct? Region 2 (matches both) should win: L0=True, RSA=True
+
+TEST 7: Multi-Intent Overlap Detection (basic)
+--------------------------------------------------
+(Multi-intent requires separate API - see infer_joint_posterior)
+
+TEST 8: RSA Mutual Exclusivity (ME)
+--------------------------------------------------
+Scene: blue_box (0, familiar) vs red_solid (1, novel)
+Query: 'b' (novel word), 'a' exists for blue_box
+  L0:  P(blue_box)=0.9205, P(red_solid)=0.0795
+  RSA: P(blue_box)=0.9205, P(red_solid)=0.0795
+  ME Effect: novel word 'b' should prefer novel object (red_solid)
+  L0 correct? False, RSA correct? False
+
+======================================================================
+SUMMARY
+======================================================================

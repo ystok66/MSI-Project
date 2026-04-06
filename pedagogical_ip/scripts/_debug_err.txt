@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/scripts/eval_dtmb_main.py", line 82, in run_episode
+    state = runner.step(state)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 346, in step
+    self.apply_tutor(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 387, in apply_tutor
+    self._apply_tutor_dispatch(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 584, in _apply_tutor_dispatch
+    if s.scenario_family == "deep_tree_mixed_bottleneck_lattice":
+AttributeError: 'V2EpisodeState' object has no attribute 'scenario_family'
+Traceback (most recent call last):
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/scripts/eval_dtmb_main.py", line 82, in run_episode
+    state = runner.step(state)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 346, in step
+    self.apply_tutor(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 387, in apply_tutor
+    self._apply_tutor_dispatch(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 584, in _apply_tutor_dispatch
+    if s.scenario_family == "deep_tree_mixed_bottleneck_lattice":
+AttributeError: 'V2EpisodeState' object has no attribute 'scenario_family'
+Traceback (most recent call last):
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/scripts/eval_dtmb_main.py", line 82, in run_episode
+    state = runner.step(state)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 346, in step
+    self.apply_tutor(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 387, in apply_tutor
+    self._apply_tutor_dispatch(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 584, in _apply_tutor_dispatch
+    if s.scenario_family == "deep_tree_mixed_bottleneck_lattice":
+AttributeError: 'V2EpisodeState' object has no attribute 'scenario_family'
+DTMB-L Main Evaluation: 3 seeds × ['medium']
+======================================================================
+
+--- MEDIUM ---
+  canonical   : ALL FAILED (3 errors)
+  no_tutor    : surv=0.00 goal=0.00 steps=40.3 risky=1.0 warn=0.0 unlock=0.0 (3 ok, 0 fail)
+  oracle      : surv=1.00 goal=0.00 steps=52.0 risky=0.0 warn=0.0 unlock=1.0 (3 ok, 0 fail)
+  LIFT surv: +0.00  goal: +0.00
+
+======================================================================
+Done.

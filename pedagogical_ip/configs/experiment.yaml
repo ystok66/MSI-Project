@@ -1,0 +1,6 @@
+# Experiment configuration
+num_episodes: 20
+seed: 42
+log_dir: "output/logs"
+viz_dir: "output/viz"
+save_npz: true

@@ -1,0 +1,22 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0 -- /home/ystok6/anaconda3/envs/pedip310/bin/python
+cachedir: .pytest_cache
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collecting ... collected 6 items
+
+tests/test_dtmb_lever_gradient.py::TestMediumLeverGradient::test_warn_lever_positive PASSED [ 16%]
+tests/test_dtmb_lever_gradient.py::TestMediumLeverGradient::test_item_lever_nonnegative PASSED [ 33%]
+tests/test_dtmb_lever_gradient.py::TestMediumLeverGradient::test_total_lift_positive PASSED [ 50%]
+tests/test_dtmb_lever_gradient.py::TestHardLeverGradient::test_canonical_in_discriminable_band PASSED [ 66%]
+tests/test_dtmb_lever_gradient.py::TestHardLeverGradient::test_no_tutor_low PASSED [ 83%]
+tests/test_dtmb_lever_gradient.py::TestHardLeverGradient::test_item_lever_nonnegative PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_dtmb_lever_gradient.py::TestMediumLeverGradient::test_warn_lever_positive
+tests/test_dtmb_lever_gradient.py::TestHardLeverGradient::test_canonical_in_discriminable_band
+  /mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+    grad_w *= max_grad_norm / grad_norm
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 6 passed, 2 warnings in 151.19s (0:02:31) ===================

@@ -1,0 +1,17 @@
+# --- Python 环境 ---
+.venv/
+__pycache__/
+*.pyc
+
+# --- 数据集 (MNIST) ---
+# Git 也就是 Linux 风格，必须使用斜杠 / 而不是反斜杠 \
+MNIST/
+MLC/
+# --- 其他常见忽略项 ---
+# Jupyter Notebook 的缓存
+.ipynb_checkpoints/
+# Mac 系统缓存
+.DS_Store
+# VS Code 配置 (可选)
+.vscode/
+.env

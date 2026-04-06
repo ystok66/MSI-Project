@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/scripts/eval_dtmb_main.py", line 82, in run_episode
+    state = runner.step(state)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 349, in step
+    self.apply_tutor(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 390, in apply_tutor
+    self._apply_tutor_dispatch(s)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/lattice_v2_runner.py", line 552, in _apply_tutor_dispatch
+    apply_dtmb_oracle_action(s, dispatch_cfg=_dcfg)
+  File "/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/envs/dtmb_helpers.py", line 369, in apply_dtmb_oracle_action
+    if s.gridmap.risk[br, bc] > 0:
+AttributeError: 'GridMap' object has no attribute 'risk'
+DTMB-L Main Evaluation: 1 seeds × ['medium']
+======================================================================
+
+--- MEDIUM ---
+  canonical   : surv=0.00 goal=0.00 steps=44.0 risky=4.0 warn=4.0 unlock=1.0 (1 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=41.0 risky=1.0 warn=0.0 unlock=0.0 (1 ok, 0 fail)
+  oracle      : ALL FAILED (1 errors)
+  LIFT surv: +0.00  goal: +0.00
+
+======================================================================
+Done.

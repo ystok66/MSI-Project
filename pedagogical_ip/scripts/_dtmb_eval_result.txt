@@ -1,0 +1,29 @@
+DTMB-L Smoke Evaluation — 20 seeds × 3 difficulties
+======================================================================
+
+--- EASY (20/20 passed) ---
+  route_count:   min=6 avg=6.0 max=6
+  shortest_any:  min=35 avg=35.0 max=35
+  shortest_safe: min=35 avg=35.0 max=35
+  doors:         Counter({0: 14, 1: 5, 2: 1})
+  belt_cells:    min=12 avg=12.0 max=12
+  S2 bottleneck: {'epistemic': 14, 'structural': 6}
+
+--- MEDIUM (20/20 passed) ---
+  route_count:   min=6 avg=6.0 max=6
+  shortest_any:  min=45 avg=45.2 max=47
+  shortest_safe: min=45 avg=45.2 max=47
+  doors:         Counter({1: 11, 0: 7, 2: 2})
+  belt_cells:    min=24 avg=24.0 max=24
+  S2 bottleneck: {'structural': 13, 'epistemic': 7}
+
+--- HARD (20/20 passed) ---
+  route_count:   min=6 avg=6.0 max=6
+  shortest_any:  min=60 avg=60.4 max=62
+  shortest_safe: min=60 avg=60.4 max=62
+  doors:         Counter({1: 10, 0: 6, 2: 3, 3: 1})
+  belt_cells:    min=48 avg=48.0 max=48
+  S2 bottleneck: {'structural': 14, 'epistemic': 6}
+
+======================================================================
+Done.

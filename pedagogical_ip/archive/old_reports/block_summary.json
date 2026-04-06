@@ -1,0 +1,116 @@
+{
+  "easy": {
+    "no_teacher": {
+      "CSR": 19.5,
+      "Steps": 43.3,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 0
+    },
+    "wait_warn": {
+      "CSR": 19.5,
+      "Steps": 43.3,
+      "WarnRate": 0.12,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 24,
+      "TotalBlocks": 0
+    },
+    "wait_block": {
+      "CSR": 20.0,
+      "Steps": 43.4,
+      "WarnRate": 0.0,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 4
+    },
+    "wait_warn_block": {
+      "CSR": 20.0,
+      "Steps": 43.4,
+      "WarnRate": 0.125,
+      "BlockRate": 0.02,
+      "BlockPrec": 100.0,
+      "TotalWarns": 25,
+      "TotalBlocks": 4
+    }
+  },
+  "medium": {
+    "no_teacher": {
+      "CSR": 7.5,
+      "Steps": 34.3,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 0
+    },
+    "wait_warn": {
+      "CSR": 7.5,
+      "Steps": 34.3,
+      "WarnRate": 0.03,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 6,
+      "TotalBlocks": 0
+    },
+    "wait_block": {
+      "CSR": 8.5,
+      "Steps": 34.4,
+      "WarnRate": 0.0,
+      "BlockRate": 0.015,
+      "BlockPrec": 100.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 3
+    },
+    "wait_warn_block": {
+      "CSR": 8.5,
+      "Steps": 34.4,
+      "WarnRate": 0.035,
+      "BlockRate": 0.015,
+      "BlockPrec": 100.0,
+      "TotalWarns": 7,
+      "TotalBlocks": 3
+    }
+  },
+  "hard": {
+    "no_teacher": {
+      "CSR": 7.0,
+      "Steps": 30.4,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 0
+    },
+    "wait_warn": {
+      "CSR": 7.0,
+      "Steps": 30.4,
+      "WarnRate": 0.04,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 8,
+      "TotalBlocks": 0
+    },
+    "wait_block": {
+      "CSR": 7.0,
+      "Steps": 30.4,
+      "WarnRate": 0.0,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 0,
+      "TotalBlocks": 0
+    },
+    "wait_warn_block": {
+      "CSR": 7.0,
+      "Steps": 30.4,
+      "WarnRate": 0.04,
+      "BlockRate": 0.0,
+      "BlockPrec": 0.0,
+      "TotalWarns": 8,
+      "TotalBlocks": 0
+    }
+  }
+}

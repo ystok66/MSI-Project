@@ -1,0 +1,41 @@
+Phase 0 — Q4: Time-Learning Closure Audit
+  seeds=20, families=['DTMB', 'GTET']
+================================================================================
+
+--- DTMB × selective ---
+  n=20, surv=0.450, BoreRatio=0.468, FP_wait=0.000, StallCost=22.4
+
+--- DTMB × always_warn ---
+  n=20, surv=0.450, BoreRatio=0.468, FP_wait=0.000, StallCost=22.4
+
+--- DTMB × no_tutor ---
+  n=20, surv=0.000, BoreRatio=0.480, FP_wait=0.000, StallCost=19.1
+
+--- GTET × selective ---
+  n=20, surv=0.950, BoreRatio=0.530, FP_wait=0.800, StallCost=26.4
+
+--- GTET × always_warn ---
+  n=20, surv=0.950, BoreRatio=0.530, FP_wait=0.800, StallCost=26.4
+
+--- GTET × no_tutor ---
+  n=20, surv=0.850, BoreRatio=0.529, FP_wait=0.000, StallCost=25.9
+
+================================================================================
+SUMMARY TABLE
+================================================================================
+Family    TutorMode |  BoreRatio |  FP_wait |  StallCost |    N
+---------------------------------------------------------------
+  DTMB    selective |      0.468 |    0.000 |       22.4 |   20
+  DTMB  always_warn |      0.468 |    0.000 |       22.4 |   20
+  DTMB     no_tutor |      0.480 |    0.000 |       19.1 |   20
+  GTET    selective |      0.530 |    0.800 |       26.4 |   20
+  GTET  always_warn |      0.530 |    0.800 |       26.4 |   20
+  GTET     no_tutor |      0.529 |    0.000 |       25.9 |   20
+
+================================================================================
+VERDICT
+================================================================================
+VERDICT A: Gap 真实存在。
+  selective FP_wait=0.400, BoreRatio=0.499
+  → 当前 canonical utility 还未闭环。
+  → Phase 1 需要加 boredom/frustration 项到 Q_WAIT。

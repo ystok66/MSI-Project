@@ -1,0 +1,32 @@
+Phase 2A Final Results (50 seeds)
+
+[fork_trap / medium]
+  legacy_bias        SBCR=0.38  TBSR=0.58  dH=+0.000  dM=+0.0000  dNLL=-0.6380
+  rsa_obs_l0         SBCR=0.38  TBSR=0.40  dH=+0.582  dM=+0.4917  dNLL=-0.5661
+  rsa_obs_s1         SBCR=0.38  TBSR=0.40  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+  rsa_obs_s1_trust   SBCR=0.00  TBSR=0.04  dH=+0.131  dM=+0.1835  dNLL=-0.3236
+  rsa_plus_phase10   SBCR=0.00  TBSR=0.04  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+
+[elcb_po / medium]
+  legacy_bias        SBCR=1.00  TBSR=1.00  dH=+0.000  dM=+0.0000  dNLL=-0.6419
+  rsa_obs_l0         SBCR=1.00  TBSR=1.00  dH=+0.582  dM=+0.4917  dNLL=-0.5661
+  rsa_obs_s1         SBCR=1.00  TBSR=1.00  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+  rsa_obs_s1_trust   SBCR=1.00  TBSR=1.00  dH=+0.131  dM=+0.1835  dNLL=-0.3236
+  rsa_plus_phase10   SBCR=1.00  TBSR=1.00  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+
+[baseline_v2 / medium]
+  legacy_bias        SBCR=0.52  TBSR=0.66  dH=+0.000  dM=+0.0000  dNLL=-0.6361
+  rsa_obs_l0         SBCR=0.52  TBSR=0.66  dH=+0.582  dM=+0.4917  dNLL=-0.5661
+  rsa_obs_s1         SBCR=0.52  TBSR=0.66  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+  rsa_obs_s1_trust   SBCR=0.00  TBSR=0.10  dH=+0.131  dM=+0.1835  dNLL=-0.3236
+  rsa_plus_phase10   SBCR=0.00  TBSR=0.04  dH=+0.687  dM=+0.5195  dNLL=-0.5547
+
+fork_trap: S1 vs legacy across difficulties
+  easy     legacy_bias        SBCR=0.38  TBSR=0.60  Ma=0.250  dNLL=-0.6380
+  easy     rsa_obs_s1         SBCR=0.38  TBSR=0.40  Ma=0.770  dNLL=-0.5547
+
+  medium   legacy_bias        SBCR=0.38  TBSR=0.58  Ma=0.250  dNLL=-0.6380
+  medium   rsa_obs_s1         SBCR=0.38  TBSR=0.40  Ma=0.770  dNLL=-0.5547
+
+  hard     legacy_bias        SBCR=0.38  TBSR=0.48  Ma=0.250  dNLL=-0.6409
+  hard     rsa_obs_s1         SBCR=0.38  TBSR=0.48  Ma=0.770  dNLL=-0.5547

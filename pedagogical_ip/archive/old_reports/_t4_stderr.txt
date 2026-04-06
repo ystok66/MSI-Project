@@ -1,0 +1,7 @@
+═══ T4 Family-Selective + Mixed Audit ═══
+
+  safe done
+  shiny done
+
+Report → results/t4_family_selective_audit.md
+Done.

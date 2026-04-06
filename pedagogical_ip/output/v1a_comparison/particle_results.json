@@ -1,0 +1,206 @@
+[
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.61,
+    "interventions": {
+      "WARN": 16
+    },
+    "ece": 104.44476749234269,
+    "tom_mse": 0.011052542494664464
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 15,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 15
+    },
+    "ece": 104.42746709109927,
+    "tom_mse": 0.030310680460054577
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.61,
+    "interventions": {
+      "WARN": 16
+    },
+    "ece": 102.30264535946107,
+    "tom_mse": 0.008076695566444426
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.019913823799654107
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 19,
+    "reward": 10.55,
+    "interventions": {
+      "WARN": 18,
+      "DROP_SHIELD": 1
+    },
+    "ece": 74.92841001978681,
+    "tom_mse": 0.00807417376686243
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.03332968398415259
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.64836117858891,
+    "tom_mse": 0.005045405292076819
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.48,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 108.14610148263587,
+    "tom_mse": 0.009276247727325963
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.64836117858891,
+    "tom_mse": 0.005180187350826123
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.48,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.010269380126714524
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.018628964711018856
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.61,
+    "interventions": {
+      "WARN": 16
+    },
+    "ece": 99.46866890547423,
+    "tom_mse": 0.00783313351601151
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 108.69243660244746,
+    "tom_mse": 0.029253672426593887
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 13,
+      "DROP_SHIELD": 1
+    },
+    "ece": 89.35822044975104,
+    "tom_mse": 0.019463770917572343
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.011383295513359865
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.007840414069967442
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WARN": 13,
+      "DROP_SHIELD": 1
+    },
+    "ece": 91.01680051552772,
+    "tom_mse": 0.011013341066158948
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 108.17847278319056,
+    "tom_mse": 0.012285562754319898
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 14
+    },
+    "ece": 107.88211797569217,
+    "tom_mse": 0.030634631531917814
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WARN": 13,
+      "DROP_SHIELD": 1
+    },
+    "ece": 88.85322965999535,
+    "tom_mse": 0.006786495131079056
+  }
+]

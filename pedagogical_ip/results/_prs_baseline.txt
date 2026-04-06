@@ -1,0 +1,157 @@
+Workers: 12, CPU: 22
+======================================================================
+Exp A: Tutor-on vs No-tutor Transfer (6 sessions, 12w)
+======================================================================
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+
+  tutor-trained (selective) (6 sessions)
+  Metric                        Mean      Std
+  ------------------------- -------- --------
+  tbsr_A                       0.361    0.076
+  tbsr_B                       0.167    0.114
+  tbsr_C                       0.267    0.115
+  tbsr_D                       0.256    0.090
+  surv_A                       0.389    0.090
+  surv_B                       0.211    0.130
+  surv_C                       0.278    0.130
+  surv_D                       0.311    0.120
+  transfer_gap_C              -0.100    0.158
+  transfer_gap_D              -0.089    0.107
+  dependence_proxy             0.100    0.277
+  predictor_updates_A         1755.2
+  predictor_updates_end       4291.7
+
+  no-tutor (control) (6 sessions)
+  Metric                        Mean      Std
+  ------------------------- -------- --------
+  tbsr_A                       0.172    0.076
+  tbsr_B                       0.156    0.120
+  tbsr_C                       0.189    0.071
+  tbsr_D                       0.200    0.077
+  surv_A                       0.178    0.076
+  surv_B                       0.200    0.133
+  surv_C                       0.200    0.077
+  surv_D                       0.256    0.025
+  transfer_gap_C              -0.033    0.158
+  transfer_gap_D              -0.044    0.107
+  dependence_proxy             0.000    0.163
+  predictor_updates_A         1607.8
+  predictor_updates_end       4051.7
+
+--- Agent Performance Delta (APD) ---
+  APD_B = +0.011 (tutor=0.167, control=0.156)
+  APD_C = +0.078 (tutor=0.267, control=0.189)
+  APD_D = +0.056 (tutor=0.256, control=0.200)
+
+--- Transfer Gap Comparison ---
+  TransferGap_C: tutor=-0.100, control=-0.033
+  TransferGap_D: tutor=-0.089, control=-0.044
+
+======================================================================
+Exp B: DTMB-only vs GTET-only vs Mixed (6 sessions)
+======================================================================
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+
+  curriculum=dtmb_only (6 sessions)
+  Metric                        Mean      Std
+  ------------------------- -------- --------
+  tbsr_A                       0.061    0.023
+  tbsr_B                       0.000    0.000
+  tbsr_C                       0.000    0.000
+  tbsr_D                       0.000    0.000
+  surv_A                       0.078    0.031
+  surv_B                       0.056    0.046
+  surv_C                       0.022    0.050
+  surv_D                       0.067    0.038
+  transfer_gap_C               0.000    0.000
+  transfer_gap_D               0.000    0.000
+  dependence_proxy             0.067    0.094
+  predictor_updates_A         1700.7
+  predictor_updates_end       4137.0
+
+  curriculum=gtet_only (6 sessions)
+  Metric                        Mean      Std
+  ------------------------- -------- --------
+  tbsr_A                       0.672    0.052
+  tbsr_B                       0.333    0.115
+  tbsr_C                       0.344    0.090
+  tbsr_D                       0.356    0.074
+  surv_A                       0.672    0.052
+  surv_B                       0.333    0.115
+  surv_C                       0.344    0.090
+  surv_D                       0.356    0.074
+  transfer_gap_C              -0.011    0.118
+  transfer_gap_D              -0.022    0.142
+  dependence_proxy             0.333    0.275
+  predictor_updates_A         1803.7
+  predictor_updates_end       4210.0
+
+  curriculum=mixed (6 sessions)
+  Metric                        Mean      Std
+  ------------------------- -------- --------
+  tbsr_A                       0.372    0.030
+  tbsr_B                       0.222    0.083
+  tbsr_C                       0.244    0.050
+  tbsr_D                       0.189    0.090
+  surv_A                       0.383    0.042
+  surv_B                       0.267    0.102
+  surv_C                       0.256    0.046
+  surv_D                       0.200    0.094
+  transfer_gap_C              -0.022    0.092
+  transfer_gap_D               0.033    0.084
+  dependence_proxy             0.333    0.149
+  predictor_updates_A         1745.3
+  predictor_updates_end       4269.5
+
+======================================================================
+Exp C: Block B (IID) vs C (topology) vs D (semantic)
+======================================================================
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+/mnt/f/SCAI/Learning-agent/pedagogical_ip/./src/agents/cost_risk_model.py:91: RuntimeWarning: invalid value encountered in multiply
+  grad_w *= max_grad_norm / grad_norm
+
+  Block-by-block survival & TBSR:
+  Block A: surv=0.422 tbsr=0.406
+  Block B: surv=0.267 tbsr=0.256
+  Block C: surv=0.267 tbsr=0.244
+  Block D: surv=0.244 tbsr=0.222
+
+  Transfer pattern:
+  B→C drop: +0.011 (topology shift)
+  B→D drop: +0.033 (semantic shift)
+  → Robust transfer: learning generalizes across shifts
+
+======================================================================
+ALL PRS EXPERIMENTS COMPLETE (300s)
+======================================================================

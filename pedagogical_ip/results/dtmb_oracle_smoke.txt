@@ -1,0 +1,11 @@
+DTMB-L Main Evaluation: 5 seeds × ['medium']
+======================================================================
+
+--- MEDIUM ---
+  canonical   : surv=0.60 goal=0.20 steps=46.4 risky=2.0 warn=11.0 unlock=0.6 (5 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=40.2 risky=1.0 warn=0.0 unlock=0.0 (5 ok, 0 fail)
+  oracle      : surv=0.40 goal=0.00 steps=44.6 risky=0.6 warn=11.8 unlock=0.6 (5 ok, 0 fail)
+  LIFT surv: +0.60  goal: +0.20
+
+======================================================================
+Done.

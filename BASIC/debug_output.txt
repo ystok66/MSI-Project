@@ -1,0 +1,64 @@
+
+=== BEFORE RED REFLECT ===
+  concept_50f79                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_d48e6                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_97a31                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_d6fc1                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_8b943                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_e0249                   kappa=4.50  lab=[-0.048,0.475,0.349]
+  concept_b518a                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_d5521                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_91dfb                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_740ca                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_04bf3                   kappa=1.50  lab=[-0.036,0.356,0.262]
+  concept_a74c8                   kappa=1.50  lab=[-0.036,0.356,0.262]
+
+Red merges: 10
+  concept_50f79 + concept_d48e6 -> concept_d48e6
+  concept_d48e6 + concept_97a31 -> concept_d48e6
+  concept_d48e6 + concept_d6fc1 -> concept_d48e6
+  concept_d48e6 + concept_8b943 -> concept_d48e6
+  concept_d48e6 + concept_b518a -> concept_d48e6
+  concept_d48e6 + concept_d5521 -> concept_d48e6
+  concept_d48e6 + concept_91dfb -> concept_d48e6
+  concept_d48e6 + concept_740ca -> concept_d48e6
+  concept_d48e6 + concept_04bf3 -> concept_d48e6
+  concept_d48e6 + concept_a74c8 -> concept_d48e6
+
+=== AFTER RED REFLECT ===
+  concept_d48e6                   kappa=16.50  lab=[-0.036,0.356,0.262]
+  concept_e0249                   kappa=4.50  lab=[-0.048,0.475,0.349]
+
+=== BEFORE BLUE REFLECT ===
+  concept_d48e6                   kappa=16.50  lab=[-0.036,0.356,0.262]
+  concept_e0249                   kappa=4.50  lab=[-0.048,0.475,0.349]
+  concept_416e4                   kappa=3.50  lab=[-0.162,0.258,-0.498]
+  concept_c1dd0                   kappa=3.50  lab=[-0.162,0.258,-0.498]
+  concept_39ead                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_12b4f                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_a92b0                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_3745d                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_45239                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_05158                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_702c9                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_e6666                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+  concept_9a19d                   kappa=1.50  lab=[-0.126,0.201,-0.387]
+
+Blue merges: 9
+  concept_d48e6 + concept_39ead -> concept_d48e6
+  concept_d48e6 + concept_12b4f -> concept_d48e6
+  concept_d48e6 + concept_a92b0 -> concept_d48e6
+  concept_e0249 + concept_45239 -> concept_e0249
+  concept_e0249 + concept_05158 -> concept_e0249
+  concept_416e4 + concept_e6666 -> concept_416e4
+  concept_416e4 + concept_9a19d -> concept_416e4
+  concept_c1dd0 + concept_3745d -> concept_c1dd0
+  concept_c1dd0 + concept_702c9 -> concept_c1dd0
+
+=== AFTER BLUE REFLECT + SLEEP ===
+  concept_d48e6                   kappa=21.00  lab=[-0.055,0.323,0.123]
+  concept_e0249                   kappa=7.50  lab=[-0.079,0.365,0.055]
+  concept_416e4                   kappa=6.50  lab=[-0.146,0.232,-0.447]
+  concept_c1dd0                   kappa=6.50  lab=[-0.146,0.232,-0.447]
+
+=== ASK ===

@@ -1,0 +1,39 @@
+--- legacy_bias ---
+  surv=True, goal=True, steps=34, warns=3
+  rsa_belief=[1.000, 0.000, 0.000, 0.000]
+  diag_count=3
+  d_rho_inc=0.292087
+  d_rho_uniform=0.292087
+  delta_nll=-0.6406
+
+--- rsa_obs_s1 ---
+  surv=True, goal=True, steps=34, warns=3
+  rsa_belief=[1.000, 0.000, 0.000, 0.000]
+  diag_count=3
+  d_rho_inc=0.292087
+  d_rho_uniform=0.292087
+  delta_nll=-0.5547
+
+--- rsa_obs_s1_trust ---
+  surv=True, goal=True, steps=34, warns=3
+  rsa_belief=[0.871, 0.001, 0.082, 0.045]
+  diag_count=3
+  d_rho_inc=0.113314
+  d_rho_uniform=0.113314
+  delta_nll=-0.3236
+
+--- rsa_plus_phase10 ---
+  surv=True, goal=True, steps=34, warns=3
+  rsa_belief=[1.000, 0.000, 0.000, 0.000]
+  diag_count=3
+  d_rho_inc=0.292087
+  d_rho_uniform=0.292087
+  delta_nll=-0.559
+
+=== DTMB regression check ===
+  surv=True, goal=False, steps=51
+
+=== GTET regression check ===
+  surv=True, goal=True, steps=51
+
+Smoke test PASSED.

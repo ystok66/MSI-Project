@@ -1,0 +1,202 @@
+[
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 363.7203103233121,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 361.4356440874232,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.48,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.57,
+    "interventions": {
+      "WAIT": 16
+    },
+    "ece": 308.4032311427788,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 368.8077079352183,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 368.8077079352183,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 361.4356440874232,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 15,
+    "reward": 10.48,
+    "interventions": {
+      "WAIT": 15
+    },
+    "ece": 297.6510454567168,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 15,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 15
+    },
+    "ece": 297.6510454567168,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 363.7203103233121,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "WAIT": 14
+    },
+    "ece": 360.33171687631176,
+    "tom_mse": null
+  }
+]

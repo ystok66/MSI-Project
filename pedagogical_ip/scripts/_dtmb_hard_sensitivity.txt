@@ -1,0 +1,13 @@
+DTMB-L Hard Sensitivity: search_budget ∈ {40, 50}, 10 seeds
+======================================================================
+
+--- search_budget=40 ---
+  canonical   : surv=0.00 goal=0.00 steps=54.0 risky=2.2 (10 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=53.2 risky=1.2 (10 ok, 0 fail)
+
+--- search_budget=50 ---
+  canonical   : surv=0.00 goal=0.00 steps=54.0 risky=2.2 (10 ok, 0 fail)
+  no_tutor    : surv=0.00 goal=0.00 steps=53.2 risky=1.2 (10 ok, 0 fail)
+
+======================================================================
+Done.

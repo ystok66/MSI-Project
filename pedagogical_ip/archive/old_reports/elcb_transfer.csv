@@ -1,0 +1,11 @@
+condition,k,SBCR,mean_margin,n_updates
+no_tutor,0,0.55,0.0,0
+no_tutor,1,0.3,-0.5518,10
+no_tutor,3,0.3,-0.3253,30
+no_tutor,10,0.3,-0.1011,100
+no_tutor,30,0.3,-0.0193,300
+robot_belief_post,0,0.6,0.0,0
+robot_belief_post,1,0.3,-0.3184,15
+robot_belief_post,3,0.3,-0.3048,45
+robot_belief_post,10,0.3,-0.7595,150
+robot_belief_post,30,0.3,-0.6865,450

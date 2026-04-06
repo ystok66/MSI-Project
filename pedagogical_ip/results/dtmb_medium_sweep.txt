@@ -1,0 +1,201 @@
+DTMB-L Medium Local Robustness Sweep Results (Exp C)
+  seeds=20
+====================================================================================================
+
+--- cue=0.55, mis=0.10, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.10, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.10, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.15, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.15, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.15, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.55, mis=0.25, lure=0.40 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.55, mis=0.25, lure=0.55 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.55, mis=0.25, lure=0.70 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.65, mis=0.10, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.10, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.10, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.15, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.15, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.15, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.65, mis=0.25, lure=0.40 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.65, mis=0.25, lure=0.55 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.65, mis=0.25, lure=0.70 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.75, mis=0.10, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.10, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.10, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.15, lure=0.40 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.15, lure=0.55 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.15, lure=0.70 ---
+  canonical    : surv=0.450
+  no_warn      : surv=0.150 (Δ=+0.300)
+  no_unlock    : surv=0.450 (Δ=+0.000)
+  no_item_drop : surv=0.350 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.450)
+
+--- cue=0.75, mis=0.25, lure=0.40 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.75, mis=0.25, lure=0.55 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+--- cue=0.75, mis=0.25, lure=0.70 ---
+  canonical    : surv=0.500
+  no_warn      : surv=0.200 (Δ=+0.300)
+  no_unlock    : surv=0.500 (Δ=+0.000)
+  no_item_drop : surv=0.400 (Δ=+0.100)
+  no_tutor     : surv=0.000 (Δ_total=+0.500)
+
+====================================================================================================
+STABILITY SUMMARY
+  Configs with all Δ > 0: 0 / 27
+  Stability rate: 0.0%
+  >>> BELOW 60% threshold — Medium needs further tuning <<<
+
+====================================================================================================
+Done.

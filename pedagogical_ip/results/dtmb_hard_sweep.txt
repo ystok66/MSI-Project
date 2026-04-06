@@ -1,0 +1,202 @@
+DTMB-L Hard Calibration Sweep Results
+  seeds=20
+====================================================================================================
+
+--- belt_risk=0.40, belt_fraction=0.30, deadline_ratio=1.08 ---
+  canonical     : surv=0.400 goal=0.100 steps=60.8 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.9 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=59.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=59.9 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.025
+
+--- belt_risk=0.40, belt_fraction=0.30, deadline_ratio=1.12 ---
+  canonical     : surv=0.400 goal=0.100 steps=61.7 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.9 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=60.2 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=60.8 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.025
+
+--- belt_risk=0.40, belt_fraction=0.30, deadline_ratio=1.16 ---
+  canonical     : surv=0.400 goal=0.100 steps=62.3 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.9 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.150 goal=0.000 steps=60.7 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=61.4 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.100
+
+--- belt_risk=0.40, belt_fraction=0.40, deadline_ratio=1.08 ---
+  canonical     : surv=0.350 goal=0.050 steps=60.5 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.0 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=58.5 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.450 goal=0.150 steps=60.2 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.050
+
+--- belt_risk=0.40, belt_fraction=0.40, deadline_ratio=1.12 ---
+  canonical     : surv=0.200 goal=0.050 steps=61.4 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.0 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.150 steps=61.1 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.225
+
+--- belt_risk=0.40, belt_fraction=0.40, deadline_ratio=1.16 ---
+  canonical     : surv=0.200 goal=0.050 steps=61.6 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.0 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.5 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.150 steps=61.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.225
+
+--- belt_risk=0.40, belt_fraction=0.50, deadline_ratio=1.08 ---
+  canonical     : surv=0.400 goal=0.100 steps=59.1 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.8 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=57.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.350 goal=0.050 steps=58.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.050
+
+--- belt_risk=0.40, belt_fraction=0.50, deadline_ratio=1.12 ---
+  canonical     : surv=0.250 goal=0.100 steps=59.9 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.8 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.150 goal=0.000 steps=58.0 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.200 goal=0.050 steps=59.2 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.200
+
+--- belt_risk=0.40, belt_fraction=0.50, deadline_ratio=1.16 ---
+  canonical     : surv=0.200 goal=0.100 steps=60.1 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.8 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=58.2 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.150 goal=0.050 steps=59.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.250
+
+--- belt_risk=0.45, belt_fraction=0.30, deadline_ratio=1.08 ---
+  canonical     : surv=0.400 goal=0.100 steps=60.8 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.7 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=59.3 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=59.8 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.025
+
+--- belt_risk=0.45, belt_fraction=0.30, deadline_ratio=1.12 ---
+  canonical     : surv=0.400 goal=0.100 steps=61.7 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.7 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=60.2 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=60.6 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.025
+
+--- belt_risk=0.45, belt_fraction=0.30, deadline_ratio=1.16 ---
+  canonical     : surv=0.350 goal=0.100 steps=62.2 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.050 goal=0.050 steps=56.7 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.150 goal=0.000 steps=60.6 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.000 steps=61.2 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.125
+
+--- belt_risk=0.45, belt_fraction=0.40, deadline_ratio=1.08 ---
+  canonical     : surv=0.300 goal=0.000 steps=59.9 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=58.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.400 goal=0.100 steps=60.0 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.100
+
+--- belt_risk=0.45, belt_fraction=0.40, deadline_ratio=1.12 ---
+  canonical     : surv=0.150 goal=0.000 steps=60.8 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.2 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.100 steps=60.9 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.45, belt_fraction=0.40, deadline_ratio=1.16 ---
+  canonical     : surv=0.150 goal=0.000 steps=61.1 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.5 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.100 steps=61.1 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.45, belt_fraction=0.50, deadline_ratio=1.08 ---
+  canonical     : surv=0.350 goal=0.050 steps=58.8 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.6 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=57.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.350 goal=0.050 steps=58.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.45, belt_fraction=0.50, deadline_ratio=1.12 ---
+  canonical     : surv=0.200 goal=0.050 steps=59.5 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.6 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=57.9 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.200 goal=0.050 steps=59.2 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.250
+
+--- belt_risk=0.45, belt_fraction=0.50, deadline_ratio=1.16 ---
+  canonical     : surv=0.150 goal=0.050 steps=59.8 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.6 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=58.1 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.150 goal=0.050 steps=59.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.30, deadline_ratio=1.08 ---
+  canonical     : surv=0.350 goal=0.050 steps=60.5 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=56.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=59.1 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=59.6 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.30, deadline_ratio=1.12 ---
+  canonical     : surv=0.350 goal=0.050 steps=61.4 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=56.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=60.0 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.300 goal=0.000 steps=60.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.30, deadline_ratio=1.16 ---
+  canonical     : surv=0.300 goal=0.050 steps=62.0 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=56.4 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.150 goal=0.000 steps=60.5 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.000 steps=61.1 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.175
+
+--- belt_risk=0.50, belt_fraction=0.40, deadline_ratio=1.08 ---
+  canonical     : surv=0.300 goal=0.000 steps=59.7 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=58.3 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.400 goal=0.100 steps=59.9 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.100
+
+--- belt_risk=0.50, belt_fraction=0.40, deadline_ratio=1.12 ---
+  canonical     : surv=0.150 goal=0.000 steps=60.6 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.2 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.100 steps=60.8 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.40, deadline_ratio=1.16 ---
+  canonical     : surv=0.150 goal=0.000 steps=60.9 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=55.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=59.4 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.250 goal=0.100 steps=61.1 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.50, deadline_ratio=1.08 ---
+  canonical     : surv=0.350 goal=0.050 steps=58.4 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.300 goal=0.000 steps=57.0 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.350 goal=0.050 steps=58.5 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+--- belt_risk=0.50, belt_fraction=0.50, deadline_ratio=1.12 ---
+  canonical     : surv=0.200 goal=0.050 steps=59.0 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=57.5 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.200 goal=0.050 steps=59.1 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.250
+
+--- belt_risk=0.50, belt_fraction=0.50, deadline_ratio=1.16 ---
+  canonical     : surv=0.150 goal=0.050 steps=59.2 warn=9.2 unlock=1.4 (n=20)
+  no_tutor      : surv=0.000 goal=0.000 steps=53.3 warn=0.0 unlock=0.0 (n=20)
+  no_item_drop  : surv=0.100 goal=0.000 steps=57.8 warn=9.8 unlock=1.4 (n=20)
+  no_unlock     : surv=0.150 goal=0.050 steps=59.4 warn=10.1 unlock=0.0 (n=20)
+  J_hard = 0.075
+
+====================================================================================================
+TOP-3 CONFIGS BY J_hard
+====================================================================================================
+  #1: J=0.250 | belt_risk=0.40 belt_frac=0.50 deadline=1.16 | Surv_can=0.200 Surv_nt=0.000 Surv_ni=0.100
+  #2: J=0.250 | belt_risk=0.45 belt_frac=0.50 deadline=1.12 | Surv_can=0.200 Surv_nt=0.000 Surv_ni=0.100
+  #3: J=0.250 | belt_risk=0.50 belt_frac=0.50 deadline=1.12 | Surv_can=0.200 Surv_nt=0.000 Surv_ni=0.100
+
+====================================================================================================
+Done.

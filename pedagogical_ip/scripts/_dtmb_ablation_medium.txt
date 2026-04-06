@@ -1,0 +1,11 @@
+DTMB-L Macro Ablation: 10 seeds, difficulty=medium
+Policies: ['canonical', 'no_warn', 'no_unlock', 'no_item_drop', 'no_tutor']
+======================================================================
+  canonical     : surv=0.30 goal=0.30 steps=42.2 risky=2.7 warn=0.3 unlock=0.8 (10 ok, 0 fail)
+  no_warn       : surv=0.30 goal=0.30 steps=42.2 risky=2.7 warn=0.0 unlock=0.8 (10 ok, 0 fail)
+  no_unlock     : surv=0.20 goal=0.20 steps=41.9 risky=2.3 warn=1.0 unlock=0.0 (10 ok, 0 fail)
+  no_item_drop  : surv=0.00 goal=0.00 steps=40.2 risky=1.2 warn=0.9 unlock=0.8 (10 ok, 0 fail)
+  no_tutor      : surv=0.00 goal=0.00 steps=40.2 risky=1.1 warn=0.0 unlock=0.0 (10 ok, 0 fail)
+
+======================================================================
+Done.

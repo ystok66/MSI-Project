@@ -1,0 +1,76 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0 -- D:\APP\anaconda\python.exe
+cachedir: .pytest_cache
+rootdir: F:\SCAI\RSA-RESEARCH\project
+plugins: anyio-4.7.0, hydra-core-1.3.2, jaxtyping-0.3.2, typeguard-4.4.4
+collecting ... collected 26 items
+
+tests/test_world.py::TestParseUtterance::test_with_cardinality PASSED    [  3%]
+tests/test_world.py::TestParseUtterance::test_without_cardinality PASSED [  7%]
+tests/test_world.py::TestParseUtterance::test_cardinality_two PASSED     [ 11%]
+tests/test_world.py::TestParseUtterance::test_lowercase_conversion PASSED [ 15%]
+tests/test_world.py::TestParseUtterance::test_empty_string PASSED        [ 19%]
+tests/test_world.py::TestParseUtterance::test_whitespace_only PASSED     [ 23%]
+tests/test_world.py::TestParseUtterance::test_single_token PASSED        [ 26%]
+tests/test_world.py::TestParseUtterance::test_cardinality_only PASSED    [ 30%]
+tests/test_world.py::TestEncodeScene::test_output_shape PASSED           [ 34%]
+tests/test_world.py::TestEncodeScene::test_nonempty_color_range PASSED   [ 38%]
+tests/test_world.py::TestEncodeScene::test_nonempty_shape_binary FAILED  [ 42%]
+tests/test_world.py::TestEncodeScene::test_empty_region_zeros PASSED     [ 46%]
+tests/test_world.py::TestEncodeScene::test_mixed_scene PASSED            [ 50%]
+tests/test_world.py::TestReproducibility::test_sample_scene_reproducible PASSED [ 53%]
+tests/test_world.py::TestReproducibility::test_encode_scene_reproducible PASSED [ 57%]
+tests/test_world.py::TestColorConversion::test_black PASSED              [ 61%]
+tests/test_world.py::TestColorConversion::test_white PASSED              [ 65%]
+tests/test_world.py::TestColorConversion::test_norm_lab_range PASSED     [ 69%]
+tests/test_world.py::TestShapeEncoding::test_shape_to_vec_length PASSED  [ 73%]
+tests/test_world.py::TestShapeEncoding::test_shape_to_vec_values FAILED  [ 76%]
+tests/test_world.py::TestShapeEncoding::test_shape_to_vec_order FAILED   [ 80%]
+tests/test_world.py::TestTemplates::test_shapes_3x3 PASSED               [ 84%]
+tests/test_world.py::TestTemplates::test_shapes_binary PASSED            [ 88%]
+tests/test_world.py::TestTemplates::test_shapes_count PASSED             [ 92%]
+tests/test_world.py::TestTemplates::test_colors_rgb_format PASSED        [ 96%]
+tests/test_multi_intent.py::TestMultiIntentMarginals::test_l0_marginals_with_exactness FAILED [100%]
+
+================================== FAILURES ===================================
+_________________ TestEncodeScene.test_nonempty_shape_binary __________________
+tests\test_world.py:102: in test_nonempty_shape_binary
+    assert np.all((shape_vec == 0) | (shape_vec == 1)), \
+E   AssertionError: Shape values not binary: [0.22445676 0.99       0.89504164 0.89504164 0.99       0.22445676
+E      0.11923823 0.11949839 0.01454003]
+E   assert np.False_
+E    +  where np.False_ = <function all at 0x000001586AE31370>((array([0.22445676, 0.99      , 0.89504164, 0.89504164, 0.99      ,\n       0.22445676, 0.11923823, 0.11949839, 0.01454003], dtype=float32) == 0 | array([0.22445676, 0.99      , 0.89504164, 0.89504164, 0.99      ,\n       0.22445676, 0.11923823, 0.11949839, 0.01454003], dtype=float32) == 1))
+E    +    where <function all at 0x000001586AE31370> = np.all
+_________________ TestShapeEncoding.test_shape_to_vec_values __________________
+tests\test_world.py:228: in test_shape_to_vec_values
+    assert v in (0.0, 1.0), f"{shape_name} has non-binary value: {v}"
+E   AssertionError: box has non-binary value: 0.9722452225142397
+E   assert 0.9722452225142397 in (0.0, 1.0)
+__________________ TestShapeEncoding.test_shape_to_vec_order __________________
+tests\test_world.py:234: in test_shape_to_vec_order
+    assert vec == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+E   AssertionError: assert [0.1730067572...50069331, ...] == [1.0, 2.0, 3....5.0, 6.0, ...]
+E     
+E     At index 0 diff: 0.1730067572593793 != 1.0
+E     
+E     Full diff:
+E       [
+E     -     1.0,
+E     -     2.0,...
+E     
+E     ...Full output truncated (17 lines hidden), use '-vv' to show
+__________ TestMultiIntentMarginals.test_l0_marginals_with_exactness __________
+tests\test_multi_intent.py:261: in test_l0_marginals_with_exactness
+    assert m[0] > m[2], f"bb should have higher marginal than bs"
+E   AssertionError: bb should have higher marginal than bs
+E   assert np.float64(0.2728959443185484) > np.float64(0.8172461236794973)
+---------------------------- Captured stdout call -----------------------------
+
+L0 Marginals (with exactness):
+  bb: 0.27, rb: 0.00, bs: 0.82, rs: 0.91
+=========================== short test summary info ===========================
+FAILED tests/test_world.py::TestEncodeScene::test_nonempty_shape_binary - Ass...
+FAILED tests/test_world.py::TestShapeEncoding::test_shape_to_vec_values - Ass...
+FAILED tests/test_world.py::TestShapeEncoding::test_shape_to_vec_order - Asse...
+FAILED tests/test_multi_intent.py::TestMultiIntentMarginals::test_l0_marginals_with_exactness
+======================== 4 failed, 22 passed in 0.42s =========================

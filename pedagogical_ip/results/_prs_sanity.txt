@@ -1,0 +1,22 @@
+=== SESSION SANITY ===
+  tbsr_A                    = 0.6666666666666666
+  tbsr_B                    = 0.5
+  tbsr_C                    = 0.0
+  tbsr_D                    = 0.5
+  surv_A                    = 0.6666666666666666
+  surv_B                    = 0.5
+  surv_C                    = 0.0
+  surv_D                    = 0.5
+  transfer_gap_C            = 0.5
+  transfer_gap_D            = 0.0
+  dependence_proxy          = 0.16666666666666663
+  n_A                       = 3
+  n_B                       = 2
+  n_C                       = 2
+  n_D                       = 2
+  Block A: n=3 fam=['goal', 'goal', 'goal'] shift=['none', 'none', 'none'] tutor=[True, True, True] updates=[55, 118, 181]
+  Block B: n=2 fam=['goal', 'goal'] shift=['none', 'none'] tutor=[False, False] updates=[225, 288]
+  Block C: n=2 fam=['deep', 'deep'] shift=['topology', 'topology'] tutor=[False, False] updates=[341, 395]
+  Block D: n=2 fam=['goal', 'goal'] shift=['semantic', 'semantic'] tutor=[False, False] updates=[439, 500]
+
+SESSION SANITY OK

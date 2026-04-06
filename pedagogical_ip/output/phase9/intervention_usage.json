@@ -1,0 +1,23 @@
+[
+  {
+    "agent_level": "medium",
+    "teacher_condition": "no_tutor",
+    "env_condition": "medium",
+    "intervention_count_mean": 0.0,
+    "success_rate": 0.0
+  },
+  {
+    "agent_level": "medium",
+    "teacher_condition": "warning_only",
+    "env_condition": "medium",
+    "intervention_count_mean": 3.0,
+    "success_rate": 1.0
+  },
+  {
+    "agent_level": "medium",
+    "teacher_condition": "robot_belief",
+    "env_condition": "medium",
+    "intervention_count_mean": 3.0,
+    "success_rate": 1.0
+  }
+]

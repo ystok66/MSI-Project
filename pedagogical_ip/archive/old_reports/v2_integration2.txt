@@ -1,0 +1,41 @@
+﻿============================================================
+Lattice V2 Integration Test
+============================================================
+
+[1] Geometry Check
+  easy: delta min=6 max=12 mean=8.8
+  medium: delta min=6 max=12 mean=8.8
+  hard: delta min=6 max=12 mean=8.8
+
+[2] No Tutor Baseline (medium, 50 seeds)
+  Survival:  0%
+  Goal:      0%
+  Avg steps: 4.5
+  Avg risky: 2.5
+
+[3] Time-Aware Tutor (medium, 50 seeds)
+  Survival:   100%
+  Goal:       100%
+  Avg steps:  36.1
+  Avg risky:  0.0
+  Avg closes: 3.0
+
+[4] Cross-Episode Learning (10 episodes on same seed)
+  Ep 0: DIED  risk_head: trap=0.647 safe=0.568 w=[0.01558537 0.0994722  0.19259892 0.2325405 ]
+  Ep 1: DIED  risk_head: trap=0.717 safe=0.616 w=[0.02921176 0.07619459 0.27490227 0.31988865]
+  Ep 2: DIED  risk_head: trap=0.757 safe=0.653 w=[0.04129619 0.06240987 0.30698257 0.36205603]
+  Ep 3: DIED  risk_head: trap=0.779 safe=0.685 w=[0.051191   0.04857442 0.33107513 0.32460987]
+  Ep 4: DIED  risk_head: trap=0.799 safe=0.713 w=[0.07558865 0.04697226 0.32110945 0.34308624]
+  Ep 5: DIED  risk_head: trap=0.815 safe=0.729 w=[0.06012743 0.04522388 0.33167625 0.3473672 ]
+  Ep 6: DIED  risk_head: trap=0.826 safe=0.743 w=[0.04641263 0.0558718  0.33128058 0.32913581]
+  Ep 7: DIED  risk_head: trap=0.834 safe=0.758 w=[0.04374151 0.04193697 0.30647711 0.32200814]
+  Ep 8: DIED  risk_head: trap=0.842 safe=0.771 w=[0.04052745 0.02721794 0.29114629 0.31772273]
+  Ep 9: DIED  risk_head: trap=0.848 safe=0.783 w=[0.03343981 0.03186141 0.27235448 0.30490547]
+
+[5] Feature Oracle Leak Test
+  Prior belief feature: [0.5 0.5 0.5 0.5]
+  Prior risk prediction: 0.500 (should be ~0.5)
+  [OK] No feature oracle leak
+
+============================================================
+Integration test complete!

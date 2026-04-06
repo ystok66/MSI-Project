@@ -1,0 +1,92 @@
+Workers: 12, CPU: 22
+======================================================================
+Exp A: z-Update Sanity (hard, 30 seeds)
+======================================================================
+
+  Total: 30, survived: 18, failed: 12
+
+                      E[z]    MAP_z   JMAP_z     H(z)       KL
+  --------------- -------- -------- -------- -------- --------
+  all                0.576    0.890    0.740    1.268   0.4132
+  survived           0.576    0.900    0.633    1.272   0.4091
+  failed             0.576    0.875    0.900    1.263   0.4193
+
+  Mean q(z) distribution (after z-update repair):
+    z=0.0: 0.072 (prior=0.4) ███
+    z=0.3: 0.268 (prior=0.3) █████████████
+    z=0.6: 0.328 (prior=0.2) ████████████████
+    z=0.9: 0.332 (prior=0.1) ████████████████
+
+  ✓ q(z) HAS MOVED from prior (mean KL = 0.4132)
+
+  E[z] survived=0.576 vs failed=0.576 gap=+0.000
+
+======================================================================
+Exp B: Predictor P1/P2/P3/P4 after z-repair (hard, 30s, 12w)
+======================================================================
+
+  Pred   Mode           Surv  Δ vs P1-FULL
+  ------ ------------ ------ -------------
+  P1     FULL          0.467        +0.000
+  P1     G_THETA       0.733        +0.267
+  P1     G_Z           0.600        +0.133
+
+  P2     FULL          0.600        +0.133
+  P2     G_THETA       0.600        +0.133
+  P2     G_Z           0.600        +0.133
+
+  P3     FULL          0.600        +0.133
+  P3     G_THETA       0.733        +0.267
+  P3     G_Z           0.600        +0.133
+
+  P4     FULL          0.733        +0.267
+  P4     G_THETA       0.733        +0.267
+  P4     G_Z           0.733        +0.267
+
+--- Key Analysis ---
+  P1 FULL=0.467  P3 FULL=0.600  P4 FULL=0.733
+  P1 G_THETA=0.733
+  → P3 FULL < P1 G_THETA: z still harmful even with mixture predictor
+  → P3 < P4: z harmful even under mixture (0.600 vs 0.733)
+
+======================================================================
+Exp C: Factor Ablation (best predictor per mode, hard, 30s)
+======================================================================
+
+--- Predictor = P3 ---
+  FULL                          : surv=0.467 goal=0.467 n=60 
+  G_THETA                       : surv=0.733 goal=0.733 n=30 Δ=+0.267
+  G_Z                           : surv=0.600 goal=0.600 n=30 Δ=+0.133
+  THETA_Z                       : surv=0.600 goal=0.600 n=30 Δ=+0.133
+  G_ONLY                        : surv=0.733 goal=0.733 n=30 Δ=+0.267
+  THETA_ONLY                    : surv=0.733 goal=0.733 n=30 Δ=+0.267
+  Z_ONLY                        : surv=0.600 goal=0.600 n=30 Δ=+0.133
+
+--- Predictor = P4 ---
+  FULL                          : surv=0.533 goal=0.533 n=60 
+  G_THETA                       : surv=0.733 goal=0.733 n=30 Δ=+0.200
+  G_Z                           : surv=0.733 goal=0.733 n=30 Δ=+0.200
+  THETA_Z                       : surv=0.733 goal=0.733 n=30 Δ=+0.200
+  G_ONLY                        : surv=0.733 goal=0.733 n=30 Δ=+0.200
+  THETA_ONLY                    : surv=0.733 goal=0.733 n=30 Δ=+0.200
+  Z_ONLY                        : surv=0.733 goal=0.733 n=30 Δ=+0.200
+
+======================================================================
+Exp D: Temptation Cue Strength Audit (hard, 30s)
+======================================================================
+
+--- baseline ---
+  P3 FULL        : surv=0.600
+  P3 G_THETA     : surv=0.733
+  P4 FULL        : surv=0.733
+  P4 G_THETA     : surv=0.733
+
+--- high_tempt ---
+  P3 FULL        : surv=0.600
+  P3 G_THETA     : surv=0.733
+  P4 FULL        : surv=0.733
+  P4 G_THETA     : surv=0.733
+
+======================================================================
+ALL STEP 4d EXPERIMENTS COMPLETE (274s)
+======================================================================

@@ -1,0 +1,53 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0 -- /home/ystok6/anaconda3/envs/pedip310/bin/python
+cachedir: .pytest_cache
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collecting ... collected 44 items
+
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[0-easy] PASSED [  2%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[0-medium] PASSED [  4%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[0-hard] PASSED [  6%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[1-easy] PASSED [  9%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[1-medium] PASSED [ 11%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[1-hard] PASSED [ 13%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[7-easy] PASSED [ 15%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[7-medium] PASSED [ 18%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[7-hard] PASSED [ 20%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[42-easy] PASSED [ 22%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[42-medium] PASSED [ 25%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_reachability[42-hard] PASSED [ 27%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_three_stages[easy] PASSED [ 29%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_three_stages[medium] PASSED [ 31%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_three_stages[hard] PASSED [ 34%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_at_least_six_routes[easy] PASSED [ 36%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_at_least_six_routes[medium] PASSED [ 38%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_at_least_six_routes[hard] PASSED [ 40%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_two_merges[easy] PASSED [ 43%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_two_merges[medium] PASSED [ 45%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_two_merges[hard] PASSED [ 47%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_goal_cues_present[easy] PASSED [ 50%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_goal_cues_present[medium] PASSED [ 52%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_goal_cues_present[hard] PASSED [ 54%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_temptation_cues_present[easy] PASSED [ 56%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_temptation_cues_present[medium] PASSED [ 59%]
+tests/test_gtet_invariance.py::TestStructureSanity::test_temptation_cues_present[hard] PASSED [ 61%]
+tests/test_gtet_invariance.py::TestSeedVariety::test_different_seeds_vary PASSED [ 63%]
+tests/test_gtet_invariance.py::TestEntanglement::test_overlap_exists_across_seeds[medium] PASSED [ 65%]
+tests/test_gtet_invariance.py::TestEntanglement::test_overlap_exists_across_seeds[hard] PASSED [ 68%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_cue_tag_shapes[easy] PASSED [ 70%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_cue_tag_shapes[medium] PASSED [ 72%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_cue_tag_shapes[hard] PASSED [ 75%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_goal_tags_have_valid_values[easy] PASSED [ 77%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_goal_tags_have_valid_values[medium] PASSED [ 79%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_goal_tags_have_valid_values[hard] PASSED [ 81%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_temptation_tags_have_positive_values[easy] PASSED [ 84%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_temptation_tags_have_positive_values[medium] PASSED [ 86%]
+tests/test_gtet_invariance.py::TestCueSidecar::test_temptation_tags_have_positive_values[hard] PASSED [ 88%]
+tests/test_gtet_invariance.py::TestFamilyRegistration::test_registered PASSED [ 90%]
+tests/test_gtet_invariance.py::TestFamilyRegistration::test_callable_via_registry PASSED [ 93%]
+tests/test_gtet_invariance.py::TestDoorOnMediumHard::test_medium_has_door PASSED [ 95%]
+tests/test_gtet_invariance.py::TestDoorOnMediumHard::test_hard_has_door PASSED [ 97%]
+tests/test_gtet_invariance.py::TestDoorOnMediumHard::test_easy_no_door PASSED [100%]
+
+============================== 44 passed in 4.04s ==============================

@@ -1,0 +1,222 @@
+[
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.48,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.71888267217922,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.71888267217922,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 15,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 14
+    },
+    "ece": 73.39514390629714,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 78.99840173246946,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.61,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 15
+    },
+    "ece": 71.03278924970179,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 81.36822991909412,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.71888267217922,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 78.99840173246946,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 16,
+    "reward": 10.46,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 15
+    },
+    "ece": 74.82355006965294,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.71888267217922,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.63,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 77.95698546852132,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 14,
+    "reward": 10.78,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 13
+    },
+    "ece": 78.44975837419669,
+    "tom_mse": null
+  },
+  {
+    "outcome": "SUCCESS",
+    "steps": 20,
+    "reward": 10.38,
+    "interventions": {
+      "UNLOCK_DOOR": 1,
+      "WARN": 19
+    },
+    "ece": 57.9116906716211,
+    "tom_mse": null
+  }
+]

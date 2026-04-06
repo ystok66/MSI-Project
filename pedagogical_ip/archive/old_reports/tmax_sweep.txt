@@ -1,0 +1,12 @@
+﻿Phase 2A: T_max Sweep (front-loaded, eps=0)
+Seeds: 200
+
+T_max  firstB  commitB   CSR  P(s|cB)  timeout  fatal   avgOH
+-----------------------------------------------------------------
+    9     86%     140   15%     0.21     170     0     0.0
+   10     89%     155   27%     0.35     146     0     0.0
+   11     92%     165   40%     0.49     119     0     0.0
+   12     94%     173   52%     0.60      96     0     0.0
+
+--- No-teacher baseline at T_max=12 ---
+  no_teacher CSR at T_max=12: 0/200 = 0%

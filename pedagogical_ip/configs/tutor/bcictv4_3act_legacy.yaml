@@ -1,0 +1,17 @@
+# BCICTv4 3-act Legacy / Research Configuration
+# Preserves original action space {WAIT, SOFT, WARN}
+# Status: LEGACY — kept for research comparison only
+# See P3-B/C/D results: SOFT is near-redundant (V_soft=0.5%)
+
+lambda_teach: 3.5
+lambda_over: 4.0
+lambda_sd: 1.5
+lambda_dep: 2.0
+use_dose: true         # ← legacy: 3-act {WAIT, SOFT, WARN}
+use_bridge: true
+use_calibrated_zones: true
+
+# Shadow-mode research flags (all OFF)
+use_epu_shadow: false
+use_belief_horizon_pself: false
+use_eig_observation: false

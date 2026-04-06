@@ -1,0 +1,31 @@
+﻿Lattice Test Baseline: No tutor, T_max=100
+Seeds: 200
+
+--- Cross (S row1 -> G row3), eps=0.05 ---
+  CSR:           155/200 = 78%
+  Hit trap:       45/200 = 22%
+  Avg steps:     6.6
+  Avg safe path: 7.0
+  Avg any path:  7.0
+
+--- Cross (S row1 -> G row3), eps=0.0 ---
+  CSR:           158/200 = 79%
+  Hit trap:       42/200 = 21%
+  Avg steps:     6.4
+  Avg safe path: 7.0
+  Avg any path:  7.0
+
+--- Same row (S row1 -> G row1), eps=0.05 ---
+  CSR:           195/200 = 98%
+  Hit trap:        5/200 = 2%
+  Avg steps:     5.2
+  Avg safe path: 5.0
+  Avg any path:  5.0
+
+--- Same row (S row1 -> G row1), eps=0.0 ---
+  CSR:           200/200 = 100%
+  Hit trap:        0/200 = 0%
+  Avg steps:     5.0
+  Avg safe path: 5.0
+  Avg any path:  5.0
+

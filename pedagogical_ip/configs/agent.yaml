@@ -1,0 +1,17 @@
+# Agent configuration
+belief:
+  prior_cost_mean: 1.5
+  prior_cost_var: 4.0
+  prior_risk_mean: 0.1
+  prior_risk_var: 0.25
+
+observation:
+  self_cell_noise_var: 0.001   # nearly exact for current cell
+  neighbor_noise_var: 1.0      # noisy for adjacent cells
+  neighbor_radius: 1           # observe 1-ring neighbors
+
+planner:
+  search_budget: 30            # max A* node expansions
+  lambda_risk: 3.0             # weight on expected risk in cost fn
+  lambda_uncertainty: 0.5      # weight on uncertainty penalty
+  replan_every: 1              # replan every N steps

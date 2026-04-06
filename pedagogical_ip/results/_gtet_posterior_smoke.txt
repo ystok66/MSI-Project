@@ -1,0 +1,15 @@
+GTET-L Posterior Ablation Smoke — medium, 10 seeds
+============================================================
+  full        : surv=0.900 goal=0.900 n=10 err=0
+  g_theta     : surv=0.900 goal=0.900 n=10 err=0
+  g_z         : surv=0.900 goal=0.900 n=10 err=0
+  theta_z     : surv=0.900 goal=0.900 n=10 err=0
+  g_only      : surv=0.900 goal=0.900 n=10 err=0
+
+Δ_joint = +0.000
+→ No difference (same canonical policy used for all)
+
+Note: In this smoke test, all factor sets use the same
+canonical policy (which uses full posterior internally).
+For true ablation, the tutor must use factor-restricted
+posteriors for intervention decisions. This is the next step.

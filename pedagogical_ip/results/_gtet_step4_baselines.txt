@@ -1,0 +1,10 @@
+======================================================================
+Work Package B: Baselines on current GTET-L hard
+======================================================================
+  FULL                : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY              : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  no_warn             : surv=0.700 goal=0.700 warn=0.0 unlock=0.0 n=20 err=0
+  no_tutor            : surv=0.600 goal=0.600 warn=0.0 unlock=0.0 n=20 err=0
+
+
+Done.

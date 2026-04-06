@@ -1,0 +1,64 @@
+===========================================================================
+Exp A: Fair Dispatch Sanity — per-seed dispatch trace
+===========================================================================
+
+--- seed=0 ---
+  FULL        : zone=lower  upper=0 lower=4 warns=1 surv=False
+  G_THETA     : zone=upper  upper=5 lower=0 warns=1 surv=True
+  G_Z         : zone=lower  upper=0 lower=4 warns=1 surv=False
+  THETA_Z     : zone=lower  upper=0 lower=4 warns=1 surv=False
+  G_ONLY      : zone=upper  upper=5 lower=0 warns=1 surv=True
+  THETA_ONLY  : zone=upper  upper=5 lower=0 warns=1 surv=True
+  Z_ONLY      : zone=lower  upper=0 lower=4 warns=1 surv=False
+
+--- seed=1 ---
+  FULL        : zone=lower  upper=0 lower=4 warns=1 surv=False
+  G_THETA     : zone=upper  upper=5 lower=0 warns=1 surv=False
+  G_Z         : zone=lower  upper=0 lower=4 warns=1 surv=False
+  THETA_Z     : zone=lower  upper=0 lower=4 warns=1 surv=False
+  G_ONLY      : zone=upper  upper=5 lower=0 warns=1 surv=False
+  THETA_ONLY  : zone=upper  upper=5 lower=0 warns=1 surv=False
+  Z_ONLY      : zone=lower  upper=0 lower=4 warns=1 surv=False
+
+--- seed=2 ---
+  FULL        : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_THETA     : zone=upper  upper=5 lower=0 warns=1 surv=True
+  G_Z         : zone=lower  upper=0 lower=4 warns=1 surv=True
+  THETA_Z     : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_ONLY      : zone=upper  upper=5 lower=0 warns=1 surv=True
+  THETA_ONLY  : zone=upper  upper=5 lower=0 warns=1 surv=True
+  Z_ONLY      : zone=lower  upper=0 lower=4 warns=1 surv=True
+
+--- seed=3 ---
+  FULL        : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_THETA     : zone=upper  upper=5 lower=0 warns=1 surv=True
+  G_Z         : zone=lower  upper=0 lower=4 warns=1 surv=True
+  THETA_Z     : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_ONLY      : zone=upper  upper=5 lower=0 warns=1 surv=True
+  THETA_ONLY  : zone=upper  upper=5 lower=0 warns=1 surv=True
+  Z_ONLY      : zone=lower  upper=0 lower=4 warns=1 surv=True
+
+--- seed=4 ---
+  FULL        : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_THETA     : zone=upper  upper=5 lower=0 warns=1 surv=True
+  G_Z         : zone=lower  upper=0 lower=4 warns=1 surv=True
+  THETA_Z     : zone=lower  upper=0 lower=4 warns=1 surv=True
+  G_ONLY      : zone=upper  upper=5 lower=0 warns=1 surv=True
+  THETA_ONLY  : zone=upper  upper=5 lower=0 warns=1 surv=True
+  Z_ONLY      : zone=lower  upper=0 lower=4 warns=1 surv=True
+
+===========================================================================
+Aggregate Fairness Check (30 seeds)
+===========================================================================
+  FULL        : surv=0.600  avg_belts_warned=4.0  chose_upper=0.00
+  G_THETA     : surv=0.733  avg_belts_warned=5.0  chose_upper=1.00
+  G_Z         : surv=0.600  avg_belts_warned=4.0  chose_upper=0.00
+  THETA_Z     : surv=0.600  avg_belts_warned=4.0  chose_upper=0.00
+  G_ONLY      : surv=0.733  avg_belts_warned=5.0  chose_upper=1.00
+  THETA_ONLY  : surv=0.733  avg_belts_warned=5.0  chose_upper=1.00
+  Z_ONLY      : surv=0.600  avg_belts_warned=4.0  chose_upper=0.00
+
+  Budget violations (both zones warned): 0
+  ✓ FAIR: No mode warns both zones
+
+Done.

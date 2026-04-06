@@ -1,0 +1,36 @@
+Task 4 - SlowFast Transfer Shadow Evaluation
+  family=baseline_v2, episodes=3, seeds=2
+================================================================================
+
+--- Mode: fresh ---
+  ep=0: surv=0.500 goal=0.500 steps=18.5 risk_w=0.223 n=2
+  ep=1: surv=0.000 goal=0.000 steps=5.0 risk_w=0.370 n=2
+  ep=2: surv=0.000 goal=0.000 steps=4.5 risk_w=0.538 n=2
+
+--- Mode: persist ---
+  ep=0: surv=0.500 goal=0.500 steps=18.5 risk_w=0.223 n=2
+  ep=1: surv=0.500 goal=0.500 steps=19.0 risk_w=0.216 n=2
+  ep=2: surv=0.500 goal=0.500 steps=18.5 risk_w=0.261 n=2
+
+--- Mode: slowfast ---
+  ep=0: surv=0.500 goal=0.500 steps=18.5 risk_w=0.223 n=2
+  ep=1: surv=0.000 goal=0.000 steps=5.0 risk_w=0.368 n=2
+  ep=2: surv=0.000 goal=0.000 steps=4.5 risk_w=0.525 n=2
+  SF diag (seed=0): {'n_episodes': 3, 'slow_cost_w_norm_final': 0.0004879586882632506, 'slow_risk_w_norm_final': 0.0218835591415416, 'mean_fast_cost_delta': 0.004094693960712125, 'mean_fast_risk_delta': 0.20501228594131357, 'mean_updates_per_ep': 14.666666666666666}
+  SF diag (seed=1): {'n_episodes': 3, 'slow_cost_w_norm_final': 0.004944640072328288, 'slow_risk_w_norm_final': 0.08553655436069502, 'mean_fast_cost_delta': 0.023979717264955194, 'mean_fast_risk_delta': 0.49518991910294735, 'mean_updates_per_ep': 4.0}
+
+================================================================================
+CROSS-MODE COMPARISON (averaged over all episodes)
+================================================================================
+      Mode |   Surv |   Goal |  Steps |  risk_w
+-----------------------------------------------
+     fresh |  0.167 |  0.167 |    9.3 |   0.377
+   persist |  0.500 |  0.500 |   18.7 |   0.233
+  slowfast |  0.167 |  0.167 |    9.3 |   0.372
+
+================================================================================
+LATE-EPISODE COMPARISON (ep >= half)
+================================================================================
+       fresh: surv=0.000 goal=0.000 n=4
+     persist: surv=0.500 goal=0.500 n=4
+    slowfast: surv=0.000 goal=0.000 n=4

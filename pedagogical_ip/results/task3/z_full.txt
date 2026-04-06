@@ -1,0 +1,42 @@
+Task 3 - GTET z Demotion Regression Test
+  seeds=20
+================================================================================
+
+--- GTET x factor_mode=G_THETA ---
+  n=20, surv=0.950, goal=0.950, steps=51.0
+
+--- GTET x factor_mode=FULL ---
+  n=20, surv=0.950, goal=0.950, steps=51.0
+
+--- DTMB x factor_mode=G_THETA ---
+  n=20, surv=0.450, goal=0.100, steps=47.6
+
+--- DTMB x factor_mode=FULL ---
+  n=20, surv=0.450, goal=0.100, steps=47.6
+
+--- BL_V2 x factor_mode=G_THETA ---
+  n=20, surv=0.300, goal=0.300, steps=12.8
+
+--- BL_V2 x factor_mode=FULL ---
+  n=20, surv=0.300, goal=0.300, steps=12.8
+
+================================================================================
+SUMMARY TABLE
+================================================================================
+Family       Mode |   Surv |   Goal |  Steps |    N
+---------------------------------------------------
+  GTET    G_THETA |  0.950 |  0.950 |   51.0 |   20
+  GTET       FULL |  0.950 |  0.950 |   51.0 |   20
+  DTMB    G_THETA |  0.450 |  0.100 |   47.6 |   20
+  DTMB       FULL |  0.450 |  0.100 |   47.6 |   20
+ BL_V2    G_THETA |  0.300 |  0.300 |   12.8 |   20
+ BL_V2       FULL |  0.300 |  0.300 |   12.8 |   20
+
+================================================================================
+VERDICT
+================================================================================
+GTET surv: FULL=0.950, G_THETA=0.950, drop=0.000
+GTET goal: FULL=0.950, G_THETA=0.950, drop=0.000
+→ GTET regression PASS: drop ≤ 0.02
+DTMB surv: FULL=0.450, G_THETA=0.450, drop=0.000
+→ DTMB regression PASS

@@ -1,0 +1,37 @@
+﻿Training Lattice Diagnostic
+Grid: 5x16, 3 segments, doors start open
+Seeds: 200
+
+=== Difficulty: easy ===
+  Avg traps: 1.7  Avg shortest_any: 17.0  Avg shortest_safe: 17.0
+  ratio=1.2 tutor=none           CSR=  82%  trap= 20  timeout= 16  doors_closed=0.0
+  ratio=1.2 tutor=oracle_close   CSR=  88%  trap= 12  timeout= 12  doors_closed=2.3
+  ratio=1.4 tutor=none           CSR=  90%  trap= 20  timeout=  1  doors_closed=0.0
+  ratio=1.4 tutor=oracle_close   CSR=  94%  trap= 12  timeout=  0  doors_closed=2.3
+  ratio=1.6 tutor=none           CSR=  90%  trap= 20  timeout=  0  doors_closed=0.0
+  ratio=1.6 tutor=oracle_close   CSR=  94%  trap= 12  timeout=  0  doors_closed=2.3
+  ratio=1.8 tutor=none           CSR=  90%  trap= 20  timeout=  0  doors_closed=0.0
+  ratio=1.8 tutor=oracle_close   CSR=  94%  trap= 12  timeout=  0  doors_closed=2.3
+
+=== Difficulty: medium ===
+  Avg traps: 4.7  Avg shortest_any: 17.0  Avg shortest_safe: 17.0
+  ratio=1.2 tutor=none           CSR=  68%  trap= 51  timeout= 13  doors_closed=0.0
+  ratio=1.2 tutor=oracle_close   CSR=  74%  trap= 41  timeout= 10  doors_closed=3.4
+  ratio=1.4 tutor=none           CSR=  74%  trap= 51  timeout=  1  doors_closed=0.0
+  ratio=1.4 tutor=oracle_close   CSR=  80%  trap= 41  timeout=  0  doors_closed=3.4
+  ratio=1.6 tutor=none           CSR=  74%  trap= 51  timeout=  0  doors_closed=0.0
+  ratio=1.6 tutor=oracle_close   CSR=  80%  trap= 41  timeout=  0  doors_closed=3.4
+  ratio=1.8 tutor=none           CSR=  74%  trap= 51  timeout=  0  doors_closed=0.0
+  ratio=1.8 tutor=oracle_close   CSR=  80%  trap= 41  timeout=  0  doors_closed=3.4
+
+=== Difficulty: hard ===
+  Avg traps: 6.0  Avg shortest_any: 17.0  Avg shortest_safe: 17.0
+  ratio=1.2 tutor=none           CSR=  62%  trap= 64  timeout= 13  doors_closed=0.0
+  ratio=1.2 tutor=oracle_close   CSR=  68%  trap= 50  timeout= 13  doors_closed=3.4
+  ratio=1.4 tutor=none           CSR=  68%  trap= 64  timeout=  1  doors_closed=0.0
+  ratio=1.4 tutor=oracle_close   CSR=  75%  trap= 50  timeout=  0  doors_closed=3.4
+  ratio=1.6 tutor=none           CSR=  68%  trap= 64  timeout=  0  doors_closed=0.0
+  ratio=1.6 tutor=oracle_close   CSR=  75%  trap= 50  timeout=  0  doors_closed=3.4
+  ratio=1.8 tutor=none           CSR=  68%  trap= 64  timeout=  0  doors_closed=0.0
+  ratio=1.8 tutor=oracle_close   CSR=  75%  trap= 50  timeout=  0  doors_closed=3.4
+

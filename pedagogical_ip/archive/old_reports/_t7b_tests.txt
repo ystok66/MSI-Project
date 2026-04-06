@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collected 52 items
+
+tests/test_composite_goal_compatibility.py .............                 [ 25%]
+tests/test_joint_goal_pref_posterior.py ...............                  [ 53%]
+tests/test_compositional_goal_hypotheses.py ............                 [ 76%]
+tests/test_compositional_goal_bridge.py ............                     [100%]
+
+============================== 52 passed in 3.49s ==============================

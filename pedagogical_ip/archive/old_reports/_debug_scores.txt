@@ -1,0 +1,5 @@
+NONE: base=0.500 teach=0.000 time=0.000 infl=0.000 res=0.000 => TOTAL=0.500
+WARN: base=0.000 teach=1.000 time=0.100 infl=0.125 res=0.300 => TOTAL=1.050
+UNLOCK: base=-1.000 teach=0.500 time=0.100 infl=0.055 res=11.000 => TOTAL=-11.260
+ITEM_DROP: base=1.500 teach=0.100 time=0.050 infl=0.080 res=0.500 => TOTAL=1.040
+Chosen: WARN

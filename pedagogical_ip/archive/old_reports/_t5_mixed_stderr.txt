@@ -1,0 +1,9 @@
+═══ T5 Grounded Mixed-Family + Inflation ═══
+
+  safe SR done
+  shiny SR done
+  safe inflation done
+  shiny inflation done
+
+Report → results/t5_mixed_grounded_audit.md
+Done.

@@ -1,0 +1,38 @@
+﻿======================================================================
+Phase 2A: Deterministic Oracle WARN on Env-A (no door)
+======================================================================
+Grid: 6x8, L_A=6, L_B=8 (no door), trap rho*=1.0
+Seeds: 100
+
+--- none                 ---
+  Branch A:      98/100 = 98%
+  Branch B:       2/100 = 2%
+  Hit trap:     100/100 = 100%
+  CSR:            0/100 = 0%
+  Avg steps:    5.3
+
+--- trap_only            ---
+  Branch A:      98/100 = 98%
+  Branch B:       2/100 = 2%
+  Hit trap:     100/100 = 100%
+  CSR:            0/100 = 0%
+  Warned:       100/100
+  Switched B:    15/100 = 15%
+  Avg steps:    5.3
+
+--- segment              ---
+  Branch A:      76/100 = 76%
+  Branch B:      23/100 = 23%
+  Hit trap:      79/100 = 79%
+  CSR:            3/100 = 3%
+  Warned:       100/100
+  Switched B:    46/100 = 46%
+  Avg steps:    6.3
+
+======================================================================
+SUMMARY
+======================================================================
+Mode                   Branch A   Branch B     Trap      CSR   Switch
+none                        98%         2%     100%       0%       0%
+trap_only                   98%         2%     100%       0%      15%
+segment                     76%        23%      79%       3%      46%

@@ -1,0 +1,4 @@
+agent_level,teacher_condition,env_condition,n,success_rate,success_rate_sem,death_rate,timeout_rate,cost_mean,cost_std,cost_error_mean,calibration_gap_mean
+medium,no_tutor,medium,2,0.0,0.0,1.0,0.0,6.0,1.0,0.0,0.0
+medium,warning_only,medium,2,0.0,0.0,1.0,0.0,6.0,1.0,0.0,0.0
+medium,robot_belief,medium,2,0.0,0.0,1.0,0.0,6.0,1.0,0.0,0.0

@@ -1,0 +1,31 @@
+# A1 4D Observer Configuration
+# Semantic: gamma_spec_state (behavioral state, NOT trait latent)
+#
+# Evidence:
+#   - Corr(γ̂_spec, resist_rate) = 0.96  (strong state signal)
+#   - Corr(γ̂_spec, γ_spec_true) = -0.40 (NOT trait)
+#   - ν contamination |Δν̂| ≤ 0.046      (clean isolation)
+#
+# P4-B eval: all 4 experiments pass (micro/macro/ν/semantics)
+
+# Core 3D (frozen A1 baseline)
+tau_hat_init: 0.3
+nu_hat_init: 0.1
+gamma_gen_hat_init: 0.0
+
+# 4th dimension: γ̂_spec_state
+gamma_spec_hat_init: 0.0
+alpha_gs_resist: 0.03       # temptation resisted → γ_spec ↑
+alpha_gs_follow: 0.025      # temptation followed → γ_spec ↓
+gamma_spec_max: 1.0
+lure_threshold: 0.3          # min lure to trigger γ_spec update
+
+# A1 probe settings (all OFF)
+beta_tau_probe: 0.0
+beta_nu_probe: 0.0
+beta_gamma_probe: 0.0
+
+# Conditional reversion (weak)
+lambda_tau: 0.005
+lambda_nu: 0.005
+lambda_gamma: 0.005

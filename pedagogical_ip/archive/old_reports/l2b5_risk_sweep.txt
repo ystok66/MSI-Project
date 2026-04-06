@@ -1,0 +1,6 @@
+﻿  trap_risk=[0.2,0.4]: surv=11%
+  trap_risk=[0.3,0.5]: surv=9%
+  trap_risk=[0.4,0.6]: surv=5%
+  trap_risk=[0.5,0.7]: surv=4%
+  trap_risk=[0.6,0.8]: surv=3%
+  trap_risk=[0.8,1.0]: surv=3%

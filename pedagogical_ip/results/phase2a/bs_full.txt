@@ -1,0 +1,97 @@
+Phase 2A - Basis-Only Shadow Evaluation
+  episodes=15, seeds=5
+================================================================================
+
+--- linear_fresh ---
+  ep=0: surv=0.200 goal=0.200 steps=10.0 risk_w=0.306 n=5
+  ep=1: surv=0.200 goal=0.200 steps=9.6 risk_w=0.356 n=5
+  ep=2: surv=0.200 goal=0.200 steps=10.8 risk_w=0.473 n=5
+  ep=3: surv=0.400 goal=0.400 steps=14.6 risk_w=0.363 n=5
+  ep=4: surv=0.600 goal=0.600 steps=18.2 risk_w=0.237 n=5
+  ep=5: surv=0.000 goal=0.000 steps=4.6 risk_w=0.385 n=5
+  ep=6: surv=0.400 goal=0.400 steps=13.2 risk_w=0.304 n=5
+  ep=7: surv=0.400 goal=0.400 steps=13.6 risk_w=0.421 n=5
+  ep=8: surv=0.200 goal=0.200 steps=13.0 risk_w=0.528 n=5
+  ep=9: surv=0.400 goal=0.400 steps=14.8 risk_w=0.340 n=5
+  ep=10: surv=0.200 goal=0.200 steps=12.0 risk_w=0.393 n=5
+  ep=11: surv=0.400 goal=0.400 steps=17.4 risk_w=0.332 n=5
+  ep=12: surv=0.400 goal=0.400 steps=15.2 risk_w=0.295 n=5
+  ep=13: surv=0.600 goal=0.600 steps=21.6 risk_w=0.337 n=5
+  ep=14: surv=0.600 goal=0.600 steps=19.6 risk_w=0.274 n=5
+
+--- linear_persist ---
+  ep=0: surv=0.200 goal=0.200 steps=10.0 risk_w=0.306 n=5
+  ep=1: surv=0.200 goal=0.200 steps=14.2 risk_w=0.370 n=5
+  ep=2: surv=0.400 goal=0.400 steps=16.4 risk_w=0.312 n=5
+  ep=3: surv=0.400 goal=0.400 steps=17.4 risk_w=0.260 n=5
+  ep=4: surv=0.800 goal=0.800 steps=25.2 risk_w=0.113 n=5
+  ep=5: surv=0.400 goal=0.400 steps=15.6 risk_w=0.176 n=5
+  ep=6: surv=0.600 goal=0.600 steps=19.6 risk_w=0.155 n=5
+  ep=7: surv=0.400 goal=0.400 steps=15.2 risk_w=0.347 n=5
+  ep=8: surv=0.400 goal=0.400 steps=19.4 risk_w=0.286 n=5
+  ep=9: surv=0.600 goal=0.600 steps=20.6 risk_w=0.154 n=5
+  ep=10: surv=0.600 goal=0.600 steps=23.8 risk_w=0.154 n=5
+  ep=11: surv=0.800 goal=0.800 steps=29.2 risk_w=0.163 n=5
+  ep=12: surv=0.800 goal=0.800 steps=25.8 risk_w=0.100 n=5
+  ep=13: surv=1.000 goal=1.000 steps=33.6 risk_w=0.019 n=5
+  ep=14: surv=1.000 goal=1.000 steps=33.0 risk_w=0.015 n=5
+
+--- basis_fresh ---
+  ep=0: surv=1.000 goal=1.000 steps=34.4 risk_w=0.041 n=5
+  ep=1: surv=1.000 goal=1.000 steps=33.0 risk_w=0.042 n=5
+  ep=2: surv=1.000 goal=1.000 steps=33.0 risk_w=0.042 n=5
+  ep=3: surv=1.000 goal=1.000 steps=32.6 risk_w=0.042 n=5
+  ep=4: surv=1.000 goal=1.000 steps=33.0 risk_w=0.042 n=5
+  ep=5: surv=1.000 goal=1.000 steps=33.0 risk_w=0.042 n=5
+  ep=6: surv=1.000 goal=1.000 steps=32.4 risk_w=0.042 n=5
+  ep=7: surv=1.000 goal=1.000 steps=32.6 risk_w=0.042 n=5
+  ep=8: surv=1.000 goal=1.000 steps=34.4 risk_w=0.041 n=5
+  ep=9: surv=1.000 goal=1.000 steps=32.6 risk_w=0.041 n=5
+  ep=10: surv=1.000 goal=1.000 steps=33.4 risk_w=0.041 n=5
+  ep=11: surv=1.000 goal=1.000 steps=33.8 risk_w=0.041 n=5
+  ep=12: surv=1.000 goal=1.000 steps=31.8 risk_w=0.042 n=5
+  ep=13: surv=1.000 goal=1.000 steps=34.0 risk_w=0.041 n=5
+  ep=14: surv=1.000 goal=1.000 steps=33.0 risk_w=0.041 n=5
+
+--- basis_persist ---
+  ep=0: surv=1.000 goal=1.000 steps=34.4 risk_w=0.041 n=5
+  ep=1: surv=1.000 goal=1.000 steps=33.0 risk_w=0.034 n=5
+  ep=2: surv=1.000 goal=1.000 steps=33.0 risk_w=0.028 n=5
+  ep=3: surv=1.000 goal=1.000 steps=32.6 risk_w=0.023 n=5
+  ep=4: surv=1.000 goal=1.000 steps=33.0 risk_w=0.020 n=5
+  ep=5: surv=1.000 goal=1.000 steps=33.0 risk_w=0.017 n=5
+  ep=6: surv=1.000 goal=1.000 steps=32.4 risk_w=0.015 n=5
+  ep=7: surv=1.000 goal=1.000 steps=32.6 risk_w=0.014 n=5
+  ep=8: surv=1.000 goal=1.000 steps=34.4 risk_w=0.012 n=5
+  ep=9: surv=1.000 goal=1.000 steps=32.6 risk_w=0.011 n=5
+  ep=10: surv=1.000 goal=1.000 steps=33.4 risk_w=0.010 n=5
+  ep=11: surv=1.000 goal=1.000 steps=33.8 risk_w=0.009 n=5
+  ep=12: surv=1.000 goal=1.000 steps=31.8 risk_w=0.009 n=5
+  ep=13: surv=1.000 goal=1.000 steps=34.0 risk_w=0.008 n=5
+  ep=14: surv=1.000 goal=1.000 steps=33.0 risk_w=0.007 n=5
+
+================================================================================
+OVERALL SUMMARY
+================================================================================
+       Condition |   Surv |   Goal |  Steps |    N
+--------------------------------------------------
+    linear_fresh |  0.347 |  0.347 |   13.9 |   75
+  linear_persist |  0.573 |  0.573 |   21.3 |   75
+     basis_fresh |  1.000 |  1.000 |   33.1 |   75
+   basis_persist |  1.000 |  1.000 |   33.1 |   75
+
+================================================================================
+LATE-EPISODE COMPARISON (ep >= 7)
+================================================================================
+      linear_fresh: surv=0.400 goal=0.400 n=40
+    linear_persist: surv=0.700 goal=0.700 n=40
+       basis_fresh: surv=1.000 goal=1.000 n=40
+     basis_persist: surv=1.000 goal=1.000 n=40
+
+================================================================================
+VERDICT
+================================================================================
+Q1: basis_fresh (1.000) vs linear_fresh (0.347)
+  → basis ≥ linear in single-episode: PASS
+Q2: linear transfer bonus = 0.227, basis transfer bonus = 0.000
+  → basis reduces transfer value: INVESTIGATE

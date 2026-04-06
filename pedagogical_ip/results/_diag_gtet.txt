@@ -1,0 +1,17 @@
+robot_belief_mode=True
+robot_belief is None: False
+latent_predictor is None: False
+intervention_family_mode=True
+
+  t=1 intervention=UNLOCK scores={'WAIT': np.float64(-4.659406565656566), 'WARN': np.float64(7.219017877135375), 'UNLOCK': np.float64(8.318813131313131), 'ITEM_DROP': np.float64(6.558850220959597)} reason=structural_bottleneck
+  t=2 intervention=UNLOCK scores={'WAIT': np.float64(-4.65223203106143), 'WARN': np.float64(7.017571890987403), 'UNLOCK': np.float64(8.30446406212286), 'ITEM_DROP': np.float64(6.5283515588469445)} reason=structural_bottleneck
+  t=3 intervention=UNLOCK scores={'WAIT': np.float64(-4.6443006681274746), 'WARN': np.float64(7.004131848465278), 'UNLOCK': np.float64(8.288601336254949), 'ITEM_DROP': np.float64(6.499868266659856)} reason=structural_bottleneck
+  t=4 intervention=UNLOCK scores={'WAIT': np.float64(-4.637575622094153), 'WARN': np.float64(6.992718915096665), 'UNLOCK': np.float64(8.275151244188306), 'ITEM_DROP': np.float64(6.475756553359522)} reason=structural_bottleneck
+  t=5 intervention=UNLOCK scores={'WAIT': np.float64(-4.629814712718193), 'WARN': np.float64(6.979412744360188), 'UNLOCK': np.float64(8.259629425436385), 'ITEM_DROP': np.float64(6.447975866392656)} reason=structural_bottleneck
+  t=6 intervention=UNLOCK scores={'WAIT': np.float64(-4.623070046095735), 'WARN': np.float64(6.967687553498814), 'UNLOCK': np.float64(8.24614009219147), 'ITEM_DROP': np.float64(6.423872021495967)} reason=structural_bottleneck
+  t=7 intervention=UNLOCK scores={'WAIT': np.float64(-4.613520643358865), 'WARN': np.float64(6.951773863917215), 'UNLOCK': np.float64(8.22704128671773), 'ITEM_DROP': np.float64(6.389806951874211)} reason=structural_bottleneck
+  t=8 intervention=UNLOCK scores={'WAIT': np.float64(-4.606431056292326), 'WARN': np.float64(6.939557764086781), 'UNLOCK': np.float64(8.212862112584652), 'ITEM_DROP': np.float64(6.364563835523386)} reason=structural_bottleneck
+  t=9 intervention=UNLOCK scores={'WAIT': np.float64(-4.598068516348448), 'WARN': np.float64(6.925473395417858), 'UNLOCK': np.float64(8.196137032696896), 'ITEM_DROP': np.float64(6.334839942863596)} reason=structural_bottleneck
+  t=10 intervention=UNLOCK scores={'WAIT': np.float64(-4.588674919128284), 'WARN': np.float64(6.909507255678872), 'UNLOCK': np.float64(8.177349838256568), 'ITEM_DROP': np.float64(6.30151796787343)} reason=structural_bottleneck
+
+Final: survived=True goal=False steps=10

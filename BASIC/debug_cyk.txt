@@ -1,0 +1,61 @@
+  Bootstrap tiers: {'dax': ('BLUE', 50.0), 'blicket': ('PURPLE', 50.0), 'lug': ('YELLOW', 50.0)}
+
+  blicket (4 hyps):
+    H(blicket=PURPLE s=50.0)
+    H(blicket=GREEN s=-5.0)
+    H(blicket=BLUE s=-5.0)
+    H(blicket=YELLOW s=-5.0)
+
+  dax (4 hyps):
+    H(dax=BLUE s=50.0)
+    H(dax=PURPLE s=-5.0)
+    H(dax=GREEN s=-5.0)
+    H(dax=YELLOW s=-5.0)
+
+  fep (10 hyps):
+    H(fep:a1[0,0] s=2.0)
+    H(fep:a1[0,0,0] s=2.0)
+    H(fep:a1[0,0,0,0] s=2.0)
+    H(fep=PURPLE s=0.0)
+    H(fep=GREEN s=0.0)
+    H(fep=BLUE s=0.0)
+    H(fep=YELLOW s=0.0)
+    H(fep:a2[0,1] s=0.0)
+    H(fep:a2[1,0] s=0.0)
+    H(fep:a2[0,1,1] s=0.0)
+
+  gazzer (10 hyps):
+    H(gazzer=PURPLE s=0.0)
+    H(gazzer=GREEN s=0.0)
+    H(gazzer=BLUE s=0.0)
+    H(gazzer=YELLOW s=0.0)
+    H(gazzer:a1[0,0] s=-0.5)
+    H(gazzer:a1[0,0,0] s=-0.5)
+    H(gazzer:a1[0,0,0,0] s=-0.5)
+    H(gazzer:a2[0,1] s=-1.7)
+    H(gazzer:a2[1,0] s=-1.7)
+    H(gazzer:a2[0,1,1] s=-1.7)
+
+  kiki (10 hyps):
+    H(kiki:a1[0,0] s=2.0)
+    H(kiki:a1[0,0,0] s=2.0)
+    H(kiki:a1[0,0,0,0] s=2.0)
+    H(kiki=PURPLE s=0.0)
+    H(kiki=GREEN s=0.0)
+    H(kiki=BLUE s=0.0)
+    H(kiki=YELLOW s=0.0)
+    H(kiki:a2[0,1] s=-0.2)
+    H(kiki:a2[1,0] s=-0.2)
+    H(kiki:a2[0,1,1] s=-0.2)
+
+  lug (4 hyps):
+    H(lug=YELLOW s=50.0)
+    H(lug=PURPLE s=-5.0)
+    H(lug=GREEN s=-5.0)
+    H(lug=BLUE s=-5.0)
+
+============================================================
+Parsing: kiki fep blicket -> GREEN PURPLE
+============================================================
+  Result: ['PURPLE', 'PURPLE', 'PURPLE', 'PURPLE'] (score=54.00)
+  Hyps used: [H(kiki:a1[0,0] s=2.0), H(fep:a1[0,0] s=2.0), H(blicket=PURPLE s=50.0)]

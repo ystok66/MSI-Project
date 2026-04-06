@@ -1,0 +1,28 @@
+# v1b Benchmark Suite Configuration
+
+protocol:
+  baselines: ["no_teacher", "always_help", "oracle", "particle"]
+  families: ["semantic_trap", "planning_trap", "exploration_useful", "mixed"]
+  difficulties: ["easy", "medium", "hard"]
+  seeds_per_family: 5
+  episodes_per_seed: 10       # interaction phase
+  transfer_episodes: 30       # transfer phase (robot-free)
+  transfer_seed_offset: 10000
+
+output:
+  dir: "output/v1b_benchmark"
+  csv_per_family: true
+  aggregate_csv: true
+  plots: true
+
+metrics:
+  primary:
+    - "constrained_success_rate"
+    - "transfer_success_rate"
+    - "epistemic_cost_efficiency"
+    - "policy_match_to_oracle"
+  secondary:
+    - "tom_mse"
+    - "avg_steps"
+    - "avg_reward"
+    - "intervention_counts"

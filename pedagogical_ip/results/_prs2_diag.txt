@@ -1,0 +1,27 @@
+=== Session WorldWeights ===
+  w_cost = [-0.25526993 -0.13475838 -0.11983439 -0.11740499]
+  b_cost = 1.0
+  w_risk = [-0.3575215  -0.28254817  3.79234894  2.50473837]
+  b_risk = -1.635331223515542
+
+=== WITHOUT override ===
+  Grid: 15x50
+  t_max: 64
+  Cost range: [1.000, inf]
+  Risk range: [0.000, 0.328]
+  Mean cost (non-wall): 1.000
+  Mean risk (non-wall): 0.003
+  Meta world_weights: None
+  survived=True goal=True steps=53
+  predictor updates: 53
+
+=== WITH override ===
+  Grid: 15x50
+  t_max: 64
+  Cost range: [0.686, inf]
+  Risk range: [0.000, 0.774]
+  Mean cost (non-wall): 0.806
+  Mean risk (non-wall): 0.063
+  Meta world_weights: WorldWeights(w_cost=array([-0.25526993, -0.13475838, -0.11983439, -0.11740499]), b_cost=1.0, w_risk=array([-0.3575215 , -0.28254817,  3.79234894,  2.50473837]), b_risk=-1.635331223515542)
+  survived=True goal=True steps=53
+  predictor updates: 53

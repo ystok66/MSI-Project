@@ -1,0 +1,90 @@
+======================================================================
+Exp B: Factor Ablation — Fair Dispatch (hard, 30 seeds)
+======================================================================
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_THETA                  : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  G_ONLY                   : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  THETA_ONLY               : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  Z_ONLY                   : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  no_tutor                 : surv=0.333 goal=0.333 warn=0.0 n=30 Δ=-0.267
+  no_warn                  : surv=0.600 goal=0.600 warn=0.0 n=30 Δ=+0.000
+
+  Δ_joint (strict max) = -0.133
+  Δ_factor(G_THETA     ) = -0.133  [redundant?]
+  Δ_factor(G_Z         ) = +0.000  [redundant?]
+  Δ_factor(THETA_Z     ) = +0.000  [redundant?]
+  Δ_factor(G_ONLY      ) = -0.133  [redundant?]
+  Δ_factor(THETA_ONLY  ) = -0.133  [redundant?]
+  Δ_factor(Z_ONLY      ) = +0.000  [redundant?]
+
+======================================================================
+Exp C: Lift U vs P — Fair Dispatch (hard, 30 seeds)
+======================================================================
+
+  Mode         |     KL_U |     KL_P |     diff
+  -------------+----------+----------+---------
+  G_THETA      |   0.0870 |   0.3038 |  -0.2168
+  G_Z          |   0.5464 |   0.5464 |  +0.0000
+  THETA_Z      |   0.2134 |   0.3272 |  -0.1138
+  G_ONLY       |   0.6194 |   0.8361 |  -0.2168
+
+  Ordering U: G_THETA < THETA_Z < G_Z < G_ONLY
+  Ordering P: G_THETA < THETA_Z < G_Z < G_ONLY
+  Same: YES
+
+======================================================================
+Exp D: Modifier F0/F1/F2/F3 — Fair Dispatch (hard, 30 seeds)
+======================================================================
+
+--- Modifier F0 ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 
+
+--- Modifier F1 ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 
+
+--- Modifier F2 ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 
+
+--- Modifier F3 ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 
+
+======================================================================
+Exp E: z-sensitivity shifted configs — Fair Dispatch (30 seeds)
+======================================================================
+
+--- baseline ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_THETA                  : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  G_ONLY                   : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  no_tutor                 : surv=0.333 goal=0.333 warn=0.0 n=30 Δ=-0.267
+
+--- high_tempt ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 
+  G_THETA                  : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  G_Z                      : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  THETA_Z                  : surv=0.600 goal=0.600 warn=1.0 n=30 Δ=+0.000
+  G_ONLY                   : surv=0.733 goal=0.733 warn=1.0 n=30 Δ=+0.133
+  no_tutor                 : surv=0.333 goal=0.333 warn=0.0 n=30 Δ=-0.267
+
+--- late_disambig ---
+  FULL                     : surv=0.567 goal=0.567 warn=1.0 n=30 
+  G_THETA                  : surv=0.667 goal=0.667 warn=1.0 n=30 Δ=+0.100
+  G_Z                      : surv=0.567 goal=0.567 warn=1.0 n=30 Δ=+0.000
+  THETA_Z                  : surv=0.567 goal=0.567 warn=1.0 n=30 Δ=+0.000
+  G_ONLY                   : surv=0.667 goal=0.667 warn=1.0 n=30 Δ=+0.100
+  no_tutor                 : surv=0.333 goal=0.333 warn=0.0 n=30 Δ=-0.233
+
+--- tempt+tight ---
+  FULL                     : surv=0.600 goal=0.600 warn=1.0 n=30 

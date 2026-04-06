@@ -1,0 +1,71 @@
+Exp A: Longer-horizon recovery...
+  legacy_bonus/goal_aligned t=10: SM=0.362 FCI=0.089 H=2.035
+  legacy_bonus/goal_aligned t=50: SM=0.310 FCI=0.019 H=1.595
+  legacy_bonus/goal_conflict t=10: SM=0.276 FCI=0.106 H=2.023
+  legacy_bonus/goal_conflict t=50: SM=0.156 FCI=0.020 H=1.293
+  legacy_bonus/temptation_hard t=10: SM=0.056 FCI=0.032 H=0.863
+  legacy_bonus/temptation_hard t=50: SM=0.079 FCI=0.018 H=0.739
+  legacy_bonus/shortcut t=10: SM=0.238 FCI=0.086 H=1.650
+  legacy_bonus/shortcut t=50: SM=0.200 FCI=0.013 H=0.566
+  structural/goal_aligned t=10: SM=0.414 FCI=0.237 H=2.290
+  structural/goal_aligned t=50: SM=0.423 FCI=0.313 H=2.266
+  structural/goal_conflict t=10: SM=0.336 FCI=0.209 H=2.246
+  structural/goal_conflict t=50: SM=0.365 FCI=0.294 H=2.050
+  structural/temptation_hard t=10: SM=0.362 FCI=0.105 H=1.749
+  structural/temptation_hard t=50: SM=0.540 FCI=0.045 H=1.385
+  structural/shortcut t=10: SM=0.299 FCI=0.181 H=1.909
+  structural/shortcut t=50: SM=0.415 FCI=0.120 H=1.644
+  pcfg/goal_aligned t=10: SM=0.343 FCI=0.079 H=2.043
+  pcfg/goal_aligned t=50: SM=0.361 FCI=0.183 H=2.131
+  pcfg/goal_conflict t=10: SM=0.261 FCI=0.074 H=1.963
+  pcfg/goal_conflict t=50: SM=0.274 FCI=0.189 H=1.898
+  pcfg/temptation_hard t=10: SM=0.318 FCI=0.035 H=1.547
+  pcfg/temptation_hard t=50: SM=0.508 FCI=0.040 H=1.288
+  pcfg/shortcut t=10: SM=0.233 FCI=0.078 H=1.673
+  pcfg/shortcut t=50: SM=0.341 FCI=0.085 H=1.500
+
+Exp B: Feature ablation...
+  complexity_only/goal_aligned: NLL=0.293 SM=0.433 FCI=0.263
+  complexity_only/goal_conflict: NLL=0.556 SM=0.341 FCI=0.232
+  complexity_only/temptation_hard: NLL=0.647 SM=0.382 FCI=0.102
+  complexity_only/shortcut: NLL=0.730 SM=0.305 FCI=0.208
+  redundancy_only/goal_aligned: NLL=0.298 SM=0.503 FCI=0.432
+  redundancy_only/goal_conflict: NLL=0.556 SM=0.418 FCI=0.362
+  redundancy_only/temptation_hard: NLL=0.659 SM=0.425 FCI=0.187
+  redundancy_only/shortcut: NLL=0.732 SM=0.378 FCI=0.291
+  complexity+redund/goal_aligned: NLL=0.295 SM=0.414 FCI=0.237
+  complexity+redund/goal_conflict: NLL=0.557 SM=0.336 FCI=0.209
+  complexity+redund/temptation_hard: NLL=0.648 SM=0.362 FCI=0.105
+  complexity+redund/shortcut: NLL=0.731 SM=0.299 FCI=0.181
+  neither (uniform)/goal_aligned: NLL=0.296 SM=0.534 FCI=0.468
+  neither (uniform)/goal_conflict: NLL=0.555 SM=0.423 FCI=0.396
+  neither (uniform)/temptation_hard: NLL=0.656 SM=0.462 FCI=0.177
+  neither (uniform)/shortcut: NLL=0.730 SM=0.385 FCI=0.335
+
+Exp C: CGC-v2 integration...
+  legacy_bonus/goal_aligned: SM=0.362 FCI=0.089 bridge=YES
+  legacy_bonus/goal_conflict: SM=0.276 FCI=0.106 bridge=YES
+  legacy_bonus/temptation_hard: SM=0.056 FCI=0.032 bridge=YES
+  legacy_bonus/shortcut: SM=0.238 FCI=0.086 bridge=YES
+  structural/goal_aligned: SM=0.414 FCI=0.237 bridge=YES
+  structural/goal_conflict: SM=0.336 FCI=0.209 bridge=YES
+  structural/temptation_hard: SM=0.362 FCI=0.105 bridge=YES
+  structural/shortcut: SM=0.299 FCI=0.181 bridge=YES
+
+Exp D: Θ₂ vs Θ_K promotion...
+  Θ2/goal_aligned: NLL=0.295 SM=0.414
+  Θ2/goal_conflict: NLL=0.557 SM=0.336
+  Θ2/temptation_hard: NLL=0.648 SM=0.362
+  Θ2/shortcut: NLL=0.731 SM=0.299
+  Θk/goal_aligned: NLL=0.287 SM=0.483
+  Θk/goal_conflict: NLL=0.550 SM=0.329
+  Θk/temptation_hard: NLL=0.658 SM=0.281
+  Θk/shortcut: NLL=0.743 SM=0.282
+
+Exp E: Calibration audit...
+  legacy_bonus: Brier=0.3761 ECE=0.3256
+  structural: Brier=0.2482 ECE=0.2027
+  pcfg: Brier=0.2798 ECE=0.1738
+
+Report -> results/step4_prior/step4_5_promotion_audit.md
+Done in 95.3s

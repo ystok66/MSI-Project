@@ -1,0 +1,50 @@
+﻿RSA Helper σê¥σºïσîûσ«îµêÉ (d=12, ╬▒=5.0, ╧â_shape=0.1)
+=== Before red reflect ===
+  concept_4016b                   kappa=3.39  lab=[-0.054  0.532  0.391]
+  concept_f0ade                   kappa=0.63  lab=[-0.052  0.511  0.376]
+  concept_cc077                   kappa=0.15  lab=[-0.036  0.356  0.262]
+[Reflect] σƒ║σçåτ║┐ KL: ╬╝=38.93, ╧â=19.95
+[Reflect] σÉêσ╣╢: 'concept_f0ade' ΓåÆ 'concept_4016b' (Z=0.61, KL=26.74)
+[Reflect] σÉêσ╣╢: 'concept_cc077' ΓåÆ 'concept_4016b' (Z=0.55, KL=28.01)
+
+[Reflect] σ«îµêÉ: µúÇµƒÑ 2 σ»╣, σÉêσ╣╢ 2 σ»╣, Φ╖│Φ┐ç 0 σ»╣ (Θâ╜µÿ»Φ«¡τ╗âµªéσ┐╡)
+
+Merges: 2
+  concept_4016b + concept_f0ade -> concept_4016b
+  concept_4016b + concept_cc077 -> concept_4016b
+
+=== After red reflect ===
+  concept_4016b                   kappa=4.17  lab=[-0.053  0.522  0.384]
+
+=== Before blue reflect ===
+  concept_4016b                   kappa=2.25  lab=[-0.053  0.522  0.384]
+  concept_45cf2                   kappa=0.15  lab=[-0.126  0.201 -0.387]
+  concept_b08df                   kappa=0.15  lab=[-0.126  0.201 -0.387]
+  concept_7bde8                   kappa=0.15  lab=[-0.126  0.201 -0.387]
+  concept_d0249                   kappa=0.15  lab=[-0.126  0.201 -0.387]
+  concept_15dc8                   kappa=0.15  lab=[-0.126  0.201 -0.387]
+[Reflect] σƒ║σçåτ║┐ KL: ╬╝=4.11, ╧â=3.53
+[Reflect] σÉêσ╣╢: 'concept_45cf2' ΓåÆ 'concept_b08df' (Z=0.60, KL=2.01)
+[Reflect] Φ╖│Φ┐ç: 'concept_45cf2' µêû 'concept_7bde8' σ╖▓Φó½σÉêσ╣╢
+[Reflect] Φ╖│Φ┐ç: 'concept_45cf2' µêû 'concept_d0249' σ╖▓Φó½σÉêσ╣╢
+[Reflect] Φ╖│Φ┐ç: 'concept_45cf2' µêû 'concept_15dc8' σ╖▓Φó½σÉêσ╣╢
+[Reflect] σÉêσ╣╢: 'concept_7bde8' ΓåÆ 'concept_b08df' (Z=0.94, KL=0.79)
+[Reflect] σÉêσ╣╢: 'concept_d0249' ΓåÆ 'concept_b08df' (Z=0.90, KL=0.92)
+[Reflect] σÉêσ╣╢: 'concept_15dc8' ΓåÆ 'concept_b08df' (Z=0.79, KL=1.33)
+
+[Reflect] σ«îµêÉ: µúÇµƒÑ 12 σ»╣, σÉêσ╣╢ 4 σ»╣, Φ╖│Φ┐ç 0 σ»╣ (Θâ╜µÿ»Φ«¡τ╗âµªéσ┐╡)
+
+Merges: 4
+  concept_45cf2 + concept_b08df -> concept_b08df
+  concept_b08df + concept_7bde8 -> concept_b08df
+  concept_b08df + concept_d0249 -> concept_b08df
+  concept_b08df + concept_15dc8 -> concept_b08df
+
+=== After blue reflect + sleep ===
+  concept_4016b                   kappa=2.16  lab=[-0.053  0.522  0.384]
+  concept_b08df                   kappa=0.64  lab=[-0.126  0.201 -0.387]
+
+=== Ask ===
+[Ask] Position 0: KNOWN 'concept_4016b' (Z=2.20, ╬║=2)
+[Ask] Position 1: UNKNOWN (Z=-0.47, ╬║=1)
+      Generated provisional: 'concept_e3713'

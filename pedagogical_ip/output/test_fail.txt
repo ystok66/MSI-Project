@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collected 406 items / 405 deselected / 1 selected
+
+tests/test_v2_intervention_family_integration.py F                       [100%]
+
+=================================== FAILURES ===================================
+_______________ test_item_disabled_mode_matches_phase7_behavior ________________
+
+    def test_item_disabled_mode_matches_phase7_behavior():
+        """item_drop_enabled=False reproduces Phase 7 intervention decisions."""
+        s = runner.reset(seed=42, latent_mode=True,
+                         robot_belief_mode=True, prefix_horizon=5,
+                         intervention_family_mode=True, item_drop_enabled=False)
+        runner.step(s)
+        if s.last_intervention is not None:
+>           assert s.last_intervention.scores["ITEM_DROP"] < 0
+E           assert np.float64(2.1721709280303036) < 0
+
+tests/test_v2_intervention_family_integration.py:173: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_v2_intervention_family_integration.py::test_item_disabled_mode_matches_phase7_behavior
+====================== 1 failed, 405 deselected in 2.69s =======================

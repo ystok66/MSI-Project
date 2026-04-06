@@ -1,0 +1,86 @@
+
+============================================================
+TASK: 000001
+============================================================
+  Bootstrap prims: {'dax': 'BLUE', 'blicket': 'PURPLE', 'lug': 'YELLOW'}
+  EM iter 0: 4/14 examples parsed
+  blicket: [H(blicket=PURPLE s=53.3)]
+  dax: [H(dax=BLUE s=52.1)]
+  fep: [H(fep:a1[0,0] s=2.0), H(fep:a1[0,0,0] s=2.0), H(fep:a1[0,0,0,0] s=2.0)]
+  kiki: [H(kiki:a1[0,0] s=2.0), H(kiki:a1[0,0,0] s=2.0), H(kiki:a1[0,0,0,0] s=2.0)]
+  lug: [H(lug=YELLOW s=53.3)]
+  Meta: Meta(n=0, [])
+  [0] FAIL 'dax tufa gazzer'
+        got: ? ? ?
+        exp: BLUE BLUE BLUE BLUE BLUE BLUE
+  [1] FAIL 'dax gazzer gazzer'
+        got: BLUE BLUE PURPLE
+        exp: BLUE BLUE BLUE BLUE
+  [2] FAIL 'kiki fep lug'
+        got: YELLOW YELLOW YELLOW YELLOW
+        exp: GREEN YELLOW
+  [3] FAIL 'dax tufa'
+        got: ? ?
+        exp: BLUE BLUE BLUE
+  [4] FAIL 'kiki kiki fep kiki gazzer'
+        got: PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE PURPLE
+        exp: GREEN GREEN GREEN GREEN GREEN GREEN
+  [5] FAIL 'kiki'
+        got: PURPLE
+        exp: GREEN
+  [6] FAIL 'kiki fep dax tufa'
+        got: ? ? ? ?
+        exp: GREEN BLUE GREEN BLUE GREEN BLUE
+  [7] FAIL 'kiki gazzer tufa'
+        got: ? ? ?
+        exp: GREEN GREEN GREEN GREEN GREEN GREEN
+  [8] FAIL 'kiki fep dax'
+        got: BLUE BLUE BLUE BLUE
+        exp: GREEN BLUE
+  [9] FAIL 'blicket lug lug gazzer'
+        got: PURPLE YELLOW YELLOW PURPLE
+        exp: PURPLE YELLOW YELLOW PURPLE YELLOW YELLOW
+  => 0/10 = 0.0%
+
+============================================================
+TASK: 000006
+============================================================
+  Bootstrap prims: {'zup': 'GREEN', 'gazzer': 'PINK'}
+  EM iter 0: 2/14 examples parsed
+  blicket: [H(blicket:a1[0,0] s=2.0), H(blicket:a1[0,0,0] s=2.0), H(blicket:a1[0,0,0,0] s=2.0)]
+  dax: [H(dax:a1[0,0] s=2.0), H(dax:a1[0,0,0] s=2.0), H(dax:a1[0,0,0,0] s=2.0)]
+  gazzer: [H(gazzer=PINK s=52.1)]
+  kiki: [H(kiki:a1[0,0] s=2.0), H(kiki:a1[0,0,0] s=2.0), H(kiki:a1[0,0,0,0] s=2.0)]
+  lug: [H(lug:a1[0,0] s=2.0), H(lug:a1[0,0,0] s=2.0), H(lug:a1[0,0,0,0] s=2.0)]
+  wif: [H(wif:a1[0,0] s=0.5), H(wif:a1[0,0,0] s=0.5), H(wif:a1[0,0,0,0] s=0.5)]
+  zup: [H(zup=GREEN s=52.1)]
+  Meta: Meta(n=0, [])
+  [0] OK   'kiki'
+  [1] FAIL 'kiki dax wif kiki'
+        got: BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE
+        exp: BLUE YELLOW BLUE
+  [2] FAIL 'dax blicket dax'
+        got: BLUE BLUE BLUE BLUE
+        exp: YELLOW YELLOW
+  [3] FAIL 'zup dax'
+        got: GREEN GREEN
+        exp: GREEN YELLOW
+  [4] FAIL 'gazzer zup wif gazzer'
+        got: PINK GREEN GREEN PINK
+        exp: PINK GREEN PINK
+  [5] FAIL 'kiki lug kiki wif dax'
+        got: BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE BLUE
+        exp: BLUE BLUE YELLOW
+  [6] FAIL 'zup blicket kiki'
+        got: GREEN GREEN GREEN GREEN
+        exp: BLUE GREEN
+  [7] FAIL 'zup wif gazzer'
+        got: GREEN GREEN PINK
+        exp: GREEN PINK
+  [8] FAIL 'dax'
+        got: BLUE
+        exp: YELLOW
+  [9] FAIL 'dax wif kiki'
+        got: BLUE BLUE BLUE BLUE
+        exp: YELLOW BLUE
+  => 1/10 = 10.0%

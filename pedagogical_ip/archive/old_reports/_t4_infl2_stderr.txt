@@ -1,0 +1,7 @@
+═══ T4 Inflation / Transfer Audit ═══
+
+  safe done
+  shiny done
+
+Report → results/t4_inflation_transfer_audit.md
+Done.

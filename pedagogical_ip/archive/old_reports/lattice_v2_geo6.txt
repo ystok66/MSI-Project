@@ -1,0 +1,6 @@
+﻿50 seeds: fails=50 min=0 max=0 mean=0.0
+s=0 5x24 safe=21 any=21 d=0 T=29
+s=1 5x24 safe=21 any=21 d=0 T=29
+s=2 5x23 safe=20 any=20 d=0 T=28
+s=3 5x23 safe=20 any=20 d=0 T=28
+s=4 5x27 safe=24 any=24 d=0 T=33

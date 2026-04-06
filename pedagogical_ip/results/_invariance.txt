@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0 -- /home/ystok6/anaconda3/envs/pedip310/bin/python
+cachedir: .pytest_cache
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collecting ... collected 11 items
+
+tests/test_dtmb_invariance.py::TestMirrorInvariance::test_mirror_shortest_any_easy PASSED [  9%]
+tests/test_dtmb_invariance.py::TestMirrorInvariance::test_mirror_reachability PASSED [ 18%]
+tests/test_dtmb_invariance.py::TestSeedVariety::test_different_seeds_consistent_structure PASSED [ 27%]
+tests/test_dtmb_invariance.py::TestSeedVariety::test_different_seeds_produce_variety PASSED [ 36%]
+tests/test_dtmb_invariance.py::TestPassabilityConsistency::test_passable_count_reasonable[easy] PASSED [ 45%]
+tests/test_dtmb_invariance.py::TestPassabilityConsistency::test_passable_count_reasonable[medium] PASSED [ 54%]
+tests/test_dtmb_invariance.py::TestPassabilityConsistency::test_passable_count_reasonable[hard] PASSED [ 63%]
+tests/test_dtmb_invariance.py::TestCommitmentConsistency::test_commitment_points_are_passable PASSED [ 72%]
+tests/test_dtmb_invariance.py::TestWarnTargetInvariance::test_warn_target_varies_across_seeds PASSED [ 81%]
+tests/test_dtmb_invariance.py::TestWarnTargetInvariance::test_warn_never_targets_doored_branch PASSED [ 90%]
+tests/test_dtmb_invariance.py::TestWarnTargetInvariance::test_all_variants_produce_valid_target PASSED [100%]
+
+============================== 11 passed in 2.18s ==============================

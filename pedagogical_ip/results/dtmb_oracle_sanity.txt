@@ -1,0 +1,30 @@
+DTMB-L Oracle Sanity Check (Exp D)
+  seeds=50, difficulties=['medium', 'hard']
+================================================================================
+
+--- MEDIUM ---
+  no_tutor      : surv=0.020 goal=0.020 steps=40.6 warn=0.0 unlock=0.0 (50 ok, 0 fail)
+  canonical     : surv=0.560 goal=0.080 steps=47.7 warn=12.7 unlock=0.7 (50 ok, 0 fail)
+  oracle_O1     : surv=0.500 goal=0.500 steps=46.4 warn=1.0 unlock=0.5 (50 ok, 0 fail)
+  oracle_O2     : surv=0.740 goal=0.200 steps=48.4 warn=10.5 unlock=0.6 (50 ok, 0 fail)
+
+  --- Sanity Checks (medium) ---
+  oracle_O1 goal=0.500: PASS
+  oracle_O1 surv (0.500) vs canonical (0.560): NOTE: oracle below canonical
+  oracle_O2 goal=0.200: PASS
+  oracle_O2 surv (0.740) vs canonical (0.560): PASS (≥ canonical)
+
+--- HARD ---
+  no_tutor      : surv=0.020 goal=0.000 steps=53.3 warn=0.0 unlock=0.0 (50 ok, 0 fail)
+  canonical     : surv=0.360 goal=0.040 steps=59.0 warn=9.6 unlock=1.4 (50 ok, 0 fail)
+  oracle_O1     : surv=0.360 goal=0.360 steps=57.9 warn=0.0 unlock=0.9 (50 ok, 0 fail)
+  oracle_O2     : surv=0.540 goal=0.220 steps=61.1 warn=7.7 unlock=1.0 (50 ok, 0 fail)
+
+  --- Sanity Checks (hard) ---
+  oracle_O1 goal=0.360: PASS
+  oracle_O1 surv (0.360) vs canonical (0.360): PASS (≥ canonical)
+  oracle_O2 goal=0.220: PASS
+  oracle_O2 surv (0.540) vs canonical (0.360): PASS (≥ canonical)
+
+================================================================================
+Done.

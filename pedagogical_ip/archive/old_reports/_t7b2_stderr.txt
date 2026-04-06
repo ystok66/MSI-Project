@@ -1,0 +1,7 @@
+═══ T7-B2: Compositional + Temptation Audit ═══
+
+  B2.1 done
+  B2.2 done
+  B2.3 done
+
+Report → results/t7b2_compositional_temptation_audit.md

@@ -1,0 +1,14 @@
+  [PASS] posterior default = structural
+  [PASS] structural prior normalized
+  [PASS] A2 shadow imports
+  [PASS] warning policy imports
+  [PASS] frozen observer (RuleBasedMtObserver) imports
+  [PASS] frozen micro tutor (BCICTv4) imports
+  [PASS] 8-goal hypothesis space
+  [PASS] subgoal_marginals()
+  [PASS] CGC-v2 episode generation
+  [PASS] deprecated compat module importable
+
+========================================
+PASSED: 10  FAILED: 0
+ALL REGRESSION CHECKS PASSED

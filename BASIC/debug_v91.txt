@@ -1,0 +1,94 @@
+
+============================================================
+TASK: 000003.txt
+============================================================
+  Prims: {'blicket': 'RED', 'tufa': 'GREEN'}
+  Rule(dax: a=1 [0,0,0,0] scope=x n=1)
+  Rule(kiki: a=1 [0,0] scope=x n=1)
+  Rule(zup: a=1 [0,0] scope=x n=2)
+  Rule(lug: a=2 [1,0] scope=u n=1)
+  Rule(dax: a=1 [0,0,0,0] scope=x n=1)
+  Rule(kiki: a=1 [0,0] scope=x n=1)
+  Rule(zup: a=1 [0,0] scope=x n=2)
+  Rule(lug: a=2 [1,0] scope=u n=3)
+  Final prims: {'blicket': 'RED', 'tufa': 'GREEN', 'gazzer': 'PURPLE'}
+  Final rules: [Rule(dax: a=1 [0,0,0,0] scope=x n=1), Rule(kiki: a=1 [0,0] scope=x n=1), Rule(zup: a=1 [0,0] scope=x n=2), Rule(lug: a=2 [1,0] scope=u n=3)]
+  Meta: MetaGrammar(tasks=0, top=[(0, 0):6, (1, 0):4, (0, 0, 0, 0):2])
+  Proposals:
+    dax: arity=1 tpl=(0, 0, 0, 0) scope=x score=-1.8
+    lug: arity=2 tpl=(1, 0) scope=u score=-1.8
+    lug: arity=2 tpl=(1, 0) scope=u score=-1.8
+    lug: arity=2 tpl=(1, 0) scope=u score=-1.8
+    kiki: arity=1 tpl=(0, 0) scope=x score=-10.7
+    zup: arity=1 tpl=(0, 0) scope=x score=-0.7
+    zup: arity=1 tpl=(0, 0) scope=x score=-0.7
+  [0] OK   'blicket dax'
+  [1] FAIL 'kiki zup'
+        got: ? ?
+        exp: BLUE BLUE
+  [2] OK   'gazzer tufa'
+  [3] OK   'gazzer dax'
+  [4] OK   'gazzer'
+  [5] FAIL 'kiki'
+        got: ?
+        exp: BLUE
+  [6] FAIL 'gazzer kiki gazzer gazzer blicket'
+        got: PURPLE PURPLE PURPLE PURPLE RED
+        exp: PURPLE BLUE PURPLE PURPLE RED
+  [7] FAIL 'kiki lug tufa'
+        got: ? ? ?
+        exp: GREEN BLUE
+  [8] FAIL 'kiki zup zup'
+        got: ? ? ?
+        exp: BLUE BLUE BLUE BLUE
+  [9] FAIL 'kiki lug kiki'
+        got: ? ? ?
+        exp: BLUE BLUE
+  => 4/10
+
+============================================================
+TASK: 000005.txt
+============================================================
+  Prims: {'kiki': 'GREEN', 'wif': 'RED', 'blicket': 'PURPLE', 'dax': 'RED'}
+  Rule(fep: a=2 [0,1,1] scope=u n=3)
+  Rule(gazzer: a=1 [0] scope=x n=1)
+  Rule(fep: a=2 [0,1,1] scope=u n=3)
+  Rule(gazzer: a=1 [0,0,0,0] scope=x n=1)
+  Final prims: {'kiki': 'GREEN', 'wif': 'RED', 'blicket': 'PURPLE', 'dax': 'RED', 'lug': 'PINK'}
+  Final rules: [Rule(fep: a=2 [0,1,1] scope=u n=3), Rule(gazzer: a=1 [0,0,0,0] scope=x n=1)]
+  Meta: MetaGrammar(tasks=0, top=[(0, 1, 1):6, (0,):1, (0, 0, 0, 0):1])
+  Proposals:
+    fep: arity=2 tpl=(0, 1, 1) scope=u score=-0.5
+    fep: arity=2 tpl=(0, 1, 1) scope=u score=-0.5
+    fep: arity=2 tpl=(0, 0, 1) scope=u score=-21.6
+    fep: arity=2 tpl=(0, 1, 1) scope=u score=-0.5
+    gazzer: arity=2 tpl=(1, 0) scope=u score=-21.6
+    gazzer: arity=1 tpl=(0, 0, 0, 0) scope=x score=-1.6
+    gazzer: arity=1 tpl=(0,) scope=x score=-11.6
+  [0] OK   'blicket blicket kiki fep wif'
+  [1] FAIL 'blicket dax blicket dax wif dax blicket'
+        got: PURPLE RED PURPLE RED RED RED PURPLE
+        exp: PURPLE RED PURPLE PURPLE
+  [2] FAIL 'blicket dax blicket'
+        got: PURPLE RED PURPLE
+        exp: PURPLE PURPLE
+  [3] FAIL 'wif dax wif'
+        got: RED RED RED
+        exp: RED RED
+  [4] FAIL 'wif wif fep gazzer'
+        got: ? ? ? ?
+        exp: RED RED PINK PINK
+  [5] OK   'wif blicket'
+  [6] FAIL 'gazzer'
+        got: ?
+        exp: PINK
+  [7] FAIL 'gazzer kiki lug'
+        got: ? ? ?
+        exp: PINK GREEN PINK GREEN PINK GREEN PINK GREEN
+  [8] FAIL 'kiki lug dax kiki'
+        got: GREEN PINK RED GREEN
+        exp: GREEN GREEN GREEN GREEN GREEN
+  [9] FAIL 'wif dax blicket'
+        got: RED RED PURPLE
+        exp: PURPLE RED
+  => 2/10

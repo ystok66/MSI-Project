@@ -1,0 +1,61 @@
+DTMB-L WARN Redundancy Audit (Exp A)
+  difficulty=medium, seeds=50
+  warn_variants=['W1', 'W2', 'W3']
+  policies=['canonical', 'no_warn', 'no_unlock', 'no_item_drop', 'no_tutor']
+================================================================================
+
+============================== WARN VARIANT: W1 ==============================
+  canonical     : surv=0.560 goal=0.080 steps=47.7 warn=12.7 unlock=0.7 (50 ok, 0 fail)
+  no_warn       : surv=0.160 goal=0.160 steps=41.9 warn=0.0 unlock=0.7 (50 ok, 0 fail)
+  no_unlock     : surv=0.540 goal=0.060 steps=47.9 warn=13.4 unlock=0.0 (50 ok, 0 fail)
+  no_item_drop  : surv=0.480 goal=0.020 steps=47.1 warn=14.2 unlock=0.7 (50 ok, 0 fail)
+  no_tutor      : surv=0.020 goal=0.020 steps=40.6 warn=0.0 unlock=0.0 (50 ok, 0 fail)
+
+  --- Deltas for W1 ---
+  Δ_warn   = +0.400
+  Δ_unlock = +0.020
+  Δ_item   = +0.080
+  Δ_total  = +0.540 (canonical - no_tutor)
+
+============================== WARN VARIANT: W2 ==============================
+  canonical     : surv=0.140 goal=0.140 steps=42.5 warn=4.9 unlock=0.7 (50 ok, 0 fail)
+  no_warn       : surv=0.160 goal=0.160 steps=41.9 warn=0.0 unlock=0.7 (50 ok, 0 fail)
+  no_unlock     : surv=0.100 goal=0.100 steps=42.5 warn=5.5 unlock=0.0 (50 ok, 0 fail)
+  no_item_drop  : surv=0.020 goal=0.020 steps=41.2 warn=5.9 unlock=0.7 (50 ok, 0 fail)
+  no_tutor      : surv=0.020 goal=0.020 steps=40.6 warn=0.0 unlock=0.0 (50 ok, 0 fail)
+
+  --- Deltas for W2 ---
+  Δ_warn   = -0.020
+  Δ_unlock = +0.040
+  Δ_item   = +0.120
+  Δ_total  = +0.120 (canonical - no_tutor)
+
+============================== WARN VARIANT: W3 ==============================
+  canonical     : surv=0.140 goal=0.140 steps=42.5 warn=4.9 unlock=0.7 (50 ok, 0 fail)
+  no_warn       : surv=0.160 goal=0.160 steps=41.9 warn=0.0 unlock=0.7 (50 ok, 0 fail)
+  no_unlock     : surv=0.100 goal=0.100 steps=42.5 warn=5.5 unlock=0.0 (50 ok, 0 fail)
+  no_item_drop  : surv=0.020 goal=0.020 steps=41.2 warn=5.9 unlock=0.7 (50 ok, 0 fail)
+  no_tutor      : surv=0.020 goal=0.020 steps=40.6 warn=0.0 unlock=0.0 (50 ok, 0 fail)
+
+  --- Deltas for W3 ---
+  Δ_warn   = -0.020
+  Δ_unlock = +0.040
+  Δ_item   = +0.120
+  Δ_total  = +0.120 (canonical - no_tutor)
+
+================================================================================
+CROSS-VARIANT SUMMARY
+================================================================================
+ Variant |  Surv_can |   Δ_warn |  Δ_unlock |   Δ_item |  Δ_total
+-----------------------------------------------------------------
+      W1 |     0.560 |   +0.400 |    +0.020 |   +0.080 |   +0.540
+      W2 |     0.140 |   -0.020 |    +0.040 |   +0.120 |   +0.120
+      W3 |     0.140 |   -0.020 |    +0.040 |   +0.120 |   +0.120
+
+--- RECOMMENDATION ---
+  Simplest effective variant: W1 (Δ_warn=+0.400)
+  Best variant: W1 (Δ_warn=+0.400)
+  → W1 is both simplest and best
+
+================================================================================
+Done.

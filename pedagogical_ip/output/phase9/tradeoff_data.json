@@ -1,0 +1,29 @@
+[
+  {
+    "agent_level": "medium",
+    "teacher_condition": "no_tutor",
+    "env_condition": "medium",
+    "online_success_rate": 0.0,
+    "transfer_success_rate": 0.0,
+    "intervention_count": 0.0,
+    "calibration_gap": 0.0
+  },
+  {
+    "agent_level": "medium",
+    "teacher_condition": "warning_only",
+    "env_condition": "medium",
+    "online_success_rate": 1.0,
+    "transfer_success_rate": 0.0,
+    "intervention_count": 3.0,
+    "calibration_gap": 0.0
+  },
+  {
+    "agent_level": "medium",
+    "teacher_condition": "robot_belief",
+    "env_condition": "medium",
+    "online_success_rate": 1.0,
+    "transfer_success_rate": 0.0,
+    "intervention_count": 3.0,
+    "calibration_gap": 0.0
+  }
+]

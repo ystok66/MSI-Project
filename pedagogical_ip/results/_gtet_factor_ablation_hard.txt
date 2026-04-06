@@ -1,0 +1,139 @@
+GTET-L Factor Ablation — hard, 20 seeds
+=================================================================
+  FULL       seed= 0 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 1 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 2 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 3 OK S warn=1 unlock=0 steps=61
+  FULL       seed= 4 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 5 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 6 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 7 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 8 OK S warn=1 unlock=0 steps=63
+  FULL       seed= 9 OK S warn=1 unlock=0 steps=61
+  FULL       seed=10 OK S warn=1 unlock=0 steps=61
+  FULL       seed=11 OK S warn=1 unlock=0 steps=63
+  FULL       seed=12 OK S warn=1 unlock=0 steps=61
+  FULL       seed=13 OK S warn=1 unlock=0 steps=65
+  FULL       seed=14 OK S warn=1 unlock=0 steps=63
+  FULL       seed=15 OK S warn=1 unlock=0 steps=63
+  FULL       seed=16 OK S warn=1 unlock=0 steps=61
+  FULL       seed=17 OK S warn=1 unlock=0 steps=63
+  FULL       seed=18 OK S warn=1 unlock=0 steps=63
+  FULL       seed=19 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 0 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 1 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 2 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 3 OK S warn=1 unlock=0 steps=61
+  G_THETA    seed= 4 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 5 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 6 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 7 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 8 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed= 9 OK S warn=1 unlock=0 steps=61
+  G_THETA    seed=10 OK S warn=1 unlock=0 steps=61
+  G_THETA    seed=11 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed=12 OK S warn=1 unlock=0 steps=61
+  G_THETA    seed=13 OK S warn=1 unlock=0 steps=65
+  G_THETA    seed=14 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed=15 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed=16 OK S warn=1 unlock=0 steps=61
+  G_THETA    seed=17 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed=18 OK S warn=1 unlock=0 steps=63
+  G_THETA    seed=19 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 0 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 1 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 2 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 3 OK S warn=1 unlock=0 steps=61
+  G_Z        seed= 4 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 5 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 6 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 7 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 8 OK S warn=1 unlock=0 steps=63
+  G_Z        seed= 9 OK S warn=1 unlock=0 steps=61
+  G_Z        seed=10 OK S warn=1 unlock=0 steps=61
+  G_Z        seed=11 OK S warn=1 unlock=0 steps=63
+  G_Z        seed=12 OK S warn=1 unlock=0 steps=61
+  G_Z        seed=13 OK S warn=1 unlock=0 steps=65
+  G_Z        seed=14 OK S warn=1 unlock=0 steps=63
+  G_Z        seed=15 OK S warn=1 unlock=0 steps=63
+  G_Z        seed=16 OK S warn=1 unlock=0 steps=61
+  G_Z        seed=17 OK S warn=1 unlock=0 steps=63
+  G_Z        seed=18 OK S warn=1 unlock=0 steps=63
+  G_Z        seed=19 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 0 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 1 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 2 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 3 OK S warn=1 unlock=0 steps=61
+  THETA_Z    seed= 4 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 5 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 6 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 7 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 8 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed= 9 OK S warn=1 unlock=0 steps=61
+  THETA_Z    seed=10 OK S warn=1 unlock=0 steps=61
+  THETA_Z    seed=11 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed=12 OK S warn=1 unlock=0 steps=61
+  THETA_Z    seed=13 OK S warn=1 unlock=0 steps=65
+  THETA_Z    seed=14 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed=15 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed=16 OK S warn=1 unlock=0 steps=61
+  THETA_Z    seed=17 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed=18 OK S warn=1 unlock=0 steps=63
+  THETA_Z    seed=19 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 0 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 1 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 2 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 3 OK S warn=1 unlock=0 steps=61
+  G_ONLY     seed= 4 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 5 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 6 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 7 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 8 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed= 9 OK S warn=1 unlock=0 steps=61
+  G_ONLY     seed=10 OK S warn=1 unlock=0 steps=61
+  G_ONLY     seed=11 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed=12 OK S warn=1 unlock=0 steps=61
+  G_ONLY     seed=13 OK S warn=1 unlock=0 steps=65
+  G_ONLY     seed=14 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed=15 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed=16 OK S warn=1 unlock=0 steps=61
+  G_ONLY     seed=17 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed=18 OK S warn=1 unlock=0 steps=63
+  G_ONLY     seed=19 OK S warn=1 unlock=0 steps=63
+
+=================================================================
+Exp 3: Survival & Goal Reach
+-----------------------------------------------------------------
+  FULL        : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_THETA     : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_Z         : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  THETA_Z     : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+  G_ONLY      : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=20 err=0
+
+Δ_joint = +0.000
+→ Approximately equal
+
+=================================================================
+Exp 2: Action Divergence Rate (ADR)
+-----------------------------------------------------------------
+  G_THETA     : ADR_mean=0.057 ADR_max=0.063 nonzero=20/20
+  G_Z         : ADR_mean=0.060 ADR_max=0.063 nonzero=20/20
+  THETA_Z     : ADR_mean=0.060 ADR_max=0.063 nonzero=20/20
+  G_ONLY      : ADR_mean=0.059 ADR_max=0.063 nonzero=20/20
+
+=================================================================
+Exp 1: Integration Sanity (first seed with action divergence)
+-----------------------------------------------------------------
+  Divergence found! seed=0 factor=G_ONLY ADR=0.063
+    FULL actions[:10]:   ['UNLOCK', 'ITEM_DROP', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN']
+    G_ONLY actions[:10]: ['UNLOCK', 'ITEM_DROP', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN']
+
+=================================================================
+GTET Posterior Diagnostics (factor-restricted)
+-----------------------------------------------------------------
+  G_THETA     : KL_mean=0.1377 KL_max=0.5294 risk_mean=0.0675
+  G_Z         : KL_mean=0.5678 KL_max=0.6643 risk_mean=0.0708
+  THETA_Z     : KL_mean=0.3781 KL_max=0.6547 risk_mean=0.0708
+  G_ONLY      : KL_mean=0.6925 KL_max=0.8446 risk_mean=0.0675
+
+Done.

@@ -1,0 +1,46 @@
+Phase 1A - E1: Baseline_v2 Warning Path Audit
+  seeds=3, difficulty=medium
+================================================================================
+
+--- Variant: legacy_bias ---
+  n=3, surv=1.000, goal=1.000, steps=33.3, warns=3.0
+  mean Drho_inc=0.1417, mean DNLL=-0.6357, mean rsa_entropy=0.001
+
+--- Variant: rsa_obs_l0 ---
+  n=3, surv=1.000, goal=1.000, steps=33.3, warns=3.0
+  mean Drho_inc=0.1405, mean DNLL=-0.5939, mean rsa_entropy=0.065
+
+--- Variant: rsa_obs_s1 ---
+  n=3, surv=1.000, goal=1.000, steps=33.3, warns=3.0
+  mean Drho_inc=0.1417, mean DNLL=-0.5919, mean rsa_entropy=0.001
+
+--- Variant: rsa_obs_s1_trust ---
+  n=3, surv=0.667, goal=0.667, steps=22.7, warns=3.0
+  mean Drho_inc=0.1177, mean DNLL=-0.4758, mean rsa_entropy=0.474
+
+--- Variant: rsa_plus_phase10 ---
+  n=3, surv=0.667, goal=0.667, steps=23.3, warns=3.0
+  mean Drho_inc=0.1417, mean DNLL=-0.5935, mean rsa_entropy=0.001
+
+================================================================================
+CROSS-VARIANT SUMMARY
+================================================================================
+             Variant |   Surv |   Goal |  Steps |  Warns |  Drho_inc |     DNLL |  Entropy
+------------------------------------------------------------------------------------------
+         legacy_bias |  1.000 |  1.000 |   33.3 |    3.0 |   +0.1417 |  -0.6357 |    0.001
+          rsa_obs_l0 |  1.000 |  1.000 |   33.3 |    3.0 |   +0.1405 |  -0.5939 |    0.065
+          rsa_obs_s1 |  1.000 |  1.000 |   33.3 |    3.0 |   +0.1417 |  -0.5919 |    0.001
+    rsa_obs_s1_trust |  0.667 |  0.667 |   22.7 |    3.0 |   +0.1177 |  -0.4758 |    0.474
+    rsa_plus_phase10 |  0.667 |  0.667 |   23.3 |    3.0 |   +0.1417 |  -0.5935 |    0.001
+
+================================================================================
+E3: FAMILY REGRESSION CHECK
+================================================================================
+  DTMB: surv=0.333, goal=0.000 (n=3)
+  GTET: surv=1.000, goal=1.000 (n=3)
+
+================================================================================
+VERDICT
+================================================================================
+VERDICT: Inconclusive.
+  surv: legacy=1.000, rsa_s1=1.000, trust=0.667, hybrid=0.667

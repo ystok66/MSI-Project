@@ -1,0 +1,33 @@
+﻿Phase 2A Results (medium)
+
+[fork_trap]
+  legacy_bias      SBCR=0.38 TBSR=0.58 dH=0.000 Ma=0.250 dNLL=-0.638
+  r_l0             SBCR=0.00 TBSR=0.04 dH=0.332 Ma=0.180 dNLL=-0.273
+  r_s1             SBCR=0.00 TBSR=0.04 dH=0.703 Ma=0.039 dNLL=-0.229
+  r_s1_trust       SBCR=0.00 TBSR=0.04 dH=0.078 Ma=0.171 dNLL=-0.046
+  r+phase10        SBCR=0.00 TBSR=0.04 dH=0.703 Ma=0.039 dNLL=-0.229
+
+[elcb_po]
+  legacy_bias      SBCR=1.00 TBSR=1.00 dH=0.000 Ma=0.250 dNLL=-0.642
+  r_l0             SBCR=1.00 TBSR=1.00 dH=0.332 Ma=0.180 dNLL=-0.273
+  r_s1             SBCR=1.00 TBSR=1.00 dH=0.703 Ma=0.039 dNLL=-0.229
+  r_s1_trust       SBCR=1.00 TBSR=1.00 dH=0.078 Ma=0.171 dNLL=-0.046
+  r+phase10        SBCR=1.00 TBSR=1.00 dH=0.703 Ma=0.039 dNLL=-0.229
+
+[baseline_v2]
+  legacy_bias      SBCR=0.52 TBSR=0.66 dH=0.000 Ma=0.250 dNLL=-0.636
+  r_l0             SBCR=0.00 TBSR=0.02 dH=0.332 Ma=0.180 dNLL=-0.273
+  r_s1             SBCR=0.00 TBSR=0.02 dH=0.703 Ma=0.039 dNLL=-0.229
+  r_s1_trust       SBCR=0.00 TBSR=0.02 dH=0.078 Ma=0.171 dNLL=-0.046
+  r+phase10        SBCR=0.00 TBSR=0.02 dH=0.703 Ma=0.039 dNLL=-0.229
+
+--- fork_trap across difficulties ---
+  easy     legacy_bias      SBCR=0.38 TBSR=0.60 dNLL=-0.638
+  easy     rsa_obs_s1       SBCR=0.00 TBSR=0.06 dNLL=-0.229
+
+  medium   legacy_bias      SBCR=0.38 TBSR=0.58 dNLL=-0.638
+  medium   rsa_obs_s1       SBCR=0.00 TBSR=0.04 dNLL=-0.229
+
+  hard     legacy_bias      SBCR=0.38 TBSR=0.48 dNLL=-0.641
+  hard     rsa_obs_s1       SBCR=0.00 TBSR=0.12 dNLL=-0.229
+

@@ -1,0 +1,36 @@
+Phase 0 — Q1: Warning Path Attribution Audit
+  seeds=20, family=deep_tree_mixed_bottleneck_lattice, difficulty=medium
+================================================================================
+
+--- Variant: legacy_bias ---
+  episodes=20, surv=0.450, goal=0.100, warning_events=241
+  mean Δρ=0.0000, lane_bias=0.000, rsa_ΔH=0.0000, pseudo_n=0.0
+
+--- Variant: rsa_obs_s1 ---
+  episodes=20, surv=0.450, goal=0.100, warning_events=241
+  mean Δρ=0.0000, lane_bias=0.000, rsa_ΔH=0.0000, pseudo_n=0.0
+
+--- Variant: rsa_obs_s1_trust ---
+  episodes=20, surv=0.450, goal=0.100, warning_events=241
+  mean Δρ=0.0000, lane_bias=0.000, rsa_ΔH=0.0000, pseudo_n=0.0
+
+--- Variant: rsa_plus_phase10 ---
+  episodes=20, surv=0.450, goal=0.100, warning_events=241
+  mean Δρ=0.0000, lane_bias=0.000, rsa_ΔH=0.0000, pseudo_n=0.0
+
+================================================================================
+CROSS-VARIANT SUMMARY
+================================================================================
+             Variant |   Surv |   Goal |  #Warn |   ΔρMean |  LaneBias |   RSA_ΔH
+---------------------------------------------------------------------------------
+         legacy_bias |  0.450 |  0.100 |    241 |  +0.0000 |     0.000 |  +0.0000
+          rsa_obs_s1 |  0.450 |  0.100 |    241 |  +0.0000 |     0.000 |  +0.0000
+    rsa_obs_s1_trust |  0.450 |  0.100 |    241 |  +0.0000 |     0.000 |  +0.0000
+    rsa_plus_phase10 |  0.450 |  0.100 |    241 |  +0.0000 |     0.000 |  +0.0000
+
+================================================================================
+VERDICT
+================================================================================
+VERDICT A: RSA 收束成功。
+  RSA-only 接近 hybrid 表现，legacy 双通道可降级为 ablation。
+  → Phase 1: RSA 语义链可以成为主路径。

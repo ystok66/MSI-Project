@@ -1,0 +1,104 @@
+
+============================================================
+TASK: 000001
+============================================================
+  EM iter 0: 9/14 matched
+  Prims: {'dax': 'BLUE', 'blicket': 'PURPLE', 'lug': 'YELLOW'}
+  Rules: {'fep': Rule(fep:1L1R(L+R) s=11.0), 'gazzer': Rule(gazzer:??2 s=6.5)}
+  Meta(n=0, [('comp', 1, 1, False):12, ('rep', 2):3])
+  [0] FAIL 'dax tufa gazzer'
+        got: BLUE ? ?
+        exp: BLUE BLUE BLUE BLUE BLUE BLUE
+  [1] OK   'dax gazzer gazzer'
+  [2] FAIL 'kiki fep lug'
+        got: ? ? YELLOW
+        exp: GREEN YELLOW
+  [3] FAIL 'dax tufa'
+        got: BLUE ?
+        exp: BLUE BLUE BLUE
+  [4] FAIL 'kiki kiki fep kiki gazzer'
+        got: ? ? ? ? ?
+        exp: GREEN GREEN GREEN GREEN GREEN GREEN
+  [5] FAIL 'kiki'
+        got: ?
+        exp: GREEN
+  [6] FAIL 'kiki fep dax tufa'
+        got: ? ? BLUE ?
+        exp: GREEN BLUE GREEN BLUE GREEN BLUE
+  [7] FAIL 'kiki gazzer tufa'
+        got: ? ? ?
+        exp: GREEN GREEN GREEN GREEN GREEN GREEN
+  [8] FAIL 'kiki fep dax'
+        got: ? ? BLUE
+        exp: GREEN BLUE
+  [9] FAIL 'blicket lug lug gazzer'
+        got: PURPLE YELLOW YELLOW YELLOW YELLOW
+        exp: PURPLE YELLOW YELLOW PURPLE YELLOW YELLOW
+
+============================================================
+TASK: 000004
+============================================================
+  EM iter 0: 11/14 matched
+  Prims: {'blicket': 'PINK', 'wif': 'BLUE', 'fep': 'PURPLE', 'dax': 'YELLOW'}
+  Rules: {'lug': Rule(lug:2L2R(L+R) s=14.0), 'kiki': Rule(kiki:1L1R(R+L) s=8.0)}
+  Meta(n=0, [('comp', 2, 2, False):18, ('comp', 1, 1, True):6])
+  [0] FAIL 'dax gazzer'
+        got: YELLOW ?
+        exp: YELLOW YELLOW YELLOW
+  [1] OK   'blicket lug blicket'
+  [2] FAIL 'fep gazzer'
+        got: PURPLE ?
+        exp: PURPLE PURPLE PURPLE
+  [3] OK   'fep wif fep'
+  [4] FAIL 'blicket gazzer'
+        got: PINK ?
+        exp: PINK PINK PINK
+  [5] FAIL 'dax gazzer kiki blicket'
+        got: YELLOW ? ? PINK
+        exp: PINK YELLOW YELLOW YELLOW
+  [6] FAIL 'wif gazzer'
+        got: BLUE ?
+        exp: BLUE BLUE BLUE
+  [7] FAIL 'dax gazzer kiki fep'
+        got: YELLOW ? ? PURPLE
+        exp: PURPLE YELLOW YELLOW YELLOW
+  [8] FAIL 'blicket dax gazzer'
+        got: PINK YELLOW ?
+        exp: PINK YELLOW YELLOW YELLOW
+  [9] FAIL 'blicket lug dax kiki wif'
+        got: PINK PINK BLUE YELLOW BLUE YELLOW
+        exp: BLUE PINK PINK YELLOW YELLOW
+
+============================================================
+TASK: 000006
+============================================================
+  EM iter 0: 4/14 matched
+  Prims: {'zup': 'GREEN', 'gazzer': 'PINK'}
+  Rules: {'blicket': Rule(blicket:0L2R(L+R) s=6.5), 'wif': Rule(wif:1L1R(L+R) s=6.5)}
+  Meta(n=0, [('comp', 0, 2, False):3, ('comp', 1, 1, False):3])
+  [0] FAIL 'kiki'
+        got: ?
+        exp: BLUE
+  [1] FAIL 'kiki dax wif kiki'
+        got: ? ? ? ?
+        exp: BLUE YELLOW BLUE
+  [2] FAIL 'dax blicket dax'
+        got: ? ? ?
+        exp: YELLOW YELLOW
+  [3] FAIL 'zup dax'
+        got: GREEN ?
+        exp: GREEN YELLOW
+  [4] OK   'gazzer zup wif gazzer'
+  [5] FAIL 'kiki lug kiki wif dax'
+        got: ? ? ? ? ?
+        exp: BLUE BLUE YELLOW
+  [6] FAIL 'zup blicket kiki'
+        got: GREEN ? ?
+        exp: BLUE GREEN
+  [7] OK   'zup wif gazzer'
+  [8] FAIL 'dax'
+        got: ?
+        exp: YELLOW
+  [9] FAIL 'dax wif kiki'
+        got: ? ? ?
+        exp: YELLOW BLUE

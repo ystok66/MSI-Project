@@ -1,0 +1,61 @@
+=== EASY ===
+  Grid: 13x40
+  Routes: 20
+  Stages: 3
+  Doors: 0
+  Belt cells: 3
+  Goal cue cells: 9
+  Tempt cue cells: 9
+  Shortest any: 41
+  Shortest safe: 41
+  BFS to goal: 41
+  Max steps: 57
+  Reveal order: [(9, 'sg_0'), (9, 'sg_1'), (9, 'sg_2')]
+  Merge points: [(6, 12), (6, 25)]
+  Overlap records: 2
+    sg=1 shared=12 goal=12 tempt=20
+    sg=2 shared=20 goal=20 tempt=20
+  Goal consistent: {0: 0, 1: 12, 2: 20}
+  Tempt preferred: {'low': 0, 'high': 20}
+
+=== MEDIUM ===
+  Grid: 15x50
+  Routes: 16
+  Stages: 3
+  Doors: 1
+  Belt cells: 4
+  Goal cue cells: 9
+  Tempt cue cells: 10
+  Shortest any: 51
+  Shortest safe: 51
+  BFS to goal: 51
+  Max steps: 64
+  Reveal order: [(8, 'sg_0'), (8, 'sg_1'), (8, 'sg_2')]
+  Merge points: [(7, 15), (7, 32)]
+  Overlap records: 3
+    sg=0 shared=14 goal=14 tempt=14
+    sg=1 shared=14 goal=16 tempt=14
+    sg=2 shared=14 goal=16 tempt=14
+  Goal consistent: {0: 14, 1: 16, 2: 16}
+  Tempt preferred: {'low': 2, 'high': 14}
+
+=== HARD ===
+  Grid: 17x60
+  Routes: 14
+  Stages: 3
+  Doors: 1
+  Belt cells: 5
+  Goal cue cells: 9
+  Tempt cue cells: 23
+  Shortest any: 61
+  Shortest safe: 61
+  BFS to goal: 61
+  Max steps: 71
+  Reveal order: [(7, 'sg_0'), (7, 'sg_1'), (7, 'sg_2')]
+  Merge points: [(8, 18), (8, 38)]
+  Overlap records: 1
+    sg=2 shared=14 goal=14 tempt=14
+  Goal consistent: {0: 0, 1: 0, 2: 14}
+  Tempt preferred: {'low': 0, 'high': 14}
+
+Done.

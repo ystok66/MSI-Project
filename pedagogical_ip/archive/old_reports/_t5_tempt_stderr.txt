@@ -1,0 +1,7 @@
+═══ T5 Hidden Temptation Audit ═══
+
+  safe done
+  shiny done
+
+Report → results/t5_hidden_temptation_audit.md
+Done.

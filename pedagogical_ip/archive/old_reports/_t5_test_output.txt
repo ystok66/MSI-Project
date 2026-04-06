@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collected 21 items
+
+tests/test_goal_temptation_posterior.py ...........                      [ 52%]
+tests/test_consequence_grounded_option_rollout.py .....F....             [100%]
+
+=================================== FAILURES ===================================
+_ TestConsequenceGroundedRollout.test_success_lift_positive_for_risky_scenario _
+tests/test_consequence_grounded_option_rollout.py:83: in test_success_lift_positive_for_risky_scenario
+    assert result.p_safe_counterfactual >= result.p_safe_original - 0.01
+E   AssertionError: assert 0.1890187385634267 >= (0.36890932437619345 - 0.01)
+E    +  where 0.1890187385634267 = RolloutResult(option='ITEM_DROP', original_dist=ActionDistribution(probs=array([0.36890932, 0.63109068]), log_probs=ar...=()), p_safe_original=0.36890932437619345, p_safe_counterfactual=0.1890187385634267, success_lift=-0.17989058581276673).p_safe_counterfactual
+E    +  and   0.36890932437619345 = RolloutResult(option='ITEM_DROP', original_dist=ActionDistribution(probs=array([0.36890932, 0.63109068]), log_probs=ar...=()), p_safe_original=0.36890932437619345, p_safe_counterfactual=0.1890187385634267, success_lift=-0.17989058581276673).p_safe_original
+=========================== short test summary info ============================
+FAILED tests/test_consequence_grounded_option_rollout.py::TestConsequenceGroundedRollout::test_success_lift_positive_for_risky_scenario
+========================= 1 failed, 20 passed in 3.19s =========================

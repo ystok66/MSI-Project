@@ -1,0 +1,37 @@
+# Teacher configuration — v1a
+teacher_mode: "particle_inference"   # "oracle" or "particle_inference"
+
+# Oracle teacher weights (v0, still available)
+utility_weights:
+  w_success: 1.0
+  w_learn: 0.3
+  w_cost: 0.2
+  w_takeover: 0.1
+
+# Particle teacher weights (v1a)
+particle:
+  n_particles: 16
+  action_mismatch_penalty: 2.0
+  w_success: 4.0
+  w_ig: 1.0
+  w_cost: 0.5
+  w_frustration: 0.5
+
+  rollout:
+    horizon: 6
+    samples: 4
+
+  rsa:
+    alpha: 5.0
+    beta: 0.1
+    tau: 1.0
+
+intervention_costs:
+  WAIT: 0.0
+  WARN: 0.1
+  UNLOCK_DOOR: 0.3
+  DROP_SHIELD: 0.5
+
+rollout:
+  depth: 8
+  discount: 0.95

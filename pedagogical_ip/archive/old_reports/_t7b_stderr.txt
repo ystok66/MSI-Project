@@ -1,0 +1,10 @@
+═══ T7-B1: Composite Recovery Audit ═══
+
+  collect_red done
+  use_safe done
+  collect_red+avoid_blue done
+  collect_red+use_safe done
+  avoid_blue+use_safe done
+  reach_fast+avoid_blue done
+
+Report → results/t7b_composite_recovery_audit.md

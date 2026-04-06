@@ -1,0 +1,18 @@
+  rigid/safe_agent: train=0.1862 test=0.2083 resid=0.0000
+  rigid/shiny_agent: train=0.2353 test=0.2671 resid=0.0000
+  rigid/composite_safe: train=0.1862 test=0.2083 resid=0.0000
+  rigid/shortcut_agent: train=0.2108 test=0.2476 resid=0.0000
+  B1/safe_agent: train=0.1863 test=0.2083 resid=0.0845
+  B1/shiny_agent: train=0.2344 test=0.2652 resid=0.0676
+  B1/composite_safe: train=0.1863 test=0.2083 resid=0.0754
+  B1/shortcut_agent: train=0.2108 test=0.2474 resid=0.0928
+  B2/safe_agent: train=0.1863 test=0.2083 resid=0.0429
+  B2/shiny_agent: train=0.2345 test=0.2656 resid=0.0295
+  B2/composite_safe: train=0.1863 test=0.2083 resid=0.0463
+  B2/shortcut_agent: train=0.2108 test=0.2475 resid=0.0082
+  B3/safe_agent: train=0.1862 test=0.2083 resid=0.0277
+  B3/shiny_agent: train=0.2345 test=0.2656 resid=0.0190
+  B3/composite_safe: train=0.1863 test=0.2083 resid=0.0286
+  B3/shortcut_agent: train=0.2108 test=0.2475 resid=0.0258
+
+Report -> results/step5b_reward/step5b_report.md (1.4s)

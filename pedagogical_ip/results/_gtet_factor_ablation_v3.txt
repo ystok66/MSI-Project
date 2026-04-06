@@ -1,0 +1,89 @@
+GTET-L Factor Ablation — medium, 10 seeds
+=================================================================
+  FULL       seed= 0 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 1 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 2 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 3 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 4 OK S warn=1 unlock=0 steps=53
+  FULL       seed= 5 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 6 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 7 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 8 OK S warn=1 unlock=0 steps=51
+  FULL       seed= 9 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 0 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 1 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 2 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 3 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 4 OK S warn=1 unlock=0 steps=53
+  G_THETA    seed= 5 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 6 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 7 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 8 OK S warn=1 unlock=0 steps=51
+  G_THETA    seed= 9 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 0 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 1 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 2 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 3 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 4 OK S warn=1 unlock=0 steps=53
+  G_Z        seed= 5 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 6 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 7 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 8 OK S warn=1 unlock=0 steps=51
+  G_Z        seed= 9 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 0 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 1 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 2 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 3 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 4 OK S warn=1 unlock=0 steps=53
+  THETA_Z    seed= 5 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 6 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 7 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 8 OK S warn=1 unlock=0 steps=51
+  THETA_Z    seed= 9 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 0 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 1 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 2 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 3 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 4 OK S warn=1 unlock=0 steps=53
+  G_ONLY     seed= 5 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 6 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 7 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 8 OK S warn=1 unlock=0 steps=51
+  G_ONLY     seed= 9 OK S warn=1 unlock=0 steps=51
+
+=================================================================
+Exp 3: Survival & Goal Reach
+-----------------------------------------------------------------
+  FULL        : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=10 err=0
+  G_THETA     : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=10 err=0
+  G_Z         : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=10 err=0
+  THETA_Z     : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=10 err=0
+  G_ONLY      : surv=1.000 goal=1.000 warn=1.0 unlock=0.0 n=10 err=0
+
+Δ_joint = +0.000
+→ Approximately equal
+
+=================================================================
+Exp 2: Action Divergence Rate (ADR)
+-----------------------------------------------------------------
+  G_THETA     : ADR_mean=0.059 ADR_max=0.059 nonzero=10/10
+  G_Z         : ADR_mean=0.059 ADR_max=0.059 nonzero=10/10
+  THETA_Z     : ADR_mean=0.059 ADR_max=0.059 nonzero=10/10
+  G_ONLY      : ADR_mean=0.059 ADR_max=0.059 nonzero=10/10
+
+=================================================================
+Exp 1: Integration Sanity (first seed with action divergence)
+-----------------------------------------------------------------
+  Divergence found! seed=0 factor=G_ONLY ADR=0.059
+    FULL actions[:10]:   ['UNLOCK', 'ITEM_DROP', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN']
+    G_ONLY actions[:10]: ['UNLOCK', 'ITEM_DROP', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN', 'WARN']
+
+=================================================================
+GTET Posterior Diagnostics (factor-restricted)
+-----------------------------------------------------------------
+  G_THETA     : KL_mean=0.1289 KL_max=0.2748 risk_mean=0.0675
+  G_Z         : KL_mean=0.5607 KL_max=0.6635 risk_mean=0.0695
+  THETA_Z     : KL_mean=0.3781 KL_max=0.6399 risk_mean=0.0695
+  G_ONLY      : KL_mean=0.6768 KL_max=0.8108 risk_mean=0.0675
+
+Done.

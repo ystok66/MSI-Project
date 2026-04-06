@@ -1,0 +1,36 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0 -- /home/ystok6/anaconda3/envs/pedip310/bin/python
+cachedir: .pytest_cache
+rootdir: /mnt/f/SCAI/Learning-agent/pedagogical_ip
+configfile: pyproject.toml
+collecting ... collected 27 items
+
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_default_space_has_8_hypotheses PASSED [  3%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_atomic_only_space_has_4 PASSED [  7%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_atomic_goals_present PASSED [ 11%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_composite_labels PASSED [ 14%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_is_composite_flag PASSED [ 18%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_reward_weights_shape PASSED [ 22%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_composite_reward_is_average PASSED [ 25%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_goal_conditioned_utility PASSED [ 29%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_choice_probs_sum_to_one PASSED [ 33%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_safe_goal_prefers_safe_branch PASSED [ 37%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_collect_goal_prefers_tempting_branch PASSED [ 40%]
+tests/test_compositional_goal_hypotheses.py::TestGoalHypothesisSpace::test_get_unknown_raises PASSED [ 44%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_construction_theta2 PASSED [ 48%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_construction_theta_k PASSED [ 51%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_prior_sums_to_one PASSED [ 55%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_update_changes_posterior PASSED [ 59%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_posterior_sharpens PASSED [ 62%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_safe_actions_recover_safe_pref PASSED [ 66%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_risky_actions_recover_shiny_pref PASSED [ 70%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_marginal_goal_identifies_correct_goal PASSED [ 74%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_map_hypothesis PASSED [ 77%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_goal_conditional_pref PASSED [ 81%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_with_temptation PASSED [ 85%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_k_type_doesnt_collapse PASSED [ 88%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_history_tracking PASSED [ 92%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_reset PASSED [ 96%]
+tests/test_joint_goal_pref_posterior.py::TestJointGoalPrefPosterior::test_atomic_only_space PASSED [100%]
+
+============================== 27 passed in 2.52s ==============================
