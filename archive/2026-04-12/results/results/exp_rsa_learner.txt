@@ -1,0 +1,94 @@
+Condition                          N  OBS_SR  TEACH_SR  EVAL_SR     SE     Gap  Actions
+==============================================================================================================
+F0_legacy                              8    0.500    0.688   0.750  0.104  0.250  HIGHLIGHT:31.2% WAIT:68.8%
+F1_rsa_noreveal                        8    0.500    0.500   0.667  0.109  0.167  BAN:0.4% HIGHLIGHT:28.8% WAIT:70.8%
+F2_rsa_reveal                          8    0.500    0.500   0.792  0.108  0.292  BAN:0.9% HIGHLIGHT:32.5% WAIT:66.6%
+F3_sem_only                            8    0.500    0.500   0.792  0.108  0.292  BAN:0.9% HIGHLIGHT:32.5% WAIT:66.6%
+F4_risk_only                           8    0.500    0.750   0.750  0.104  0.250  HIGHLIGHT:30.2% WAIT:69.8%
+F5_rsa_l0tutor                         8    0.500    0.688   0.792  0.088  0.292  BAN:25.6% HIGHLIGHT:5.5% WAIT:68.9%
+
+--- JSON ---
+{
+  "F0_legacy": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.6875,
+    "EVAL_SR": 0.75,
+    "EVAL_SE": 0.1045,
+    "TransferGap": 0.25,
+    "AvgTime_s": 3.6,
+    "Actions": {
+      "HIGHLIGHT": 31.2,
+      "WAIT": 68.8
+    }
+  },
+  "F1_rsa_noreveal": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.5,
+    "EVAL_SR": 0.6667,
+    "EVAL_SE": 0.1091,
+    "TransferGap": 0.1667,
+    "AvgTime_s": 1.5,
+    "Actions": {
+      "BAN": 0.4,
+      "HIGHLIGHT": 28.8,
+      "WAIT": 70.8
+    }
+  },
+  "F2_rsa_reveal": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.5,
+    "EVAL_SR": 0.7917,
+    "EVAL_SE": 0.108,
+    "TransferGap": 0.2917,
+    "AvgTime_s": 3.6,
+    "Actions": {
+      "BAN": 0.9,
+      "HIGHLIGHT": 32.5,
+      "WAIT": 66.6
+    }
+  },
+  "F3_sem_only": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.5,
+    "EVAL_SR": 0.7917,
+    "EVAL_SE": 0.108,
+    "TransferGap": 0.2917,
+    "AvgTime_s": 3.6,
+    "Actions": {
+      "BAN": 0.9,
+      "HIGHLIGHT": 32.5,
+      "WAIT": 66.6
+    }
+  },
+  "F4_risk_only": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.75,
+    "EVAL_SR": 0.75,
+    "EVAL_SE": 0.1045,
+    "TransferGap": 0.25,
+    "AvgTime_s": 3.1,
+    "Actions": {
+      "HIGHLIGHT": 30.2,
+      "WAIT": 69.8
+    }
+  },
+  "F5_rsa_l0tutor": {
+    "n": 8,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.6875,
+    "EVAL_SR": 0.7917,
+    "EVAL_SE": 0.0877,
+    "TransferGap": 0.2917,
+    "AvgTime_s": 2.6,
+    "Actions": {
+      "BAN": 25.6,
+      "HIGHLIGHT": 5.5,
+      "WAIT": 68.9
+    }
+  }
+}

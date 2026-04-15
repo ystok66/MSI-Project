@@ -214,14 +214,16 @@ def score_interventions(
     # ═══ Phase 10: Bottleneck diagnosis + matching ═══════════════
 
     # Compute risk uncertainty map for bottleneck diagnosis
+    # Uses predictor's external interface — no internal weight access
     risk_unc_map = None
-    if rb._predictor_snapshot is not None and hasattr(rb._predictor_snapshot, 'risk_head'):
-        w_r = rb._predictor_snapshot.risk_head.w
-        d_bel = rb.agent_belief_var.shape[-1]
-        d_w = len(w_r)
-        d_use = min(d_bel, d_w)
-        # Approximate: project raw-space variance through first d_use weight dims
-        risk_unc_map = np.sum(rb.agent_belief_var[..., :d_use] * (w_r[:d_use] ** 2), axis=-1)
+    if rb._predictor_snapshot is not None:
+        pred = rb._predictor_snapshot
+        H, W = rb.agent_belief_var.shape[:2]
+        risk_unc_map = np.zeros((H, W), dtype=np.float64)
+        for r in range(H):
+            for c in range(W):
+                x_var = rb.agent_belief_var[r, c]
+                risk_unc_map[r, c] = pred.predict_risk_uncertainty_from_var(x_var)
 
     # Structural slack estimation
     from ..agents.route_necessity import compute_route_necessity

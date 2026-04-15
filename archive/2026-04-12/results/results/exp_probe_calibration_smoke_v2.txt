@@ -1,0 +1,121 @@
+Condition                   N  EVAL_SR  Spearman_ρ   p-val  SignAgree  TopK_lift   ID  OOD   Time   Usable?
+===========================================================================================================
+B0_margin|nsup=4|nt=2       6    0.778      0.6211  0.1882      0.333      N/A     12    0   28.8     ✓ YES
+B0_margin|nsup=6|nt=2       6    0.833      0.4880  0.3262      0.667      N/A     12    0   27.4     ✓ YES
+B1_acc12|nsup=4|nt=2        6    0.778      0.6211  0.1882      0.333      N/A     12    0   29.6     ✓ YES
+B1_acc12|nsup=6|nt=2        6    0.833      0.4880  0.3262      0.667      N/A     12    0   28.5     ✓ YES
+B2_acc30|nsup=4|nt=2        6    0.778      0.6211  0.1882      0.333      N/A     30    0   45.6     ✓ YES
+B2_acc30|nsup=6|nt=2        6    0.833     -0.0976  0.8541      0.333      N/A     30    0   44.8     ✗ NO 
+B4_acc30ood|nsup=4|nt=2     6    0.833      0.0976  0.8541      0.500      N/A     15   15   56.8     ✗ NO 
+B4_acc30ood|nsup=6|nt=2     6    0.833      0.4880  0.3262      0.833      N/A     15   15   54.1     ✓ YES
+
+Threshold: Spearman ρ ≥ 0.30 → usable (proceed to Exp C)
+           Spearman ρ < 0.10 → reject surrogate design
+
+--- JSON ---
+{
+  "B0_margin|nsup=4|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.6211,
+    "Spearman_p": 0.1882,
+    "SignAgreement": 0.333,
+    "TopK_lift": "N/A",
+    "n_id_probes": 12,
+    "n_ood_probes": 0,
+    "AvgTime_s": 28.83,
+    "ρ_usable": true
+  },
+  "B0_margin|nsup=6|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.488,
+    "Spearman_p": 0.3262,
+    "SignAgreement": 0.667,
+    "TopK_lift": "N/A",
+    "n_id_probes": 12,
+    "n_ood_probes": 0,
+    "AvgTime_s": 27.39,
+    "ρ_usable": true
+  },
+  "B1_acc12|nsup=4|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.6211,
+    "Spearman_p": 0.1882,
+    "SignAgreement": 0.333,
+    "TopK_lift": "N/A",
+    "n_id_probes": 12,
+    "n_ood_probes": 0,
+    "AvgTime_s": 29.55,
+    "ρ_usable": true
+  },
+  "B1_acc12|nsup=6|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.488,
+    "Spearman_p": 0.3262,
+    "SignAgreement": 0.667,
+    "TopK_lift": "N/A",
+    "n_id_probes": 12,
+    "n_ood_probes": 0,
+    "AvgTime_s": 28.53,
+    "ρ_usable": true
+  },
+  "B2_acc30|nsup=4|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.6211,
+    "Spearman_p": 0.1882,
+    "SignAgreement": 0.333,
+    "TopK_lift": "N/A",
+    "n_id_probes": 30,
+    "n_ood_probes": 0,
+    "AvgTime_s": 45.56,
+    "ρ_usable": true
+  },
+  "B2_acc30|nsup=6|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": -0.0976,
+    "Spearman_p": 0.8541,
+    "SignAgreement": 0.333,
+    "TopK_lift": "N/A",
+    "n_id_probes": 30,
+    "n_ood_probes": 0,
+    "AvgTime_s": 44.84,
+    "ρ_usable": false
+  },
+  "B4_acc30ood|nsup=4|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.0976,
+    "Spearman_p": 0.8541,
+    "SignAgreement": 0.5,
+    "TopK_lift": "N/A",
+    "n_id_probes": 15,
+    "n_ood_probes": 15,
+    "AvgTime_s": 56.75,
+    "ρ_usable": false
+  },
+  "B4_acc30ood|nsup=6|nt=2": {
+    "n": 6,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.488,
+    "Spearman_p": 0.3262,
+    "SignAgreement": 0.833,
+    "TopK_lift": "N/A",
+    "n_id_probes": 15,
+    "n_ood_probes": 15,
+    "AvgTime_s": 54.11,
+    "ρ_usable": true
+  }
+}

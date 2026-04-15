@@ -48,6 +48,8 @@ def predict_agent_prefix(
     t: int = 0,
     t_max: int = 100,
     inventory_state=None,
+    feature_belief_var: Optional[np.ndarray] = None,
+    route_necessity: float = 0.0,
 ) -> AgentPrediction:
     """Predict agent's likely plan from the robot's surrogate model.
 
@@ -58,6 +60,8 @@ def predict_agent_prefix(
     if surrogate_lp is None:
         raise ValueError("Cannot predict agent without latent predictor snapshot")
 
+    _pw = rb.agent_planner_weights
+
     # Rollout using surrogate belief + surrogate competence
     bp = plan_from_belief(
         agent_pos, goal, belief_cost, rb.agent_belief_mean,
@@ -66,12 +70,15 @@ def predict_agent_prefix(
         warned_cell_extra=warned_cell_extra,
         search_budget=rb.agent_search_budget,
         prefix_horizon=prefix_horizon,
-        lambda_risk=rb.agent_risk_weight,
-        lambda_uncertainty=rb.agent_uncertainty_weight,
-        lambda_c=rb.agent_lambda_c,
-        lambda_uc=rb.agent_lambda_uc,
-        lambda_ur=rb.agent_lambda_ur,
+        lambda_risk=_pw.lambda_risk,
+        lambda_uncertainty=_pw.lambda_uc,
+        lambda_c=_pw.lambda_cost,
+        lambda_uc=_pw.lambda_uc,
+        lambda_ur=_pw.lambda_ur,
         t=t, t_max=t_max,
+        inventory_state=inventory_state,
+        feature_belief_var=feature_belief_var if feature_belief_var is not None else rb.agent_belief_var,
+        route_necessity=route_necessity,
     )
 
     # Get candidate scores for failure modes
@@ -80,12 +87,14 @@ def predict_agent_prefix(
         surrogate_lp.risk_head, budget=rb.agent_search_budget,
         passable_mask=passable, warned_cell_extra_cost=warned_cell_extra,
         latent_predictor=surrogate_lp,
-        lambda_risk=rb.agent_risk_weight,
-        lambda_uncertainty=rb.agent_uncertainty_weight,
-        lambda_c=rb.agent_lambda_c,
-        lambda_uc=rb.agent_lambda_uc,
-        lambda_ur=rb.agent_lambda_ur,
+        lambda_risk=_pw.lambda_risk,
+        lambda_uncertainty=_pw.lambda_uc,
+        lambda_c=_pw.lambda_cost,
+        lambda_uc=_pw.lambda_uc,
+        lambda_ur=_pw.lambda_ur,
         inventory_state=inventory_state,
+        feature_belief_var=feature_belief_var if feature_belief_var is not None else rb.agent_belief_var,
+        route_necessity=route_necessity,
     )
 
     fm = estimate_failure_modes(bp, t, t_max, cand_scores)

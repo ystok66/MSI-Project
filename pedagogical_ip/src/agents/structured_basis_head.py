@@ -229,6 +229,8 @@ class BasisRiskHead:
 
         grad_norm = float(np.linalg.norm(grad_w))
         max_grad_norm = 5.0
+        if not np.isfinite(grad_norm):
+            return  # skip update on NaN/Inf gradient
         if grad_norm > max_grad_norm:
             grad_w *= max_grad_norm / grad_norm
 
@@ -296,20 +298,84 @@ class StructuredBasisCostRiskHead:
         return self.risk_head.predict_uncertainty(x)
 
     def predict_cost_uncertainty_from_var(self, x_var: np.ndarray) -> float:
-        """Directional cost uncertainty using basis-projected variance.
+        """Jacobian-based cost uncertainty from raw feature variance.
 
-        Approximate: propagate x_var through cost basis Jacobian.
-        For cross-terms this is an approximation (ignores covariance).
+        Propagates Σ_z = diag(x_var) through the cost basis Jacobian:
+            g_c(z) = J_φc(z)ᵀ · w_c
+            Var[η_c] ≈ g_c(z)ᵀ · Σ_z · g_c(z)
+            u_c ≈ softplus'(η_c) · √Var[η_c]
         """
-        # Use first-order approximation with raw feature uncertainty
-        x_mean = np.full(4, 0.5)  # fallback mean
-        phi = cost_basis(x_mean)
-        # Simple proxy: sum of w² · var over raw dims
-        return float(np.sum(self.cost_head.w[:4] ** 2 * x_var[:min(4, len(x_var))]))
+        # Use z_mean = 0.5 as operating point for Jacobian
+        z = np.full(4, 0.5)
+        z0, z1, z2, z3 = z[0], z[1], z[2], z[3]
+        t_sum = z2 + z3
+        w = self.cost_head.w  # (6,)
+
+        # Jacobian J_φc: (6, 4) — ∂φ_c[i]/∂z[j]
+        # φ_c = [1, z₀, z₁, z₂+z₃, z₀z₁, (z₂+z₃)²]
+        J = np.zeros((6, 4), dtype=np.float64)
+        # ∂φ/∂z₀: [0, 1, 0, 0, z₁, 0]
+        J[1, 0] = 1.0; J[4, 0] = z1
+        # ∂φ/∂z₁: [0, 0, 1, 0, z₀, 0]
+        J[2, 1] = 1.0; J[4, 1] = z0
+        # ∂φ/∂z₂: [0, 0, 0, 1, 0, 2(z₂+z₃)]
+        J[3, 2] = 1.0; J[5, 2] = 2 * t_sum
+        # ∂φ/∂z₃: [0, 0, 0, 1, 0, 2(z₂+z₃)]
+        J[3, 3] = 1.0; J[5, 3] = 2 * t_sum
+
+        # g_c = Jᵀ · w → (4,)
+        g = J.T @ w
+
+        # Var[η_c] = gᵀ · diag(x_var) · g
+        d_use = min(4, len(x_var))
+        var_eta = float(np.sum(g[:d_use] ** 2 * x_var[:d_use]))
+
+        # softplus'(η) = σ(η)
+        eta = float(w @ cost_basis(z) + self.cost_head.b)
+        sp_deriv = float(1.0 / (1.0 + np.exp(-eta)))
+
+        return float(max(sp_deriv * np.sqrt(max(var_eta, 0)), 0.001))
 
     def predict_risk_uncertainty_from_var(self, x_var: np.ndarray) -> float:
-        """Directional risk uncertainty proxy."""
-        return float(np.sum(self.risk_head.w[:4] ** 2 * x_var[:min(4, len(x_var))]))
+        """Jacobian-based risk uncertainty from raw feature variance.
+
+        Propagates Σ_z = diag(x_var) through the risk basis Jacobian:
+            g_r(z) = J_φr(z)ᵀ · w_r
+            Var[η_r] ≈ g_r(z)ᵀ · Σ_z · g_r(z)
+            u_r ≈ σ'(η_r) · √Var[η_r]
+        """
+        z = np.full(4, 0.5)
+        z0, z1, z2, z3 = z[0], z[1], z[2], z[3]
+        w = self.risk_head.w  # (7,)
+
+        # Jacobian J_φr: (7, 4) — ∂φ_r[i]/∂z[j]
+        # φ_r = [1, z₂, z₃, z₂z₃, |z₂-z₃|, z₁z₂, z₁z₃]
+        J = np.zeros((7, 4), dtype=np.float64)
+        # ∂φ/∂z₁: [0, 0, 0, 0, 0, z₂, z₃]
+        J[5, 1] = z2; J[6, 1] = z3
+        # ∂φ/∂z₂: [0, 1, 0, z₃, sign(z₂-z₃), z₁, 0]
+        J[1, 2] = 1.0; J[3, 2] = z3
+        J[4, 2] = np.sign(z2 - z3) if z2 != z3 else 0.0
+        J[5, 2] = z1
+        # ∂φ/∂z₃: [0, 0, 1, z₂, -sign(z₂-z₃), 0, z₁]
+        J[2, 3] = 1.0; J[3, 3] = z2
+        J[4, 3] = -np.sign(z2 - z3) if z2 != z3 else 0.0
+        J[6, 3] = z1
+
+        # g_r = Jᵀ · w → (4,)
+        g = J.T @ w
+
+        # Var[η_r] = gᵀ · diag(x_var) · g
+        d_use = min(4, len(x_var))
+        var_eta = float(np.sum(g[:d_use] ** 2 * x_var[:d_use]))
+
+        # σ'(η) = σ(η) · (1-σ(η))
+        phi = risk_basis(z)
+        eta = float(w @ phi + self.risk_head.b)
+        p = float(1.0 / (1.0 + np.exp(-eta)))
+        sigma_prime = p * (1 - p)
+
+        return float(max(sigma_prime * np.sqrt(max(var_eta, 0)), 0.001))
 
     def update_from_outcome(self, x, cost_label, risk_label, weight=1.0):
         self.cost_head.update_from_label(x, cost_label, weight=weight)

@@ -1,0 +1,102 @@
+Condition                        N  OBS_SR  TEACH_SR  EVAL_SR     SE       ρ  Actions
+=========================================================================================================
+D0_legacy|nsup=4|nt=2            6   0.417     0.917    0.833  0.068  0.0000  BAN:2.8% HIGHLIGHT:24.6% WAIT:72.5%
+D0_legacy|nsup=6|nt=2            6   0.583     0.833    0.833  0.068  0.0000  BAN:3.2% HIGHLIGHT:28.2% WAIT:68.5%
+D1_H1_lp1|nsup=4|nt=2            6   0.417     0.833    0.778  0.064  0.6211  BAN:2.8% HIGHLIGHT:26.4% WAIT:70.8%
+D1_H1_lp1|nsup=6|nt=2            6   0.583     0.833    0.833  0.068  0.4880  BAN:3.1% HIGHLIGHT:29.0% WAIT:67.9%
+D3_H2_lp1|nsup=4|nt=2            6   0.417     0.750    0.889  0.064  0.0000  BAN:2.9% HIGHLIGHT:27.1% WAIT:70.0%
+D3_H2_lp1|nsup=6|nt=2            6   0.583     0.833    0.833  0.068  0.2928  BAN:3.1% HIGHLIGHT:29.0% WAIT:67.9%
+
+--- JSON ---
+{
+  "D0_legacy|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.9167,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 3.8,
+    "Actions": {
+      "BAN": 2.8,
+      "HIGHLIGHT": 24.6,
+      "WAIT": 72.5
+    }
+  },
+  "D0_legacy|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.8333,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 3.8,
+    "Actions": {
+      "BAN": 3.2,
+      "HIGHLIGHT": 28.2,
+      "WAIT": 68.5
+    }
+  },
+  "D1_H1_lp1|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.8333,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.6211,
+    "Spearman_p": 0.1882,
+    "AvgTime_s": 43.0,
+    "Actions": {
+      "BAN": 2.8,
+      "HIGHLIGHT": 26.4,
+      "WAIT": 70.8
+    }
+  },
+  "D1_H1_lp1|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.8333,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.488,
+    "Spearman_p": 0.3262,
+    "AvgTime_s": 40.8,
+    "Actions": {
+      "BAN": 3.1,
+      "HIGHLIGHT": 29.0,
+      "WAIT": 67.9
+    }
+  },
+  "D3_H2_lp1|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.75,
+    "EVAL_SR": 0.8889,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 74.0,
+    "Actions": {
+      "BAN": 2.9,
+      "HIGHLIGHT": 27.1,
+      "WAIT": 70.0
+    }
+  },
+  "D3_H2_lp1|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.8333,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.2928,
+    "Spearman_p": 0.5734,
+    "AvgTime_s": 69.5,
+    "Actions": {
+      "BAN": 3.1,
+      "HIGHLIGHT": 29.0,
+      "WAIT": 67.9
+    }
+  }
+}

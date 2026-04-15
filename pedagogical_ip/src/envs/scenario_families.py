@@ -32,6 +32,8 @@ from .lattice_v2 import (
 )
 from .dtmb_lattice import generate_dtmb_lattice
 from .gtet_lattice import generate_gtet_lattice
+from .harder_baseline import generate_harder_baseline_v2
+from .scenario_contract import validate_scenario_contract
 
 DifficultyLevel = Literal["easy", "medium", "hard"]
 
@@ -73,7 +75,10 @@ def generate_scenario(
     if family not in SCENARIO_REGISTRY:
         available = list(SCENARIO_REGISTRY.keys())
         raise ValueError(f"Unknown scenario family '{family}'. Available: {available}")
-    return SCENARIO_REGISTRY[family](seed, difficulty, latent_mode, **kwargs)
+    result = SCENARIO_REGISTRY[family](seed, difficulty, latent_mode, **kwargs)
+    gm, cfg, meta = result[0], result[1], result[2]
+    validate_scenario_contract(gm, meta)
+    return result
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -171,9 +176,14 @@ def generate_fork_trap(
     ct[2, seg_end] = CellType.NORMAL
     cost[2, seg_end] = 1.0
 
-    # ── Randomize which branch is risky ──
-    risky_row = rng.choice([1, 3])
-    safe_row = 3 if risky_row == 1 else 1
+    # ── Branch assignment ──
+    # Fixed: risky=row1, safe=row3. Row 0 is wall so upward detour from
+    # row 1 is physically impossible. Previous rng.choice([1,3]) caused
+    # 61% of seeds to have broken safe paths (detour at rows 4,5 is
+    # unreachable from row 1).
+    _unused = rng.choice([1, 3])  # consume RNG to keep seed progression stable
+    risky_row = 1
+    safe_row = 3
 
     # ── Entry/exit gates ──
     for r in [1, 3]:
@@ -215,13 +225,8 @@ def generate_fork_trap(
     dc_down = detour_start
     dc_up = detour_end
 
-    # Open detour path through rows 4, 5 (or 4, 0 if safe_row == 1)
-    if safe_row == 3:
-        detour_rows = [4, 5]
-    else:
-        # safe_row == 1, detour not needed in current architecture
-        # but we still use rows 4, 5 for consistency
-        detour_rows = [4, 5]
+    # Detour goes through rows 4, 5 (below safe_row=3)
+    detour_rows = [4, 5]
 
     for c in [dc_down, dc_up]:
         for dr in detour_rows:
@@ -893,371 +898,11 @@ def generate_deadline_gate(
     return gm, cfg, meta, sc
 
 
-# ══════════════════════════════════════════════════════════════════════
-# delayed_corridor — Late-Revealing Risk
-# ══════════════════════════════════════════════════════════════════════
 
-DELAYED_CORRIDOR_PARAMS = {
-    "easy":   {"corridor_len": 7, "safe_prefix": 2, "deep_risk": 0.35,
-               "time_ratio": 1.30},
-    "medium": {"corridor_len": 8, "safe_prefix": 3, "deep_risk": 0.45,
-               "time_ratio": 1.20},
-    "hard":   {"corridor_len": 9, "safe_prefix": 4, "deep_risk": 0.60,
-               "time_ratio": 1.10},
-}
-
-
-def generate_delayed_corridor(
-    seed: int,
-    difficulty: DifficultyLevel = "medium",
-    latent_mode: bool = True,
-    **kwargs,
-) -> tuple[GridMap, FamilyConfig, LatticeV2Meta, ScenarioConfig]:
-    """Delayed Commitment Corridor — risk hidden behind safe-looking prefix.
-
-    A single long segment. Corridor A looks safe at entry (first
-    safe_prefix cells), but risk escalates past the commitment point.
-    Once the agent is deep enough, backtracking + taking corridor B
-    exceeds the deadline.
-
-    Prefix-aware WARN is the primary lever: a tutor that can predict
-    the agent's path prefix can warn BEFORE the commitment point.
-    A myopic tutor that only sees current-cell risk will warn too late.
-    """
-    rng = np.random.default_rng(seed)
-    params = DELAYED_CORRIDOR_PARAMS[difficulty]
-    corridor_len = params["corridor_len"]
-    safe_prefix = params["safe_prefix"]
-    deep_risk = params["deep_risk"]
-    time_ratio = params["time_ratio"]
-
-    # Single long segment
-    CORR_W = 1
-    seg_width = corridor_len
-    W = 1 + CORR_W + seg_width + CORR_W + 1
-    H = 7
-
-    ct, cost, risk = _empty_grid(H, W)
-    features = np.full((H, W, FEATURE_DIM), 0.5, dtype=np.float64)
-    ct[:, :] = CellType.WALL
-    cost[:, :] = np.inf
-
-    # Row 2 corridor
-    for c in range(1, W - 1):
-        ct[2, c] = CellType.NORMAL
-        cost[2, c] = 1.0
-        features[2, c] = np.array([0.5, 1.0, 0.0, 0.0])
-
-    seg_start = 1 + CORR_W
-    seg_end = seg_start + seg_width - 1
-
-    # Wall row 2 inside segment
-    for c in range(seg_start, seg_end + 1):
-        ct[2, c] = CellType.WALL
-        cost[2, c] = np.inf
-    ct[2, seg_start] = CellType.NORMAL
-    cost[2, seg_start] = 1.0
-    ct[2, seg_end] = CellType.NORMAL
-    cost[2, seg_end] = 1.0
-
-    # Entry/exit gates
-    for r in [1, 3]:
-        ct[r, seg_start] = CellType.NORMAL
-        cost[r, seg_start] = 1.0
-        features[r, seg_start] = np.array([
-            0.0 if r == 1 else 1.0, 1.0, 0.0, 0.0])
-        ct[r, seg_end] = CellType.NORMAL
-        cost[r, seg_end] = 1.0
-        features[r, seg_end] = np.array([
-            0.0 if r == 1 else 1.0, 1.0, 0.0, 0.0])
-
-    risky_entry = (1, seg_start)
-    safe_entry = (3, seg_start)
-
-    # ── Corridor A (row 1): deceptive — safe prefix, then deep risk ──
-    risky_cells = []
-    trap_cell = None
-    weak_cue_cells = []
-    commitment_cells = []
-
-    for c in range(seg_start + 1, seg_end):
-        depth = c - seg_start - 1  # 0-indexed
-        ct[1, c] = CellType.RISKY
-        cost[1, c] = 1.0
-        risky_cells.append((1, c))
-
-        if depth < safe_prefix:
-            # Safe-looking prefix: LOW features, LOW risk
-            risk[1, c] = rng.uniform(0.02, 0.06)
-            features[1, c] = np.array([0.0, 0.0,
-                                        rng.uniform(0.03, 0.12),
-                                        rng.uniform(0.02, 0.10)])
-            weak_cue_cells.append((1, c))
-        else:
-            # Deep zone: HIGH risk, features become diagnostic
-            risk[1, c] = deep_risk + rng.uniform(-0.05, 0.05)
-            features[1, c] = np.array([0.0, 0.0,
-                                        rng.uniform(0.65, 0.85),
-                                        rng.uniform(0.55, 0.80)])
-            if trap_cell is None:
-                trap_cell = (1, c)
-            # Mark commitment point = first deep-risk cell
-            if depth == safe_prefix:
-                commitment_cells.append((1, c))
-
-    # ── Corridor B (row 3): safe but longer (zigzag detour) ──
-    safe_cells = []
-    dt = 2  # larger detour → corridor B is significantly longer
-    detour_start = seg_start + (seg_width // 2) - dt
-    detour_end = detour_start + dt
-
-    for c in range(seg_start + 1, seg_end):
-        if detour_start <= c < detour_end:
-            ct[3, c] = CellType.WALL
-            cost[3, c] = np.inf
-        else:
-            ct[3, c] = CellType.NORMAL
-            cost[3, c] = 1.0
-            safe_cells.append((3, c))
-            features[3, c] = _safe_feature(rng, 1.0)
-
-    # Detour through rows 4, 5
-    dc_down = detour_start
-    dc_up = detour_end
-    for c in range(dc_down - 1, dc_up + 2):
-        if seg_start <= c <= seg_end:
-            for dr in [4, 5]:
-                ct[dr, c] = CellType.NORMAL
-                cost[dr, c] = 1.0
-                safe_cells.append((dr, c))
-                features[dr, c] = _safe_feature(rng, 1.0)
-
-    # Build map
-    agent_start = (2, 1)
-    target_pos = (2, W - 2)
-    gm = _build_gridmap(H, W, ct, cost, risk,
-                         agent_start, target_pos, target_pos, [])
-
-    shortest_any = _bfs_len(gm, agent_start, target_pos, set())
-    risky_gates = {risky_entry}
-    shortest_safe = _bfs_len(gm, agent_start, target_pos, risky_gates)
-    base = shortest_safe if shortest_safe < 999 else 25
-    t_max = max(int(time_ratio * base), base + 2)
-
-    # Latent mode
-    ww = None
-    if latent_mode:
-        from ..agents.cost_risk_model import generate_world_weights
-        ww = generate_world_weights(rng, d=FEATURE_DIM)
-        for r in range(H):
-            for c in range(W):
-                if ct[r, c] == CellType.WALL:
-                    continue
-                z = features[r, c]
-                cost[r, c] = ww.true_cost(z)
-                risk[r, c] = ww.true_risk(z)
-        gm = _build_gridmap(H, W, ct, cost, risk,
-                             agent_start, target_pos, target_pos, [])
-
-    seg_meta = SegmentMeta(
-        index=0, col_start=seg_start, col_end=seg_end,
-        risky_row=1, safe_row=3,
-        L_risky=seg_width - 1, L_safe=0,
-        detour_len=dt,
-        risky_cells=risky_cells, safe_cells=safe_cells,
-        risky_entry_gate=risky_entry,
-        safe_entry_gate=safe_entry,
-        trap_cell=trap_cell,
-        weak_cue_cells=weak_cue_cells,
-    )
-
-    meta = LatticeV2Meta(
-        segments=[seg_meta],
-        all_gate_cells=[risky_entry, safe_entry],
-        all_door_positions=[risky_entry],
-        shortest_any=shortest_any,
-        shortest_safe=shortest_safe,
-        cell_features=features,
-        world_weights=ww,
-        latent_mode=latent_mode,
-    )
-
-    cfg = FamilyConfig(
-        max_steps=t_max, risk_budget=1.0,
-        prior_risk_mean=0.02, prior_risk_var=0.20,
-        search_budget=30, budget_class=8,
-    )
-
-    sc = ScenarioConfig(
-        family_name="delayed_corridor",
-        difficulty=difficulty,
-        primary_intervention="WARN",
-        expected_failure_mode="commitment",
-        commitment_cells=commitment_cells,
-    )
-
-    return gm, cfg, meta, sc
-
-
-# ══════════════════════════════════════════════════════════════════════
-# distractor_cue — Misleading Local Cues
-# ══════════════════════════════════════════════════════════════════════
-
-DISTRACTOR_CUE_PARAMS = {
-    "easy":   {"cue_reliability": 0.6, "distractor_frac": 0.10,
-               "time_ratio": 1.50, "n_segments": 3},
-    "medium": {"cue_reliability": 0.3, "distractor_frac": 0.25,
-               "time_ratio": 1.35, "n_segments": 3},
-    "hard":   {"cue_reliability": 0.0, "distractor_frac": 0.40,
-               "time_ratio": 1.20, "n_segments": 3},
-}
-
-
-def generate_distractor_cue(
-    seed: int,
-    difficulty: DifficultyLevel = "medium",
-    latent_mode: bool = True,
-    cue_mode: str = "weak",
-    **kwargs,
-) -> tuple[GridMap, FamilyConfig, LatticeV2Meta, ScenarioConfig]:
-    """Distractor Cue Corridor — misleading or unreliable local features.
-
-    Standard V2 segment topology, but feature-risk correlation is
-    controlled by cue_reliability:
-        1.0 = features perfectly predict risk (standard V2)
-        0.5 = noisy
-        0.0 = uncorrelated
-        negative = inverted (misleading)
-
-    cue_mode:
-        "weak"      — low correlation, agent gets noisy signals
-        "misleading" — some cells have inverted features (safe looks risky
-                       and risky looks safe), controlled by distractor_frac
-
-    WARN is the primary lever because it provides GROUND TRUTH about
-    risk, overriding the misleading features.
-    """
-    rng = np.random.default_rng(seed)
-    params = DISTRACTOR_CUE_PARAMS[difficulty]
-    reliability = params["cue_reliability"]
-    distractor_frac = params["distractor_frac"]
-    time_ratio = params["time_ratio"]
-    n_segments = params["n_segments"]
-
-    if cue_mode == "misleading":
-        # Increase distractor fraction and allow negative reliability
-        distractor_frac = min(distractor_frac + 0.15, 0.50)
-        reliability = max(reliability - 0.3, -0.3)
-
-    # Use standard V2 generation, then CORRUPT features
-    gm, cfg, meta = generate_lattice_v2(
-        seed=seed, difficulty=difficulty, n_segments=n_segments,
-        latent_mode=False)  # Don't apply latent yet — we modify features first
-
-    features = meta.cell_features.copy()
-    H, W = gm.height, gm.width
-
-    # ── Corrupt features based on cue_reliability ──
-    weak_cue_cells = []
-    for seg in meta.segments:
-        all_lane_cells = seg.risky_cells + seg.safe_cells
-
-        n_distractor = max(1, int(len(all_lane_cells) * distractor_frac))
-        distractor_indices = rng.choice(
-            len(all_lane_cells),
-            size=min(n_distractor, len(all_lane_cells)),
-            replace=False)
-
-        for idx in distractor_indices:
-            r, c = all_lane_cells[idx]
-            actual_risk = gm.true_risk[r, c]
-            is_risky = actual_risk > 0.15
-
-            if cue_mode == "misleading":
-                # INVERT: risky cells get safe-looking features, vice versa
-                if is_risky:
-                    features[r, c, F_TEXTURE_1] = rng.uniform(0.02, 0.12)
-                    features[r, c, F_TEXTURE_2] = rng.uniform(0.01, 0.08)
-                else:
-                    features[r, c, F_TEXTURE_1] = rng.uniform(0.50, 0.80)
-                    features[r, c, F_TEXTURE_2] = rng.uniform(0.40, 0.70)
-            else:
-                # WEAK: add noise proportional to (1 - reliability)
-                noise_scale = 1.0 - reliability
-                noise1 = rng.uniform(-0.3, 0.3) * noise_scale
-                noise2 = rng.uniform(-0.3, 0.3) * noise_scale
-                features[r, c, F_TEXTURE_1] = np.clip(
-                    features[r, c, F_TEXTURE_1] + noise1, 0.0, 1.0)
-                features[r, c, F_TEXTURE_2] = np.clip(
-                    features[r, c, F_TEXTURE_2] + noise2, 0.0, 1.0)
-
-            weak_cue_cells.append((r, c))
-
-    # Update meta with corrupted features
-    meta_new = LatticeV2Meta(
-        segments=meta.segments,
-        all_gate_cells=meta.all_gate_cells,
-        all_door_positions=meta.all_door_positions,
-        shortest_any=meta.shortest_any,
-        shortest_safe=meta.shortest_safe,
-        cell_features=features,
-        world_weights=meta.world_weights,
-        latent_mode=latent_mode,
-    )
-
-    # Record weak_cue_cells in each segment
-    for seg in meta_new.segments:
-        seg.weak_cue_cells = [
-            (r, c) for r, c in weak_cue_cells
-            if seg.col_start <= c <= seg.col_end]
-
-    # ── Latent mode: derive cost/risk from (corrupted) features ──
-    ww = None
-    cost_arr = gm.true_cost.copy()
-    risk_arr = gm.true_risk.copy()
-    if latent_mode:
-        from ..agents.cost_risk_model import generate_world_weights
-        ww = generate_world_weights(rng, d=FEATURE_DIM)
-        for r in range(H):
-            for c in range(W):
-                if gm.cell_types[r, c] == CellType.WALL:
-                    continue
-                z = features[r, c]
-                cost_arr[r, c] = ww.true_cost(z)
-                risk_arr[r, c] = ww.true_risk(z)
-        gm = _build_gridmap(H, W, gm.cell_types.copy(), cost_arr, risk_arr,
-                             gm.agent_start, gm.target_pos, gm.target_pos,
-                             gm.door_positions)
-        meta_new = LatticeV2Meta(
-            segments=meta_new.segments,
-            all_gate_cells=meta_new.all_gate_cells,
-            all_door_positions=meta_new.all_door_positions,
-            shortest_any=meta_new.shortest_any,
-            shortest_safe=meta_new.shortest_safe,
-            cell_features=features,
-            world_weights=ww,
-            latent_mode=True,
-        )
-
-    # Time budget
-    base = meta_new.shortest_safe if meta_new.shortest_safe < 999 else 30
-    t_max = max(int(time_ratio * base), base + 2)
-    cfg = FamilyConfig(
-        max_steps=t_max, risk_budget=1.0,
-        prior_risk_mean=0.02, prior_risk_var=0.20,
-        search_budget=30, budget_class=8,
-    )
-
-    sc = ScenarioConfig(
-        family_name="distractor_cue",
-        difficulty=difficulty,
-        primary_intervention="WARN",
-        cue_reliability=reliability,
-        expected_failure_mode="cue_error",
-    )
-
-    return gm, cfg, meta_new, sc
-
+# NOTE: First definitions of generate_delayed_corridor (was L897-L1100)
+# and generate_distractor_cue (was L1103-L1262) were removed here.
+# They were dead code -- registry and all imports bind to the 2nd
+# definitions at L2177+ and L2385+. Batch B cleanup.
 
 # ══════════════════════════════════════════════════════════════════════
 # funnel_trap — Multi-Stage Funnel Trap (complex family)
@@ -3047,7 +2692,9 @@ SCENARIO_REGISTRY: dict[str, callable] = {
     "joint_conflict_corridor": generate_joint_conflict_corridor,
     "deep_tree_mixed_bottleneck_lattice": generate_dtmb_lattice,
     "goal_preference_temptation_entanglement_lattice": generate_gtet_lattice,
+    "harder_baseline_v2": generate_harder_baseline_v2,
 }
 
 SCENARIO_NAMES = list(SCENARIO_REGISTRY.keys())
+
 

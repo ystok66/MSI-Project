@@ -66,10 +66,12 @@ def compute_dependence_proxy(block_a: list[dict], block_b: list[dict],
 
 
 def compute_boredom_proxy(results: list[dict]) -> float:
-    """Boredom proxy: fraction of episodes with low information gain + high cost.
+    """LEGACY — Boredom proxy: fraction of episodes with low information gain + high cost.
 
-    Proxy: episodes that are very long (steps/t_max > 0.9) but still succeed.
-    These suggest the agent is wandering without learning.
+    Superseded by canonical B_wait = avg_prefix_cost / (ε + LG) in
+    phase9_metrics.py / intervention_policy.py. This threshold-based
+    fraction proxy should NOT be used as the primary boredom metric
+    in formal evaluation tables or paper figures.
     """
     if not results:
         return 0.0

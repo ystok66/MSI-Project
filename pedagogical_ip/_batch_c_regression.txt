@@ -1,0 +1,85 @@
+﻿
+=================================== ERRORS ====================================
+_______________ ERROR collecting tests/test_belief_protocol.py ________________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_belief_protocol.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_belief_protocol.py:13: in <module>
+    from src.agents.belief_protocol import CellBelief
+E   ModuleNotFoundError: No module named 'src.agents.belief_protocol'
+__________________ ERROR collecting tests/test_benchmark.py ___________________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_benchmark.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_benchmark.py:18: in <module>
+    from src.envs.benchmark_generator import (
+E   ModuleNotFoundError: No module named 'src.envs.benchmark_generator'
+________________ ERROR collecting tests/test_latent_belief.py _________________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_latent_belief.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_latent_belief.py:16: in <module>
+    from src.agents.belief_protocol import CellBelief
+E   ModuleNotFoundError: No module named 'src.agents.belief_protocol'
+_______________ ERROR collecting tests/test_particle_teacher.py _______________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_particle_teacher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_particle_teacher.py:13: in <module>
+    from src.teachers.particle_teacher import (
+E   ModuleNotFoundError: No module named 'src.teachers.particle_teacher'
+_____________ ERROR collecting tests/test_patch_belief_update.py ______________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_patch_belief_update.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_patch_belief_update.py:18: in <module>
+    from src.agents.belief_protocol import CellBelief
+E   ModuleNotFoundError: No module named 'src.agents.belief_protocol'
+_________________ ERROR collecting tests/test_rsa_warning.py __________________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_rsa_warning.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_rsa_warning.py:10: in <module>
+    from src.teachers.rsa_warning import (
+E   ModuleNotFoundError: No module named 'src.teachers.rsa_warning'
+___________________ ERROR collecting tests/test_teacher.py ____________________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_teacher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_teacher.py:13: in <module>
+    from src.teachers.oracle_teacher import OracleTeacherPolicy
+E   ModuleNotFoundError: No module named 'src.teachers.oracle_teacher'
+_______________ ERROR collecting tests/test_warning_protocol.py _______________
+ImportError while importing test module 'F:\SCAI\Learning-agent\pedagogical_ip\tests\test_warning_protocol.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\APP\anaconda\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_warning_protocol.py:14: in <module>
+    from src.agents.pragmatic_warning import PragmaticWarner
+E   ModuleNotFoundError: No module named 'src.agents.pragmatic_warning'
+=========================== short test summary info ===========================
+ERROR tests/test_belief_protocol.py
+ERROR tests/test_benchmark.py
+ERROR tests/test_latent_belief.py
+ERROR tests/test_particle_teacher.py
+ERROR tests/test_patch_belief_update.py
+ERROR tests/test_rsa_warning.py
+ERROR tests/test_teacher.py
+ERROR tests/test_warning_protocol.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 8 errors during collection !!!!!!!!!!!!!!!!!!!
+8 errors in 8.10s

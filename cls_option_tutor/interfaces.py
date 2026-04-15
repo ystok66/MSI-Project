@@ -81,12 +81,25 @@ class TutorStep:
     """One tutor action within a round."""
     round_t: int
     query_id: int
-    action: str                         # "WAIT", "RISK_HINT", "HIGHLIGHT", "SKIP"
-    ban_index: Optional[int] = None     # which option was banned (legacy)
-    hint_index: Optional[int] = None    # which option got risk hint [V2]
+    action: str  # "WAIT" | "BAN" | "HIGHLIGHT" | "MIX" | "RISK_HINT" | "SKIP" | "PASS" | "PASS_QUERY" | "SHORTLIST"
+    #   WAIT        = no intervention (all options in normal tier)
+    #   BAN(j)      = demote j to last tier (chosen only if higher tiers empty)
+    #   HIGHLIGHT(k)= promote k to highest tier (chosen before normal/ban tiers)
+    #   MIX(j,k)    = BAN(j) + HIGHLIGHT(k) atomically
+    #   RISK_HINT   = weak risk label [legacy V2]
+    #   SKIP        = env terminates query
+    #   PASS        = tutor explicitly aborts (RSA mode); no posterior update
+    #   PASS_QUERY  = query-level gate: skip this query, peek next (Bayes Gate Stage B)
+    #   SHORTLIST   = restrict learner to subset S [legacy, kept as baseline]
+    #                 Invariants: j* ∈ S, |S| = tau_t, no lethal options in S
+    ban_index: Optional[int] = None
+    hint_index: Optional[int] = None
     highlight_cells: Optional[Tuple[int, ...]] = None
+    shortlist_indices: Optional[Tuple[int, ...]] = None  # for SHORTLIST action
+    mix_ban_index: Optional[int] = None                  # for MIX action: which option to BAN
+    mix_highlight_cells: Optional[Tuple[int, ...]] = None  # for MIX action: cells to HIGHLIGHT
+    q_use_detail: Optional[dict] = None  # Q_use breakdown: {g_eval, g_exp, p_death, p_timeout, d_shift, cost, action}
     q_scores: Optional[dict] = None
-
 
 # ── Semantic scorer protocol ───────────────────────────────────
 
@@ -165,3 +178,24 @@ class PolicyStateSnapshot:
     learner_action: Optional[str] = None       # "pick" or "refresh"
     learner_pick_index: Optional[int] = None   # if pick
 
+
+
+#  RSA / L0 tutor read-only snapshot 
+
+@dataclass
+class LearnerStateSnapshot:
+    '''Read-only snapshot of learner state for L0 tutor access.
+
+    Serializable (no live objects) - ready for future ProcessPool upgrade.
+    Used in single-thread L0 tutor mode (Exp F, condition F5).
+    '''
+    semantic_scores: List[float]    # (K,) CLS scores for active options
+    danger_preds: List[float]       # (K,) mu_d = p_h * mu_s
+    danger_uncs: List[float]        # (K,) u_d
+    hazard_probs: List[float]       # (K,) raw p_h(v_j) for G_teach^BAN
+    pick_probs: List[float]         # (K,) learner pick probabilities
+    hp: int                         # current hit points
+    active_option_indices: List[int]  # indices into full menu
+    danger_vecs: List[List[float]]  # (K, m) for BAN teach target update
+    option_texts: List[List[str]]   # (K,) for HIGHLIGHT mismatch
+    attention_weights: List[float]  # (L,) over target output cells

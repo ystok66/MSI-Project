@@ -51,6 +51,7 @@ from ..agents.risk_model import BayesianRiskHead
 from ..agents.cost_risk_model import LatentCostRiskHead
 from ..agents.observation_model import observe_features, observe_features_patch
 from ..agents.planner_astar import plan_next_action_v2
+from ..agents.planner_weights import PlannerWeights
 from ..agents.prefix_prediction import compute_prefix_predictions, PrefixPrediction
 from ..agents.belief_planning import (
     plan_from_belief, estimate_failure_modes,
@@ -125,10 +126,13 @@ class V2EpisodeState:
     tutor_mode: str               # "none", "time_aware", "warn_first", "always_close"
     warning_mode: str             # "none", "fixed", "selected"
     warned_segments: set = field(default_factory=set)
-    warned_lane_bias: dict = field(default_factory=dict)
+    warned_lane_bias: dict = field(default_factory=dict)  # DEPRECATED: not populated on RSA path
     warned_cell_extra: dict = field(default_factory=dict)
-    lambda_lane_warn: float = 5.0
+    lambda_lane_warn: float = 5.0  # DEPRECATED: only used by legacy _build_warned_cell_extra
     closure_budget: Optional[int] = None
+
+    # Planner weights — single canonical source (Phase D)
+    planner_weights: PlannerWeights = field(default_factory=PlannerWeights)
 
     # Latent mode
     latent_mode: bool = False
@@ -187,6 +191,9 @@ class V2EpisodeState:
     risky_entered: int = 0
     traps_hit: int = 0
     cue_cells_seen: int = 0
+
+    # Canonical boredom accumulation (populated from score_decomposition per step)
+    _boredom_trace: list = field(default_factory=list)
 
     # Phase 0 audit: read-only instrumentation (zero overhead when False)
     audit_mode: bool = False
@@ -359,6 +366,7 @@ class LatticeV2Runner:
                 fb.mean, fb.var, latent_predictor=lp,
                 copy_mode=belief_copy_mode,
                 budget_mismatch=budget_mismatch,
+                planner_weights=state.planner_weights,
                 rng=rng,
             )
             # Phase 10: Init Tutor Perceptual Model
@@ -369,6 +377,10 @@ class LatticeV2Runner:
         state.dtmb_dispatch_cfg = dtmb_dispatch_cfg
         state.factor_mode = factor_mode
         state.predictor_mode = predictor_mode
+
+        # SlowFast lifecycle: warm-start fast head from slow prior
+        if lp is not None and hasattr(lp, 'begin_episode'):
+            lp.begin_episode()
 
         # GTET-L: init joint posterior for factor ablation / predictor audit
         if scenario_family == "goal_preference_temptation_entanglement_lattice":
@@ -397,6 +409,15 @@ class LatticeV2Runner:
         self.apply_tutor(s)
         self.plan_and_move(s)
         return s
+
+    def end_episode(self, s: V2EpisodeState) -> None:
+        """Finalize episode: trigger SlowFast transfer and any cleanup.
+
+        Call this after the step loop ends (s.done == True).
+        For non-SlowFast predictors this is a no-op.
+        """
+        if s.latent_predictor is not None and hasattr(s.latent_predictor, 'end_episode'):
+            s.latent_predictor.end_episode()
 
     def observe(self, s: V2EpisodeState) -> None:
         """Sub-step 1: Agent observes features at current position.
@@ -464,6 +485,7 @@ class LatticeV2Runner:
 
         if s.belief_planning_mode and s.latent_predictor is not None:
             # Phase 6: belief-conditioned bounded planning
+            _pw = s.planner_weights
             bp = plan_from_belief(
                 s.agent_pos, s.goal, s.belief_cost, s.feature_belief.mean,
                 s.risk_head, s.passable,
@@ -472,9 +494,15 @@ class LatticeV2Runner:
                 search_budget=30,
                 prefix_horizon=max(s.prefix_horizon, 5),
                 confidence_temperature=s.confidence_temperature,
+                lambda_risk=_pw.lambda_risk,
+                lambda_uncertainty=_pw.lambda_uc,  # legacy param; feeds into split weights
+                lambda_c=_pw.lambda_cost,
+                lambda_uc=_pw.lambda_uc,
+                lambda_ur=_pw.lambda_ur,
                 t=s.t, t_max=s.t_max,
                 feature_belief_var=s.feature_belief.var,
                 route_necessity=route_necessity,
+                inventory_state=s.inventory,
             )
             next_pos = bp.next_pos
             path = bp.full_path
@@ -488,6 +516,7 @@ class LatticeV2Runner:
                 s.risk_head, budget=30, passable_mask=s.passable,
                 warned_cell_extra_cost=extra,
                 latent_predictor=s.latent_predictor,
+                inventory_state=s.inventory,
                 feature_belief_var=s.feature_belief.var,
                 route_necessity=route_necessity)
             warned_set = set(s.warned_cell_extra.keys()) if s.warned_cell_extra else set()
@@ -495,11 +524,18 @@ class LatticeV2Runner:
                 bp, s.t, s.t_max, cand_scores, warned_cells=warned_set)
         else:
             # Legacy / latent / patch path
+            _pw = s.planner_weights
             _, next_pos, path = plan_next_action_v2(
                 s.agent_pos, s.goal, s.belief_cost, s.feature_belief.mean,
-                s.risk_head, budget=30, passable_mask=s.passable,
+                s.risk_head, budget=30,
+                lambda_risk=_pw.lambda_risk,
+                lambda_uncertainty=_pw.lambda_uc,
+                passable_mask=s.passable,
                 warned_cell_extra_cost=extra,
                 latent_predictor=s.latent_predictor,
+                lambda_c=_pw.lambda_cost,
+                lambda_uc=_pw.lambda_uc,
+                lambda_ur=_pw.lambda_ur,
                 feature_belief_var=s.feature_belief.var,
                 route_necessity=route_necessity)
 
@@ -669,6 +705,15 @@ class LatticeV2Runner:
                 perceptual_access=s.perceptual_access,
             )
             s.last_intervention = decision
+
+            # Accumulate canonical boredom for episode-level metrics
+            if decision.score_decomposition is not None:
+                _sd = decision.score_decomposition
+                s._boredom_trace.append({
+                    "boredom_penalty": _sd.get("boredom_penalty", 0.0),
+                    "learning_gain": _sd.get("learning_gain", 0.0),
+                    "avg_prefix_cost": _sd.get("avg_prefix_cost", 0.0),
+                })
 
             # Execute the chosen intervention
             if decision.action == "WARN":

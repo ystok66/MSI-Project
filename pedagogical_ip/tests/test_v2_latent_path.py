@@ -58,7 +58,7 @@ def test_planner_uses_cost_risk_uncertainty():
 
     cost_default = cell_cost_v2_latent(2, 2, fbm, lp, passable)
     # With higher risk weight, score should increase
-    cost_high_risk = cell_cost_v2_latent(2, 2, fbm, lp, passable, lambda_r=20.0)
+    cost_high_risk = cell_cost_v2_latent(2, 2, fbm, lp, passable, lambda_risk=20.0)
     assert cost_high_risk > cost_default, "Higher λ_r should increase score"
 
     # With higher cost weight, score should increase
@@ -83,8 +83,8 @@ def test_high_cost_low_risk_tradeoff():
     fbm[1, 2] = x_high_risk
 
     # With high λ_r, risk penalty dominates cost difference
-    score_cost = cell_cost_v2_latent(1, 0, fbm, lp, passable, lambda_r=15.0)
-    score_risk = cell_cost_v2_latent(1, 2, fbm, lp, passable, lambda_r=15.0)
+    score_cost = cell_cost_v2_latent(1, 0, fbm, lp, passable, lambda_risk=15.0)
+    score_risk = cell_cost_v2_latent(1, 2, fbm, lp, passable, lambda_risk=15.0)
     assert score_risk > score_cost, (
         f"High-risk cell should have higher total score: {score_risk} vs {score_cost}")
 

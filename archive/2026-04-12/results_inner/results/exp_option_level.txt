@@ -1,0 +1,167 @@
+Option-Level Tutor Experiment — J = delta_eval - 0.5*DeathRate - 0.2*TimeoutRate
+================================================================================
+
+
+Scenario A: K=10 >> tau_t=3: shortlist required to be solvable
+------------------------------------------------------------
+  no_tutor                n=4  OBS=0.500 TEACH=0.400 EVAL=0.583±0.0722  dEval=+0.083 Death=0.000 Tout=0.600 J=-0.0366±0.2444  #SL=0.0 WrongPick=2.125 Reveal=2.125 CLSupd=2.125 Eval1stOK=0.333 EvalAvgSteps=2.333 EvalDeaths=0.00 EvalTimeouts=1.25
+  new_baseline            n=4  OBS=0.500 TEACH=0.600 EVAL=0.500±0.0833  dEval=+0.000 Death=0.030 Tout=0.375 J=-0.0900±0.2410  #SL=3.0 WrongPick=1.775 Reveal=1.775 CLSupd=1.775 Eval1stOK=0.083 EvalAvgSteps=2.333 EvalDeaths=0.25 EvalTimeouts=1.25
+  new_probe               n=4  OBS=0.500 TEACH=0.600 EVAL=0.500±0.0833  dEval=+0.000 Death=0.030 Tout=0.375 J=-0.0900±0.2410  #SL=3.0 WrongPick=1.775 Reveal=1.775 CLSupd=1.775 Eval1stOK=0.083 EvalAvgSteps=2.333 EvalDeaths=0.25 EvalTimeouts=1.25
+
+Scenario B: H_0=3 + 7 risky options: safety filter critical
+------------------------------------------------------------
+  no_tutor                n=4  OBS=0.375 TEACH=0.450 EVAL=0.583±0.1382  dEval=+0.208 Death=0.130 Tout=0.250 J=+0.0932±0.1305  #SL=0.0 WrongPick=3.025 Reveal=3.025 CLSupd=3.025 Eval1stOK=0.250 EvalAvgSteps=2.833 EvalDeaths=0.50 EvalTimeouts=0.75
+  new_baseline            n=4  OBS=0.375 TEACH=0.625 EVAL=0.500±0.0833  dEval=+0.125 Death=0.094 Tout=0.225 J=+0.0332±0.1659  #SL=1.8 WrongPick=2.250 Reveal=2.250 CLSupd=2.250 Eval1stOK=0.417 EvalAvgSteps=2.917 EvalDeaths=0.50 EvalTimeouts=1.00
+  new_probe               n=4  OBS=0.375 TEACH=0.625 EVAL=0.417±0.0722  dEval=+0.042 Death=0.093 Tout=0.200 J=-0.0447±0.1758  #SL=1.8 WrongPick=2.225 Reveal=2.225 CLSupd=2.225 Eval1stOK=0.167 EvalAvgSteps=3.583 EvalDeaths=0.75 EvalTimeouts=1.00
+
+--- JSON ---
+{
+  "A": {
+    "no_tutor": {
+      "n": 4,
+      "OBS_SR": 0.5,
+      "TEACH_SR": 0.4,
+      "EVAL_SR": 0.5833,
+      "EVAL_SE": 0.0722,
+      "delta_eval_from_obs": 0.0833,
+      "death_rate": 0.0,
+      "timeout_rate": 0.6,
+      "J": -0.0366,
+      "J_SE": 0.2444,
+      "survival_rate": 1.0,
+      "lethal_pick_rate": 0.0,
+      "total_damage": 13.0,
+      "n_shortlist": 0.0,
+      "wrong_picks_per_query": 2.125,
+      "reveals_per_query": 2.125,
+      "first_pick_correct_rate": 0.125,
+      "cls_updates_per_query": 2.125,
+      "eval_1st_ok": 0.3333,
+      "eval_avg_steps": 2.3333,
+      "eval_deaths": 0.0,
+      "eval_timeouts": 1.25
+    },
+    "new_baseline": {
+      "n": 4,
+      "OBS_SR": 0.5,
+      "TEACH_SR": 0.6,
+      "EVAL_SR": 0.5,
+      "EVAL_SE": 0.0833,
+      "delta_eval_from_obs": 0.0,
+      "death_rate": 0.0301,
+      "timeout_rate": 0.375,
+      "J": -0.09,
+      "J_SE": 0.241,
+      "survival_rate": 0.9167,
+      "lethal_pick_rate": 0.0301,
+      "total_damage": 11.75,
+      "n_shortlist": 3.0,
+      "wrong_picks_per_query": 1.775,
+      "reveals_per_query": 1.775,
+      "first_pick_correct_rate": 0.175,
+      "cls_updates_per_query": 1.775,
+      "eval_1st_ok": 0.0833,
+      "eval_avg_steps": 2.3333,
+      "eval_deaths": 0.25,
+      "eval_timeouts": 1.25
+    },
+    "new_probe": {
+      "n": 4,
+      "OBS_SR": 0.5,
+      "TEACH_SR": 0.6,
+      "EVAL_SR": 0.5,
+      "EVAL_SE": 0.0833,
+      "delta_eval_from_obs": 0.0,
+      "death_rate": 0.0301,
+      "timeout_rate": 0.375,
+      "J": -0.09,
+      "J_SE": 0.241,
+      "survival_rate": 0.9167,
+      "lethal_pick_rate": 0.0301,
+      "total_damage": 11.75,
+      "n_shortlist": 3.0,
+      "wrong_picks_per_query": 1.775,
+      "reveals_per_query": 1.775,
+      "first_pick_correct_rate": 0.175,
+      "cls_updates_per_query": 1.775,
+      "eval_1st_ok": 0.0833,
+      "eval_avg_steps": 2.3333,
+      "eval_deaths": 0.25,
+      "eval_timeouts": 1.25
+    }
+  },
+  "B": {
+    "no_tutor": {
+      "n": 4,
+      "OBS_SR": 0.375,
+      "TEACH_SR": 0.45,
+      "EVAL_SR": 0.5833,
+      "EVAL_SE": 0.1382,
+      "delta_eval_from_obs": 0.2083,
+      "death_rate": 0.1301,
+      "timeout_rate": 0.25,
+      "J": 0.0932,
+      "J_SE": 0.1305,
+      "survival_rate": 0.8333,
+      "lethal_pick_rate": 0.1301,
+      "total_damage": 20.0,
+      "n_shortlist": 0.0,
+      "wrong_picks_per_query": 3.025,
+      "reveals_per_query": 3.025,
+      "first_pick_correct_rate": 0.175,
+      "cls_updates_per_query": 3.025,
+      "eval_1st_ok": 0.25,
+      "eval_avg_steps": 2.8334,
+      "eval_deaths": 0.5,
+      "eval_timeouts": 0.75
+    },
+    "new_baseline": {
+      "n": 4,
+      "OBS_SR": 0.375,
+      "TEACH_SR": 0.625,
+      "EVAL_SR": 0.5,
+      "EVAL_SE": 0.0833,
+      "delta_eval_from_obs": 0.125,
+      "death_rate": 0.0936,
+      "timeout_rate": 0.225,
+      "J": 0.0332,
+      "J_SE": 0.1659,
+      "survival_rate": 0.8333,
+      "lethal_pick_rate": 0.0936,
+      "total_damage": 13.5,
+      "n_shortlist": 1.75,
+      "wrong_picks_per_query": 2.25,
+      "reveals_per_query": 2.25,
+      "first_pick_correct_rate": 0.25,
+      "cls_updates_per_query": 2.25,
+      "eval_1st_ok": 0.4167,
+      "eval_avg_steps": 2.9166,
+      "eval_deaths": 0.5,
+      "eval_timeouts": 1.0
+    },
+    "new_probe": {
+      "n": 4,
+      "OBS_SR": 0.375,
+      "TEACH_SR": 0.625,
+      "EVAL_SR": 0.4167,
+      "EVAL_SE": 0.0722,
+      "delta_eval_from_obs": 0.0416,
+      "death_rate": 0.0927,
+      "timeout_rate": 0.2,
+      "J": -0.0447,
+      "J_SE": 0.1758,
+      "survival_rate": 0.75,
+      "lethal_pick_rate": 0.0927,
+      "total_damage": 15.25,
+      "n_shortlist": 1.75,
+      "wrong_picks_per_query": 2.225,
+      "reveals_per_query": 2.225,
+      "first_pick_correct_rate": 0.175,
+      "cls_updates_per_query": 2.225,
+      "eval_1st_ok": 0.1666,
+      "eval_avg_steps": 3.5834,
+      "eval_deaths": 0.75,
+      "eval_timeouts": 1.0
+    }
+  }
+}

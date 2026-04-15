@@ -18,7 +18,8 @@ from ..env.state import QueryState, BlockState, ProfileState
 from ..env.danger_model import DangerModel, generate_danger_model
 from ..env.interventions import (
     apply_wait, apply_ban, apply_highlight, apply_skip,
-    apply_risk_hint, clear_menu_interventions, get_active_menu,
+    apply_risk_hint, apply_shortlist, apply_mix,
+    clear_menu_interventions, get_active_menu,
 )
 from ..grammar.task_adapter import TaskAdapter, Grammar
 from ..grammar.option_generator import generate_menu
@@ -113,18 +114,36 @@ class OptionEnv:
                 menu=menu,
             ))
 
-        block = BlockState(
-            block_id=block_id,
-            support_examples=support,
-            queries=query_states,
-            obs_phase_queries=min(self.cfg.env.N_obs, len(query_states)),
-            teach_phase_queries=min(
-                self.cfg.env.N_teach,
-                max(0, len(query_states) - self.cfg.env.N_obs)),
-            eval_phase_queries=min(
-                self.cfg.env.N_eval,
-                max(0, len(query_states) - self.cfg.env.N_obs - self.cfg.env.N_teach)),
-        )
+        teach_budget = getattr(self.cfg.env, 'teach_step_budget', 0)
+
+        if teach_budget > 0:
+            # Budget mode: pre-allocate enough teach queries (worst case: 1 step each)
+            max_teach_qs = min(teach_budget, max(0, len(query_states) - self.cfg.env.N_obs))
+            block = BlockState(
+                block_id=block_id,
+                support_examples=support,
+                queries=query_states,
+                obs_phase_queries=min(self.cfg.env.N_obs, len(query_states)),
+                teach_phase_queries=max_teach_qs,
+                eval_phase_queries=min(
+                    self.cfg.env.N_eval,
+                    max(0, len(query_states) - self.cfg.env.N_obs - max_teach_qs)),
+                teach_step_budget=teach_budget,
+                teach_steps_used=0,
+            )
+        else:
+            block = BlockState(
+                block_id=block_id,
+                support_examples=support,
+                queries=query_states,
+                obs_phase_queries=min(self.cfg.env.N_obs, len(query_states)),
+                teach_phase_queries=min(
+                    self.cfg.env.N_teach,
+                    max(0, len(query_states) - self.cfg.env.N_obs)),
+                eval_phase_queries=min(
+                    self.cfg.env.N_eval,
+                    max(0, len(query_states) - self.cfg.env.N_obs - self.cfg.env.N_teach)),
+            )
         return block
 
     def _generate_v2_menu(self, ex: Example) -> List[Option]:
@@ -188,6 +207,7 @@ class OptionEnv:
         ban_index: Optional[int] = None,
         hint_index: Optional[int] = None,
         highlight_cells: Optional[Tuple[int, ...]] = None,
+        shortlist_indices: Optional[list] = None,
     ) -> TutorStep:
         """Execute a tutor action on the current query."""
         qs = block.current_query
@@ -218,9 +238,27 @@ class OptionEnv:
                 qs, highlight_cells,
                 max_cells=self.cfg.tutor.max_highlight_cells,
                 round_t=round_t)
+        elif action == "SHORTLIST":
+            if shortlist_indices is None:
+                raise ValueError("SHORTLIST requires shortlist_indices")
+            step = apply_shortlist(qs, shortlist_indices, round_t)
+        elif action == "MIX":
+            if ban_index is None:
+                raise ValueError("MIX requires ban_index")
+            if highlight_cells is None:
+                raise ValueError("MIX requires highlight_cells")
+            step = apply_mix(
+                qs, ban_index, highlight_cells,
+                round_t=round_t,
+                max_cells=self.cfg.tutor.max_highlight_cells,
+            )
         elif action == "SKIP":
             step = apply_skip(qs, round_t)
             block.total_skips += 1
+        elif action == "PASS":
+            from ..env.interventions import apply_pass
+            step = apply_pass(qs, round_t)
+            block.total_skips += 1  # count as skip for metrics
         else:
             raise ValueError(f"Unknown tutor action: {action}")
 
@@ -278,6 +316,11 @@ class OptionEnv:
         )
         block.learner_trace.append(step)
         block.total_rounds += 1
+        # Budget tracking: count each step during teach phase
+        if block.in_teaching_phase or (
+                block.teach_step_budget > 0
+                and block.teach_steps_used < block.teach_step_budget):
+            block.teach_steps_used += 1
         self._check_query_end(block, qs)
         return step
 
@@ -300,6 +343,13 @@ class OptionEnv:
             raise ValueError(f"Invalid pick_index {pick_index}")
         if pick_index in qs.banned_indices:
             raise ValueError(f"Option {pick_index} is banned")
+        # Enforce shortlist constraint: if a shortlist is active, learner must
+        # pick from it. This is the env-level enforcement of the invariant
+        # final_choice ∈ S.
+        if qs.shortlisted_indices is not None and pick_index not in qs.shortlisted_indices:
+            raise ValueError(
+                f"Option {pick_index} not in active shortlist {qs.shortlisted_indices}"
+            )
 
         correct = option.is_correct
         damage = 0
@@ -342,6 +392,11 @@ class OptionEnv:
             menu_size=len(active),
         )
         block.learner_trace.append(step)
+        # Budget tracking: count each step during teach phase
+        if block.in_teaching_phase or (
+                block.teach_step_budget > 0
+                and block.teach_steps_used < block.teach_step_budget):
+            block.teach_steps_used += 1
         self._check_query_end(block, qs)
         return step
 

@@ -1,0 +1,102 @@
+Condition                             N  OBS_SR  TEACH_SR  EVAL_SR     SE    Gap   Dmg   Time  Actions
+==============================================================================================================================================
+A0_legacy|nsup=2|nt=1                 6   0.250     0.500    0.833  0.104 -0.333   9.8    2.7  BAN:4% HIGHLIGHT:17% WAIT:78%
+A0_legacy|nsup=6|nt=1                 6   0.500     0.667    0.944  0.051 -0.278   9.7    2.7  BAN:1% HIGHLIGHT:18% WAIT:81%
+A1_lp05|nsup=2|nt=1                   6   0.083     0.333    0.778  0.101 -0.444  11.7   25.0  BAN:4% HIGHLIGHT:16% WAIT:80%
+A1_lp05|nsup=6|nt=1                   6   0.500     0.667    0.944  0.051 -0.278   9.2   15.8  BAN:1% HIGHLIGHT:17% WAIT:82%
+A2_lp10|nsup=2|nt=1                   6   0.250     0.500    0.833  0.104 -0.333   9.8   21.3  BAN:4% HIGHLIGHT:17% WAIT:78%
+A2_lp10|nsup=6|nt=1                   6   0.500     0.667    0.944  0.051 -0.278   9.2   14.9  BAN:1% HIGHLIGHT:17% WAIT:82%
+
+--- JSON ---
+{
+  "A0_legacy|nsup=2|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.25,
+    "TEACH_SR": 0.5,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.1039,
+    "TransferGap": -0.3333,
+    "AvgDamage": 9.83,
+    "AvgTime_s": 2.7,
+    "Actions": {
+      "BAN": 4.310344827586207,
+      "HIGHLIGHT": 17.24137931034483,
+      "WAIT": 78.44827586206897
+    }
+  },
+  "A0_legacy|nsup=6|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.6667,
+    "EVAL_SR": 0.9444,
+    "EVAL_SE": 0.0507,
+    "TransferGap": -0.2778,
+    "AvgDamage": 9.67,
+    "AvgTime_s": 2.66,
+    "Actions": {
+      "BAN": 1.0309278350515463,
+      "HIGHLIGHT": 17.52577319587629,
+      "WAIT": 81.44329896907216
+    }
+  },
+  "A1_lp05|nsup=2|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.0833,
+    "TEACH_SR": 0.3333,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.1014,
+    "TransferGap": -0.4444,
+    "AvgDamage": 11.67,
+    "AvgTime_s": 24.98,
+    "Actions": {
+      "BAN": 3.90625,
+      "HIGHLIGHT": 15.625,
+      "WAIT": 80.46875
+    }
+  },
+  "A1_lp05|nsup=6|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.6667,
+    "EVAL_SR": 0.9444,
+    "EVAL_SE": 0.0507,
+    "TransferGap": -0.2778,
+    "AvgDamage": 9.17,
+    "AvgTime_s": 15.77,
+    "Actions": {
+      "BAN": 1.075268817204301,
+      "HIGHLIGHT": 17.204301075268816,
+      "WAIT": 81.72043010752688
+    }
+  },
+  "A2_lp10|nsup=2|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.25,
+    "TEACH_SR": 0.5,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.1039,
+    "TransferGap": -0.3333,
+    "AvgDamage": 9.83,
+    "AvgTime_s": 21.32,
+    "Actions": {
+      "BAN": 4.310344827586207,
+      "HIGHLIGHT": 17.24137931034483,
+      "WAIT": 78.44827586206897
+    }
+  },
+  "A2_lp10|nsup=6|nt=1": {
+    "n": 6,
+    "OBS_SR": 0.5,
+    "TEACH_SR": 0.6667,
+    "EVAL_SR": 0.9444,
+    "EVAL_SE": 0.0507,
+    "TransferGap": -0.2778,
+    "AvgDamage": 9.17,
+    "AvgTime_s": 14.86,
+    "Actions": {
+      "BAN": 1.075268817204301,
+      "HIGHLIGHT": 17.204301075268816,
+      "WAIT": 81.72043010752688
+    }
+  }
+}

@@ -98,6 +98,7 @@ def plan_from_belief(
     risk_threshold: float = 0.3,
     feature_belief_var: Optional[np.ndarray] = None,
     route_necessity: float = 0.0,
+    inventory_state=None,              # InventoryState or None
 ) -> BeliefPlan:
     """Plan from belief using bounded A*, returning structured diagnostics.
 
@@ -117,6 +118,7 @@ def plan_from_belief(
         latent_predictor=latent_predictor,
         lambda_risk=lambda_risk, lambda_uncertainty=lambda_uncertainty,
         lambda_c=lambda_c, lambda_uc=lambda_uc, lambda_ur=lambda_ur,
+        inventory_state=inventory_state,
         feature_belief_var=feature_belief_var,
         route_necessity=route_necessity,
     )

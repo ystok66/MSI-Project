@@ -18,6 +18,8 @@ from copy import deepcopy
 
 import numpy as np
 
+from ..agents.planner_weights import PlannerWeights
+
 
 @dataclass
 class RobotBelief:
@@ -34,11 +36,9 @@ class RobotBelief:
     # Surrogate competence parameters (robot's estimate of agent)
     agent_search_budget: int = 30
     agent_heuristic_noise_std: float = 0.0
-    agent_risk_weight: float = 3.0
-    agent_uncertainty_weight: float = 0.5
-    agent_lambda_c: float = 1.0
-    agent_lambda_uc: float = 0.1
-    agent_lambda_ur: float = 0.1
+
+    # Canonical planner weights — single source (Phase D)
+    agent_planner_weights: PlannerWeights = field(default_factory=PlannerWeights)
 
     # Copy config
     copy_mode: str = "exact"            # "exact" | "noisy" | "stale"
@@ -53,6 +53,37 @@ class RobotBelief:
     # Surrogate latent predictor snapshot (full deepcopy, read-only)
     _predictor_snapshot: Optional[object] = None
 
+    # ── Deprecated properties (backward compat) ──────────────────
+    # DEPRECATED: use agent_planner_weights.lambda_risk instead.
+    @property
+    def agent_risk_weight(self) -> float:
+        """DEPRECATED: use agent_planner_weights.lambda_risk."""
+        return self.agent_planner_weights.lambda_risk
+
+    # DEPRECATED: use agent_planner_weights.lambda_uc instead.
+    @property
+    def agent_uncertainty_weight(self) -> float:
+        """DEPRECATED: use agent_planner_weights.lambda_uc (or lambda_ur)."""
+        return self.agent_planner_weights.lambda_uc
+
+    # DEPRECATED: use agent_planner_weights.lambda_cost instead.
+    @property
+    def agent_lambda_c(self) -> float:
+        """DEPRECATED: use agent_planner_weights.lambda_cost."""
+        return self.agent_planner_weights.lambda_cost
+
+    # DEPRECATED: use agent_planner_weights.lambda_uc instead.
+    @property
+    def agent_lambda_uc(self) -> float:
+        """DEPRECATED: use agent_planner_weights.lambda_uc."""
+        return self.agent_planner_weights.lambda_uc
+
+    # DEPRECATED: use agent_planner_weights.lambda_ur instead.
+    @property
+    def agent_lambda_ur(self) -> float:
+        """DEPRECATED: use agent_planner_weights.lambda_ur."""
+        return self.agent_planner_weights.lambda_ur
+
 
 def init_robot_belief(
     agent_belief_mean: np.ndarray,
@@ -64,15 +95,39 @@ def init_robot_belief(
     agent_search_budget: int = 30,
     budget_mismatch: int = 0,
     risk_weight_mismatch: float = 0.0,
-    agent_risk_weight: float = 3.0,
-    agent_uncertainty_weight: float = 0.5,
+    planner_weights: Optional[PlannerWeights] = None,
+    # DEPRECATED individual weight params — kept for backward compat
+    agent_risk_weight: Optional[float] = None,
+    agent_uncertainty_weight: Optional[float] = None,
     rng: Optional[np.random.Generator] = None,
 ) -> RobotBelief:
     """Create a RobotBelief from current agent state.
 
     Does NOT read hidden true values — only agent-observable state.
+
+    Parameters
+    ----------
+    planner_weights : PlannerWeights, optional
+        Canonical planner weights. If provided, overrides individual
+        weight params. If None, uses PlannerWeights() defaults.
+    agent_risk_weight : float, optional
+        DEPRECATED. Use planner_weights instead.
+    agent_uncertainty_weight : float, optional
+        DEPRECATED. Use planner_weights instead.
     """
     rng = rng or np.random.default_rng()
+
+    # Resolve planner weights: explicit PlannerWeights > legacy params > defaults
+    if planner_weights is not None:
+        _pw = planner_weights
+    elif agent_risk_weight is not None or agent_uncertainty_weight is not None:
+        # Legacy caller: construct from individual params
+        _pw = PlannerWeights(
+            lambda_risk=agent_risk_weight if agent_risk_weight is not None else 3.0,
+            lambda_uc=agent_uncertainty_weight if agent_uncertainty_weight is not None else 0.1,
+        )
+    else:
+        _pw = PlannerWeights()
 
     mean_copy = agent_belief_mean.copy()
     var_copy = agent_belief_var.copy()
@@ -84,8 +139,7 @@ def init_robot_belief(
         agent_belief_mean=mean_copy,
         agent_belief_var=var_copy,
         agent_search_budget=agent_search_budget + budget_mismatch,
-        agent_risk_weight=agent_risk_weight + risk_weight_mismatch,
-        agent_uncertainty_weight=agent_uncertainty_weight,
+        agent_planner_weights=_pw,
         copy_mode=copy_mode,
         belief_noise_std=belief_noise_std,
         stale_interval=stale_interval,

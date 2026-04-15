@@ -290,7 +290,7 @@ def _oracle_o1(s, stage: int) -> str:
         # ITEM_DROP if belt ahead
         already_shielded = False
         if hasattr(s, 'inventory') and s.inventory is not None:
-            already_shielded = getattr(s.inventory, 'active_duration', 0) > 0
+            already_shielded = s.inventory.has_shield()
         if getattr(s, '_dtmb_oracle_item_dropped', False):
             already_shielded = True
         if not already_shielded:
@@ -363,16 +363,23 @@ def apply_dtmb_oracle_action(
         if s.inventory is not None:
             s.inventory.add_shield()
         else:
-            # Oracle without inventory: directly reduce risk on belt cells
-            if hasattr(s.meta, 'belt_cells_by_stage') and len(s.meta.belt_cells_by_stage) > 2:
-                for br, bc in s.meta.belt_cells_by_stage[2]:
-                    if s.gridmap.true_risk[br, bc] > 0:
-                        s.gridmap.true_risk[br, bc] *= 0.15  # oracle shield effect
+            # SEMANTIC FENCE: ITEM_DROP without inventory is a config error.
+            # NEVER modify gridmap.true_risk — that violates the affordance-only
+            # intervention semantics required by the proposal.
+            import warnings
+            warnings.warn(
+                "DTMB oracle ITEM_DROP called without inventory system. "
+                "Skipping — cannot provide shield without InventoryState.",
+                RuntimeWarning, stacklevel=2,
+            )
         s._dtmb_oracle_item_dropped = True
 
     # Record intervention for metrics
-    try:
-        from src.agents.pragmatic_warning import InterventionDecision
-        s.last_intervention = InterventionDecision(action=action, gain=1.0)
-    except (ImportError, AttributeError):
-        pass  # graceful fallback if InterventionDecision not available
+    from dataclasses import dataclass as _dc
+
+    @_dc
+    class _OracleIntervention:
+        action: str
+        gain: float = 1.0
+
+    s.last_intervention = _OracleIntervention(action=action, gain=1.0)

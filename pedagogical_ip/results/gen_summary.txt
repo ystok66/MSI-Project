@@ -1,0 +1,37 @@
+﻿  scenario_families.py::generate_scenario: Unified entry point for all scenario families.
+  scenario_families.py::generate_baseline_v2: Default V2 lattice. Wraps generate_lattice_v2 for registry compat.
+  scenario_families.py::generate_fork_trap: Ambiguous Lane Fork ù 7-row pseudo-fork.
+  scenario_families.py::generate_hazard_belt: Hazard Belt ù unavoidable high-risk zone.
+  scenario_families.py::generate_deadline_gate: Deadline Shortcut Gate ù tight deadline + gated shortcut.
+  scenario_families.py::generate_delayed_corridor: Delayed Commitment Corridor ù risk hidden behind safe-looking prefix.
+  scenario_families.py::generate_distractor_cue: Distractor Cue Corridor ù misleading or unreliable local features.
+  scenario_families.py::generate_funnel_trap: Multi-Stage Funnel Trap ù delayed commitment via 2-stage fork-merge.
+python : Traceback (most recent call last):
+At line:1 char:1
++ python scripts/_tmp_extract.py 2>&1 | 
+Out-File -FilePath results/gen_ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified 
+   : (Traceback (most recent call last)::  
+  String) [], RemoteException
+    + FullyQualifiedErrorId : NativeComman 
+   dError
+ 
+  File "F:\SCAI\Learning-agent\pedagogical_
+ip\scripts\_tmp_extract.py", line 11, in 
+<module>
+    print(f"  
+{fname.split('/')[-1]}::{name}: 
+{first_line}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+  File 
+"D:\APP\anaconda\Lib\encodings\cp1252.py", 
+line 19, in encode
+    return codecs.charmap_encode(input,self
+.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't 
+encode character '\u2192' in position 98: 
+character maps to <undefined>

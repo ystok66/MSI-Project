@@ -18,7 +18,9 @@ from typing import Optional
 import numpy as np
 
 from .belief import BeliefMap, update_belief_cell, apply_warning_to_belief
-from .observation_model import generate_observations
+# NOTE: generate_observations was removed in Batch D (zero callers on main-line).
+# BoundedRationalAgent.observe_and_update() uses it, but this entire class is
+# DEPRECATED and unused by the V2 runner. The import is deferred to method body.
 from .planner_astar import plan_next_action, bounded_astar, sample_search_budget, MOVES
 
 
@@ -133,23 +135,16 @@ class BoundedRationalAgent:
         true_cost: np.ndarray,
         true_risk: np.ndarray,
     ) -> None:
-        """Generate observations from current position and update beliefs."""
-        obs = generate_observations(
-            self.pos,
-            true_cost, true_risk,
-            self_noise_var=self.self_noise_var,
-            neighbor_noise_var=self.neighbor_noise_var,
-            neighbor_radius=self.neighbor_radius,
-            rng=self.rng,
+        """Generate observations from current position and update beliefs.
+
+        DEPRECATED: This method relies on the removed V0 generate_observations.
+        BoundedRationalAgent is archival — use lattice_v2_runner instead.
+        """
+        raise NotImplementedError(
+            "BoundedRationalAgent.observe_and_update() is deprecated. "
+            "The V0 generate_observations() was removed in Batch D. "
+            "Use lattice_v2_runner.py with observe_features() instead."
         )
-        for i, (r, c) in enumerate(obs.positions):
-            update_belief_cell(
-                self.belief, r, c,
-                obs.cost_obs[i], obs.risk_obs[i],
-                obs.cost_var[i], obs.risk_var[i],
-            )
-            if r == self.pos[0] and c == self.pos[1]:
-                self.belief.visited_mask[r, c] = True
 
     def process_teacher_action(
         self,

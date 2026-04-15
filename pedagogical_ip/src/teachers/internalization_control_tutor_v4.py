@@ -1,5 +1,10 @@
 """BC-ICT-v4: Behavior-Calibrated Internalization Control Tutor.
 
+ARCHIVAL — This module is superseded by intervention_policy.py for all
+main-line experiments. All current callers are in archive/legacy_runners/.
+The warn_count double-counting issue (L273-L278 vs L388+) is a known
+legacy bug that does NOT affect current main-line results.
+
 Key innovations:
   1. Bridge-predicted probes (m → ẑ) instead of hand-computed probes
   2. Empirically-calibrated behavior zones (from baseline rollout quantiles)

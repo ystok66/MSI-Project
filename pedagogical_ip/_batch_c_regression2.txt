@@ -1,0 +1,157 @@
+﻿........................................................................ [  7%]
+........................................................................ [ 15%]
+........................................................................ [ 23%]
+........................................................................ [ 31%]
+.......................................FFFFFF.F......................... [ 38%]
+........................................................................ [ 46%]
+........................................................................ [ 54%]
+..........................FFFFFF.............................FFFFFFF.... [ 62%]
+........................................................................ [ 70%]
+....................F........F....F..F.................................. [ 77%]
+........................................................................ [ 85%]
+........................................................................ [ 93%]
+F............................................................            [100%]
+================================== FAILURES ===================================
+_________________ test_matrix_expands_agent_teacher_env_grid __________________
+tests\test_experiment_matrix.py:32: in test_matrix_expands_agent_teacher_env_grid
+    from scripts.run_phase9_matrix import expand_matrix
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+________________________ test_matrix_can_filter_subset ________________________
+tests\test_experiment_matrix.py:44: in test_matrix_can_filter_subset
+    from scripts.run_phase9_matrix import expand_matrix
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+________________________ test_matrix_job_schema_stable ________________________
+tests\test_experiment_matrix.py:54: in test_matrix_job_schema_stable
+    from scripts.run_phase9_matrix import expand_matrix
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_____________________ test_matrix_runs_small_smoke_subset _____________________
+tests\test_experiment_matrix.py:67: in test_matrix_runs_small_smoke_subset
+    from scripts.run_phase9_matrix import expand_matrix, run_job, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+____________________ test_matrix_outputs_episode_summaries ____________________
+tests\test_experiment_matrix.py:81: in test_matrix_outputs_episode_summaries
+    from scripts.run_phase9_matrix import expand_matrix, run_job
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_______________ test_matrix_keeps_online_and_transfer_distinct ________________
+tests\test_experiment_matrix.py:93: in test_matrix_keeps_online_and_transfer_distinct
+    from scripts.run_phase9_matrix import expand_matrix, run_job
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_________________ test_matrix_legacy_path_still_reproducible __________________
+tests\test_experiment_matrix.py:114: in test_matrix_legacy_path_still_reproducible
+    from scripts.run_phase9_matrix import expand_matrix, run_job
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+____________________ test_expand_matrix_includes_families _____________________
+tests\test_mini_matrix_smoke.py:104: in test_expand_matrix_includes_families
+    from scripts.run_phase9_matrix import expand_matrix, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_____________________ test_expand_matrix_filter_by_family _____________________
+tests\test_mini_matrix_smoke.py:116: in test_expand_matrix_filter_by_family
+    from scripts.run_phase9_matrix import expand_matrix, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+____________________ test_expand_matrix_full_family_count _____________________
+tests\test_mini_matrix_smoke.py:127: in test_expand_matrix_full_family_count
+    from scripts.run_phase9_matrix import expand_matrix, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_________________ test_matrix_run_job_with_family[fork_trap] __________________
+tests\test_mini_matrix_smoke.py:144: in test_matrix_run_job_with_family
+    from scripts.run_phase9_matrix import expand_matrix, run_job, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+________________ test_matrix_run_job_with_family[hazard_belt] _________________
+tests\test_mini_matrix_smoke.py:144: in test_matrix_run_job_with_family
+    from scripts.run_phase9_matrix import expand_matrix, run_job, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_______________ test_matrix_run_job_with_family[deadline_gate] ________________
+tests\test_mini_matrix_smoke.py:144: in test_matrix_run_job_with_family
+    from scripts.run_phase9_matrix import expand_matrix, run_job, load_config
+E   ModuleNotFoundError: No module named 'scripts.run_phase9_matrix'
+_______________________ test_results_table_export_runs ________________________
+tests\test_phase9_reporting.py:65: in test_results_table_export_runs
+    from scripts.plot_phase9_results import export_online_table
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+_____________________ test_tradeoff_plot_data_preparable ______________________
+tests\test_phase9_reporting.py:75: in test_tradeoff_plot_data_preparable
+    from scripts.plot_phase9_results import export_tradeoff_data
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+________________ test_intervention_usage_plot_data_preparable _________________
+tests\test_phase9_reporting.py:89: in test_intervention_usage_plot_data_preparable
+    from scripts.plot_phase9_results import export_intervention_usage
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+_____________________ test_transfer_plot_data_preparable ______________________
+tests\test_phase9_reporting.py:101: in test_transfer_plot_data_preparable
+    from scripts.plot_phase9_results import export_transfer_table
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+________________ test_report_schema_contains_required_columns _________________
+tests\test_phase9_reporting.py:111: in test_report_schema_contains_required_columns
+    from scripts.plot_phase9_results import export_online_table
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+_____________________ test_plotting_handles_empty_subset ______________________
+tests\test_phase9_reporting.py:127: in test_plotting_handles_empty_subset
+    from scripts.plot_phase9_results import export_online_table
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+_________________________ test_reporting_is_read_only _________________________
+tests\test_phase9_reporting.py:136: in test_reporting_is_read_only
+    from scripts.plot_phase9_results import load_results, export_tradeoff_data
+E   ModuleNotFoundError: No module named 'scripts.plot_phase9_results'
+________________________ test_legacy_variant_unchanged ________________________
+tests\test_rsa_runner_integration.py:67: in test_legacy_variant_unchanged
+    assert s.rsa_channel is None
+E   assert RSAWarningChannel(lambda_sem=3.0, alpha_rsa=2.0, lambda_c=1.0) is None
+E    +  where RSAWarningChannel(lambda_sem=3.0, alpha_rsa=2.0, lambda_c=1.0) = V2EpisodeState(gridmap=GridMap(height=7, width=10, cell_types=array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 0, ...ps_hit=0, cue_cells_seen=2, _boredom_trace=[], audit_mode=False, audit_trace=[], rng=Generator(PCG64) at 0x1BEED1E0E40).rsa_channel
+__________________________ test_rsa_s1_entropy_drops __________________________
+tests\test_rsa_runner_integration.py:125: in test_rsa_s1_entropy_drops
+    assert diag["delta_H"] > 0, (
+E   KeyError: 'delta_H'
+_____________________ test_extended_metrics_legacy_no_rsa _____________________
+tests\test_rsa_runner_integration.py:216: in test_extended_metrics_legacy_no_rsa
+    assert "rsa_belief_final" not in m
+E   AssertionError: assert 'rsa_belief_final' not in {'closures': 0, 'cue_cells_seen': 2, 'cue_seen': 2, 'cumulative_cost': 11.0, ...}
+_______________________ test_hybrid_variant_both_paths ________________________
+tests\test_rsa_runner_integration.py:277: in test_hybrid_variant_both_paths
+    assert len(s.warned_lane_bias) > 0, (
+E   AssertionError: Hybrid should populate warned_lane_bias (legacy path)
+E   assert 0 > 0
+E    +  where 0 = len({})
+E    +    where {} = V2EpisodeState(gridmap=GridMap(height=7, width=10, cell_types=array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 0, ...ps_hit=1, cue_cells_seen=2, _boredom_trace=[], audit_mode=False, audit_trace=[], rng=Generator(PCG64) at 0x1BEED3DA960).warned_lane_bias
+______________ test_transfer_after_training_differs_from_scratch ______________
+tests\test_transfer_eval.py:114: in test_transfer_after_training_differs_from_scratch
+    assert not np.array_equal(snap_untrained.get('cost_w'),
+E   AssertionError: assert not True
+E    +  where True = <function array_equal at 0x000001BEE71E6C70>(None, None)
+E    +    where <function array_equal at 0x000001BEE71E6C70> = np.array_equal
+E    +    and   None = <built-in method get of dict object at 0x000001BEED3FAD40>('cost_w')
+E    +      where <built-in method get of dict object at 0x000001BEED3FAD40> = {'predictor': <src.agents.cost_risk_model.LatentCostRiskHead object at 0x000001BEED109B70>}.get
+E    +    and   None = <built-in method get of dict object at 0x000001BEED3FB200>('cost_w')
+E    +      where <built-in method get of dict object at 0x000001BEED3FB200> = {'predictor': <src.agents.cost_risk_model.LatentCostRiskHead object at 0x000001BEED108910>}.get
+============================== warnings summary ===============================
+tests/test_batch_a_hotfix.py::test_dtmb_oracle_does_not_mutate_true_risk
+  F:\SCAI\Learning-agent\pedagogical_ip\tests\..\src\envs\lattice_v2_runner.py:646: RuntimeWarning: DTMB oracle ITEM_DROP called without inventory system. Skipping ù cannot provide shield without InventoryState.
+    apply_dtmb_oracle_action(s, dispatch_cfg=_dcfg)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_experiment_matrix.py::test_matrix_expands_agent_teacher_env_grid
+FAILED tests/test_experiment_matrix.py::test_matrix_can_filter_subset - Modul...
+FAILED tests/test_experiment_matrix.py::test_matrix_job_schema_stable - Modul...
+FAILED tests/test_experiment_matrix.py::test_matrix_runs_small_smoke_subset
+FAILED tests/test_experiment_matrix.py::test_matrix_outputs_episode_summaries
+FAILED tests/test_experiment_matrix.py::test_matrix_keeps_online_and_transfer_distinct
+FAILED tests/test_experiment_matrix.py::test_matrix_legacy_path_still_reproducible
+FAILED tests/test_mini_matrix_smoke.py::test_expand_matrix_includes_families
+FAILED tests/test_mini_matrix_smoke.py::test_expand_matrix_filter_by_family
+FAILED tests/test_mini_matrix_smoke.py::test_expand_matrix_full_family_count
+FAILED tests/test_mini_matrix_smoke.py::test_matrix_run_job_with_family[fork_trap]
+FAILED tests/test_mini_matrix_smoke.py::test_matrix_run_job_with_family[hazard_belt]
+FAILED tests/test_mini_matrix_smoke.py::test_matrix_run_job_with_family[deadline_gate]
+FAILED tests/test_phase9_reporting.py::test_results_table_export_runs - Modul...
+FAILED tests/test_phase9_reporting.py::test_tradeoff_plot_data_preparable - M...
+FAILED tests/test_phase9_reporting.py::test_intervention_usage_plot_data_preparable
+FAILED tests/test_phase9_reporting.py::test_transfer_plot_data_preparable - M...
+FAILED tests/test_phase9_reporting.py::test_report_schema_contains_required_columns
+FAILED tests/test_phase9_reporting.py::test_plotting_handles_empty_subset - M...
+FAILED tests/test_phase9_reporting.py::test_reporting_is_read_only - ModuleNo...
+FAILED tests/test_rsa_runner_integration.py::test_legacy_variant_unchanged - ...
+FAILED tests/test_rsa_runner_integration.py::test_rsa_s1_entropy_drops - KeyE...
+FAILED tests/test_rsa_runner_integration.py::test_extended_metrics_legacy_no_rsa
+FAILED tests/test_rsa_runner_integration.py::test_hybrid_variant_both_paths
+FAILED tests/test_transfer_eval.py::test_transfer_after_training_differs_from_scratch
+25 failed, 900 passed, 1 warning in 265.28s (0:04:25)

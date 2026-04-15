@@ -52,9 +52,15 @@ class EpisodeSummary:
 
     # Pedagogical metrics (heuristic proxies)
     information_gain: float = 0.0
-    boredom_proxy: float = 0.0
+    boredom_proxy: float = 0.0            # legacy normalized proxy [0,1]
     frustration_proxy: float = 0.0
     intervention_timing_quality: float = 0.0
+
+    # Canonical boredom (from decision-layer B_wait = avg_cost / (ε + LG))
+    boredom_canonical_mean: float = 0.0   # mean B_wait over tutor-active steps
+    boredom_canonical_max: float = 0.0    # max B_wait spike
+    learning_gain_mean: float = 0.0       # mean LG constituent
+    avg_prefix_cost_mean: float = 0.0     # mean avg_cost constituent
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -115,9 +121,13 @@ class AggregateMetrics:
 
     # Pedagogical statistics
     info_gain_mean: float = 0.0
-    boredom_mean: float = 0.0
+    boredom_mean: float = 0.0             # legacy normalized proxy
     frustration_mean: float = 0.0
     timing_quality_mean: float = 0.0
+
+    # Canonical boredom statistics
+    boredom_canonical_mean: float = 0.0
+    boredom_canonical_std: float = 0.0
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -136,6 +146,7 @@ def compute_episode_summary(
     observed_cells: Optional[set] = None,
     intervention_log: Optional[list] = None,
     first_risky_step: Optional[int] = None,
+    boredom_trace: Optional[list] = None,
     seed: int = 0,
     agent_level: str = "",
     teacher_condition: str = "",
@@ -193,6 +204,19 @@ def compute_episode_summary(
         summary.uncertainty_reduction_visited, s.traps_hit, s.steps, s.t_max)
     summary.intervention_timing_quality = _timing_quality(
         s.warn_count, first_risky_step, s.steps)
+
+    # Canonical boredom from accumulated decision-layer trace
+    _bt = boredom_trace
+    if _bt is None:
+        _bt = getattr(s, '_boredom_trace', None)
+    if _bt:
+        bp = [d["boredom_penalty"] for d in _bt]
+        summary.boredom_canonical_mean = float(np.mean(bp))
+        summary.boredom_canonical_max = float(np.max(bp))
+        summary.learning_gain_mean = float(np.mean(
+            [d["learning_gain"] for d in _bt]))
+        summary.avg_prefix_cost_mean = float(np.mean(
+            [d["avg_prefix_cost"] for d in _bt]))
 
     return summary
 
@@ -276,6 +300,10 @@ def aggregate_summaries(
         frustration_mean=float(np.mean([s.frustration_proxy for s in summaries])),
         timing_quality_mean=float(np.mean(
             [s.intervention_timing_quality for s in summaries])),
+        boredom_canonical_mean=float(np.mean(
+            [s.boredom_canonical_mean for s in summaries])),
+        boredom_canonical_std=float(np.std(
+            [s.boredom_canonical_mean for s in summaries])),
     )
 
 

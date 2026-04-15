@@ -70,7 +70,9 @@ def test_robot_belief_tracks_boundedness_params():
                            agent_search_budget=20, budget_mismatch=-5,
                            agent_risk_weight=4.0, risk_weight_mismatch=1.0)
     assert rb.agent_search_budget == 15  # 20 + (-5)
-    assert rb.agent_risk_weight == 5.0   # 4.0 + 1.0
+    # agent_risk_weight is now a PlannerWeights property (canonical, not mismatch-adjusted)
+    assert rb.agent_risk_weight == 4.0   # legacy param → PlannerWeights.lambda_risk
+    assert rb.risk_weight_mismatch == 1.0  # mismatch stored separately
 
 
 def test_robot_belief_does_not_mutate_agent_state():

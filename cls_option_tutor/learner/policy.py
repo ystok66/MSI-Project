@@ -69,15 +69,26 @@ class LearnerPolicy:
         self.attention = AttentionModel(L, rho_H=self.cfg.rho_H)
 
     def compute_policy(self, qs: QueryState,
-                       rng: np.random.Generator) -> PolicyOutput:
+                       rng: np.random.Generator,
+                       neg_penalties: Optional[np.ndarray] = None,
+                       # RSA bias inputs (None = legacy path)
+                       semantic_log_bias: Optional[np.ndarray] = None,
+                       risk_logit_shift: Optional[np.ndarray] = None,
+                       ) -> PolicyOutput:
         """Compute action: pick or refresh.
 
         Decision logic:
           1. Rank options by semantic score (attention-weighted)
+             RSA mode: sem_scores += semantic_log_bias (L1 posterior)
           2. Best semantic option → check if predicted risk >= HP
-             - Yes → REFRESH (re-roll risk, costs 1 round)
-             - No  → PICK the best semantic option
+             RSA mode: danger_preds adjusted by risk_logit_shift
           3. Softmax with ε-lapse for exploration
+
+        Args (RSA-specific):
+            semantic_log_bias: (K,) log P_S0(action|j) from RSAListener
+                               Added directly to sem_scores[j]
+            risk_logit_shift:  (K,) Δlogit P(r_j=1) from RSAListener
+                               Applied to p_h before computing mu_d
         """
         active = get_active_menu(qs)
         K = len(active)
@@ -102,6 +113,12 @@ class LearnerPolicy:
                 qs.target_output, opt.text,
                 attention_weights=weights)
 
+        # ── RSA semantic bias ──
+        # Add L1 semantic log-bias to CLS scores
+        # b_sem(j) = log P_S0(a | j) - log Z     (from RSAListener)
+        if semantic_log_bias is not None and len(semantic_log_bias) == K:
+            sem_scores = sem_scores + semantic_log_bias
+
         # Danger predictions (V2: from composite head)
         danger_preds = np.zeros(K)
         danger_uncs = np.zeros(K)
@@ -110,6 +127,23 @@ class LearnerPolicy:
                 mu, u = self.danger_head.predict(opt.danger_vec)
                 danger_preds[i] = mu
                 danger_uncs[i] = u
+
+        # ── RSA risk bias ──
+        # Apply logit shift to p_h(v_j), then recompute mu_d = p_h * mu_s
+        if risk_logit_shift is not None and len(risk_logit_shift) == K:
+            if self.danger_head is not None:
+                for i, opt in enumerate(active):
+                    if risk_logit_shift[i] != 0.0:
+                        # Get raw p_h and mu_s from heads separately
+                        p_h_orig = self.danger_head.hazard.predict(opt.danger_vec)
+                        mu_s, u_s = self.danger_head.severity.predict(opt.danger_vec)
+                        # Shift p_h in logit space
+                        from .rsa_listener import RSAListener
+                        p_h_new = RSAListener.apply_logit_shift(
+                            p_h_orig, risk_logit_shift[i])
+                        # Recompute mu_d with shifted p_h
+                        danger_preds[i] = p_h_new * mu_s
+                        danger_uncs[i] = p_h_new * u_s
 
         # Episodic memory penalties
         memory_penalties = np.zeros(K)
@@ -121,10 +155,15 @@ class LearnerPolicy:
                     opt.text, rendered)
 
         # ── Pick utilities ──
+        # U_RSA(j) = α_sem*(S_CLS(j) + b_sem(j)) - α_risk*μ_d_tilde - α_unc*u_d + penalty
         U_pick = (self.cfg.alpha_sem * sem_scores
                   - self.cfg.alpha_risk * danger_preds
                   - self.cfg.alpha_unc * danger_uncs
                   + memory_penalties)
+
+        # Negative memory penalty (from reveal_learning_mode="negative_memory")
+        if neg_penalties is not None and len(neg_penalties) == K:
+            U_pick += neg_penalties
 
         # ── Refresh decision: deterministic threshold ──
         # Find best semantic option
@@ -132,11 +171,9 @@ class LearnerPolicy:
         top_danger = danger_preds[best_sem]
 
         # Refresh if predicted damage of best option >= current HP
-        # (picking it would likely KO us)
         should_refresh = (top_danger >= qs.hp and qs.rounds_used < qs.max_rounds - 1)
 
         if should_refresh:
-            # Set U_refresh high to ensure refresh is selected
             U_refresh = np.max(U_pick) + 1.0
         else:
             U_refresh = -100.0  # never refresh

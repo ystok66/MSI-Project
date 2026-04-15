@@ -32,6 +32,10 @@ from typing import Optional
 
 import numpy as np
 
+from ..agents.predictor_protocol import (
+    extract_theta, extract_theta_components,
+)
+
 
 @dataclass
 class PreDecisionPhase:
@@ -144,21 +148,12 @@ class StepLogger:
         self._pred_snapshot_pre: Optional[dict] = None
 
     def _get_theta(self, lp) -> list:
-        """Extract theta = [w_c..., b_c, w_r..., b_r] from LatentCostRiskHead."""
-        if lp is None:
-            return []
-        w_c = lp.cost_head.w.tolist()
-        b_c = [float(lp.cost_head.b)]
-        w_r = lp.risk_head.w.tolist()
-        b_r = [float(lp.risk_head.b)]
-        return w_c + b_c + w_r + b_r
+        """Extract theta vector from any predictor type (dynamic-dim)."""
+        return extract_theta(lp)
 
     def _get_theta_components(self, lp):
-        """Return (w_c, b_c, w_r, b_r) as numpy arrays."""
-        if lp is None:
-            return np.zeros(4), 0.0, np.zeros(4), 0.0
-        return (lp.cost_head.w.copy(), float(lp.cost_head.b),
-                lp.risk_head.w.copy(), float(lp.risk_head.b))
+        """Return (w_c, b_c, w_r, b_r) as numpy arrays (dynamic-dim)."""
+        return extract_theta_components(lp)
 
     def record_pre_decision(self, s):
         """Phase 1: Before tutor decision. Call after observe(), before apply_tutor()."""
@@ -296,12 +291,21 @@ class StepLogger:
         if len(theta_pre) > 0 and len(theta_post) > 0:
             pl.delta_theta = round(float(np.linalg.norm(theta_post - theta_pre)), 6)
 
-            # Component-wise: w_c is first d_f, w_r starts at d_f+1
-            d_f = lp.d if lp else 4
-            w_c_pre, w_c_post = theta_pre[:d_f], theta_post[:d_f]
-            w_r_pre, w_r_post = theta_pre[d_f+1:2*d_f+1], theta_post[d_f+1:2*d_f+1]
-            pl.delta_theta_c = round(float(np.linalg.norm(w_c_post - w_c_pre)), 6)
-            pl.delta_theta_r = round(float(np.linalg.norm(w_r_post - w_r_pre)), 6)
+            # Component-wise: use actual weight dimensions (dynamic)
+            w_c_pre, _, w_r_pre, _ = extract_theta_components(lp)
+            # Re-extract post (lp may have been updated)
+            theta_post_arr = np.array(pl.theta_post)
+            d_c = len(w_c_pre)
+            d_r = len(w_r_pre)
+
+            # theta layout: [w_c(d_c), b_c(1), w_r(d_r), b_r(1)]
+            if len(theta_pre) >= d_c + 1 + d_r + 1 and len(theta_post_arr) >= d_c + 1 + d_r + 1:
+                wc_pre_v = theta_pre[:d_c]
+                wc_post_v = theta_post_arr[:d_c]
+                wr_pre_v = theta_pre[d_c + 1:d_c + 1 + d_r]
+                wr_post_v = theta_post_arr[d_c + 1:d_c + 1 + d_r]
+                pl.delta_theta_c = round(float(np.linalg.norm(wc_post_v - wc_pre_v)), 6)
+                pl.delta_theta_r = round(float(np.linalg.norm(wr_post_v - wr_pre_v)), 6)
 
         # Delta B (decision-relevant belief change)
         if self._belief_snapshot_pre is not None:

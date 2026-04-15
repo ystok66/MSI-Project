@@ -17,6 +17,7 @@ Soft updates accumulate weighted sufficient statistics (for EM M-step).
 from __future__ import annotations
 import numpy as np
 from typing import Dict, List, Tuple, Optional
+import functools
 
 from .ns_primitives import ROLES, N_ROLES
 
@@ -42,6 +43,8 @@ def color_to_vec(color: str, d: int = N_COLORS) -> np.ndarray:
 
 # Pre-computed one-hot vectors
 COLOR_VECS = {c: color_to_vec(c) for c in COLORS}
+# Pre-stacked matrix for vectorized scoring (6, 6)
+_ALL_COLOR_VECS = np.stack([COLOR_VECS[c] for c in COLORS])  # shape (N_COLORS, D)
 
 
 def vec_to_color(vec: np.ndarray) -> str:
@@ -210,21 +213,50 @@ class NeuroConcept:
                               ) -> List[Tuple[np.ndarray, float]]:
         """
         Return top-K_b candidate color vectors with log-scores.
+
+        OPTIMIZED: compute mu_post/var_post ONCE, then score all 6
+        colors in a single vectorized op (no repeated scalar loops).
+        Falls back to loop for delta/gauss modes.
         """
-        scored = []
-        # Use Lab vectors when gauss mode is active
-        if gauss:
-            from ns_learner.ns_colors import lab_vec as _lv
-            color_vecs = {c: _lv(c) for c in COLORS}
+        if gauss or delta is not None:
+            # Fallback: loop-based (handles Lab vecs / discrete modes)
+            if gauss:
+                from ns_learner.ns_colors import lab_vec as _lv
+                color_vecs = {c: _lv(c) for c in COLORS}
+            else:
+                color_vecs = COLOR_VECS
+            scored = []
+            for c in COLORS:
+                vec = color_vecs[c]
+                s = self.log_emit_prob(vec, nig, eps_obj, tau_inc, delta=delta, gauss=gauss)
+                scored.append((vec, s))
+            scored.sort(key=lambda x: x[1], reverse=True)
+            return scored[:k_b]
+
+        # ── Fast vectorized path (default: NIG/KL, 6-color discrete palette) ──
+        sw = self.emit_stats['sum_w']
+        denom = nig.kappa0 + sw
+        if denom < 1e-30:
+            mu_post = nig.mu0
+            var_post = np.ones_like(mu_post)
         else:
-            color_vecs = COLOR_VECS
-        for c in COLORS:
-            vec = color_vecs[c]
-            s = self.log_emit_prob(vec, nig, eps_obj, tau_inc, delta=delta,
-                                   gauss=gauss)
-            scored.append((vec, s))
-        scored.sort(key=lambda x: x[1], reverse=True)
-        return scored[:k_b]
+            swx = self.emit_stats['sum_wx']
+            mu_post = (nig.kappa0 * nig.mu0 + swx) / denom
+            swx2 = self.emit_stats['sum_wx2']
+            sse = swx2 - 2 * mu_post * swx + sw * (mu_post ** 2)
+            var_post = (2 * nig.beta0 + np.maximum(sse, 0.0)) / (2 * nig.alpha0 + sw)
+            var_post = np.maximum(var_post, 1e-6)
+
+        # _ALL_COLOR_VECS: (N_COLORS, D) — pre-stacked at module load
+        diff = _ALL_COLOR_VECS - mu_post[None, :]          # (N_COLORS, D)
+        kl = 0.5 * np.sum(
+            np.log(var_post / eps_obj)
+            + (eps_obj + diff ** 2) / var_post - 1.0,
+            axis=1
+        )                                                    # (N_COLORS,)
+        scores = -kl / tau_inc                              # (N_COLORS,)
+        top_idx = np.argsort(scores)[::-1][:k_b]
+        return [(_ALL_COLOR_VECS[i], float(scores[i])) for i in top_idx]
 
     def role_probs(self, prior_alpha: Dict[str, float]) -> Dict[str, float]:
         """Return posterior mean probabilities for all roles (for debugging)."""

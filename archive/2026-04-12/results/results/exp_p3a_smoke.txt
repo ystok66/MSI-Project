@@ -1,0 +1,143 @@
+Condition                          N  OBS_SR  TEACH_SR  EVAL_SR     SE       ρ   σ_probe  Actions
+==========================================================================================================================
+E0_legacy|nsup=4|nt=2              6   0.417     0.917    0.833  0.068  0.0000   0.00000  BAN:2.8% HIGHLIGHT:24.6% WAIT:72.5%
+E0_legacy|nsup=6|nt=2              6   0.583     0.833    0.889  0.064  0.0000   0.00000  BAN:3.1% HIGHLIGHT:28.7% WAIT:68.2%
+E2_H1_lp05|nsup=4|nt=2             6   0.417     0.583    0.722  0.093 -0.6789   0.00000  BAN:4.4% HIGHLIGHT:26.9% WAIT:68.8%
+E2_H1_lp05|nsup=6|nt=2             6   0.583     0.417    0.778  0.101 -0.3703   0.00000  BAN:5.4% HIGHLIGHT:26.8% WAIT:67.8%
+E3_H1_lp1|nsup=4|nt=2              6   0.417     0.583    0.778  0.101  0.1852   0.00000  BAN:5.8% HIGHLIGHT:24.7% WAIT:69.5%
+E3_H1_lp1|nsup=6|nt=2              6   0.583     0.583    0.889  0.064  0.8281   0.00000  BAN:5.4% HIGHLIGHT:27.9% WAIT:66.7%
+E4_H2_lp05|nsup=4|nt=2             6   0.417     0.583    0.667  0.136 -0.3086   0.00000  BAN:4.9% HIGHLIGHT:25.0% SKIP:0.7% WAIT:69.4%
+E4_H2_lp05|nsup=6|nt=2             6   0.583     0.417    0.833  0.068 -0.4880   0.00000  BAN:6.8% HIGHLIGHT:26.5% WAIT:66.7%
+
+--- JSON ---
+{
+  "E0_legacy|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.9167,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 2.9,
+    "Actions": {
+      "BAN": 2.8,
+      "HIGHLIGHT": 24.6,
+      "WAIT": 72.5
+    }
+  },
+  "E0_legacy|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.8333,
+    "EVAL_SR": 0.8889,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 3.1,
+    "Actions": {
+      "BAN": 3.1,
+      "HIGHLIGHT": 28.7,
+      "WAIT": 68.2
+    }
+  },
+  "E2_H1_lp05|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.5833,
+    "EVAL_SR": 0.7222,
+    "EVAL_SE": 0.0935,
+    "Spearman_rho": -0.6789,
+    "Spearman_p": 0.1381,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 31.3,
+    "Actions": {
+      "BAN": 4.4,
+      "HIGHLIGHT": 26.9,
+      "WAIT": 68.8
+    }
+  },
+  "E2_H1_lp05|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.4167,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.1014,
+    "Spearman_rho": -0.3703,
+    "Spearman_p": 0.4699,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 29.0,
+    "Actions": {
+      "BAN": 5.4,
+      "HIGHLIGHT": 26.8,
+      "WAIT": 67.8
+    }
+  },
+  "E3_H1_lp1|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.5833,
+    "EVAL_SR": 0.7778,
+    "EVAL_SE": 0.1014,
+    "Spearman_rho": 0.1852,
+    "Spearman_p": 0.7254,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 29.0,
+    "Actions": {
+      "BAN": 5.8,
+      "HIGHLIGHT": 24.7,
+      "WAIT": 69.5
+    }
+  },
+  "E3_H1_lp1|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.5833,
+    "EVAL_SR": 0.8889,
+    "EVAL_SE": 0.0642,
+    "Spearman_rho": 0.8281,
+    "Spearman_p": 0.0418,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 25.7,
+    "Actions": {
+      "BAN": 5.4,
+      "HIGHLIGHT": 27.9,
+      "WAIT": 66.7
+    }
+  },
+  "E4_H2_lp05|nsup=4|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.4167,
+    "TEACH_SR": 0.5833,
+    "EVAL_SR": 0.6667,
+    "EVAL_SE": 0.1361,
+    "Spearman_rho": -0.3086,
+    "Spearman_p": 0.5518,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 46.7,
+    "Actions": {
+      "BAN": 4.9,
+      "HIGHLIGHT": 25.0,
+      "SKIP": 0.7,
+      "WAIT": 69.4
+    }
+  },
+  "E4_H2_lp05|nsup=6|nt=2": {
+    "n": 6,
+    "OBS_SR": 0.5833,
+    "TEACH_SR": 0.4167,
+    "EVAL_SR": 0.8333,
+    "EVAL_SE": 0.068,
+    "Spearman_rho": -0.488,
+    "Spearman_p": 0.3262,
+    "avg_probe_std": 0.0,
+    "AvgTime_s": 44.9,
+    "Actions": {
+      "BAN": 6.8,
+      "HIGHLIGHT": 26.5,
+      "WAIT": 66.7
+    }
+  }
+}

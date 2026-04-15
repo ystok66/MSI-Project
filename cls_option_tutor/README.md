@@ -1,126 +1,113 @@
-# CLS Option Tutor
+# cls_option_tutor — J-Based Option-Level CLS Tutor
 
-A block-structured, discrete option-selection pedagogical environment for studying tutor interventions in compositional learning.
+**Current architecture**: J = ΔEvalAcc − β·Deaths − γ·Timeouts
 
-## Overview
+This package implements an adaptive, safety-aware tutor for option-level
+curriculum learning (CLS). The tutor selects shortlist interventions to
+maximize a safety-adjusted evaluation objective.
 
-Given a CLS (Compositional Learning System) grammar with nouns and rules, this system:
-1. **Generates queries** — novel (program, output) compositions from the grammar
-2. **A learner** selects from a menu of K candidate options, learning through feedback
-3. **A tutor** observes the learner and intervenes (BAN, HIGHLIGHT, SKIP) to improve outcomes
+---
 
-## Quick Start
-
-```python
-from cls_option_tutor.config import FullConfig
-from cls_option_tutor.env.option_env import OptionEnv
-from cls_option_tutor.learner.learner_agent import LearnerAgent
-from cls_option_tutor.tutor.tutor_agent import TutorAgent
-
-# Setup
-env = OptionEnv(data_dir="BASIC/cls_learner/data")
-learner = LearnerAgent(seed=42)
-tutor = TutorAgent()
-
-# Run a block with grammar-synthesized queries
-block = tutor.run_block(env, learner, "000001", seed=42, synthesize=True)
-metrics = OptionEnv.get_block_metrics(block)
-print(f"Solve rate: {metrics['solve_rate']:.3f}")
-print(f"Damage: {metrics['total_damage']}")
-```
-
-## Architecture
+## Architecture Overview
 
 ```
-cls_option_tutor/
-  config.py          — FullConfig = EnvConfig + LearnerConfig + TutorConfig
-  interfaces.py      — Option, RevealEvent, LearnerStep, TutorStep
+exp_option_level.py          ← Experiment runner + CLI
+config.py                    ← All hyperparameters (FullConfig)
+interfaces.py                ← Shared data types (Option, LearnerStep, etc.)
 
-  grammar/
-    task_adapter.py       — CLS data parser + memoized recursive renderer
-    option_generator.py   — Menu gen: exactly-one-correct, 5 distractor strategies
-    query_synthesizer.py  — Within-grammar query composition from nouns + rules
-    query_families.py     — Family A/B/C/D specs
+env/
+  option_env.py              ← Environment: observe → teach → evaluate loop
+  state.py                   ← BlockState, QueryState, ProfileState
+  interventions.py           ← SHORTLIST / BAN / HIGHLIGHT / WAIT actions
+  danger_model.py            ← Danger generation for risky options
 
-  env/
-    state.py              — QueryState, BlockState, ProfileState
-    danger_model.py       — Quadratic feature expansion + sigmoid damage
-    interventions.py      — BAN / HIGHLIGHT / SKIP / WAIT pure functions
-    option_env.py         — Block/query stepping engine
+grammar/
+  task_adapter.py            ← Load + render task templates
+  option_generator_v2.py     ← V2 menu generator (ProgramPool)
+  option_generator.py        ← V1 fallback
+  query_synthesizer.py       ← Query synthesis
+  query_families.py          ← Query family classification
 
-  learner/
-    semantic_scorer.py    — Cell-by-cell mismatch with attention weights
-    danger_head.py        — Bayesian linear ridge regression on danger vectors
-    attention_model.py    — Uniform baseline + highlight boost
-    episodic_memory.py    — Block-scoped reveal history + elimination penalties
-    policy.py             — softmax(beta * U) + epsilon-lapse
-    cls_adapter.py        — CLSAgent wrapper with graceful fallback
-    learner_agent.py      — Autonomous learner orchestrator
+learner/
+  learner_agent.py           ← LearnerAgent: act + CLS integration
+  policy.py                  ← LearnerPolicy: softmax pick (sem + risk + unc)
+  cls_adapter.py             ← CLSAdapter: study / incremental_study
+  danger_head.py             ← DangerHead: Bayesian risk prediction
+  attention_model.py         ← Attention weights for CLS scoring
+  semantic_scorer.py         ← SemanticScorer: score_option
+  episodic_memory.py         ← Episodic memory
+  semantic_protocol.py       ← Semantic protocol definitions
+  rsa_listener.py            ← [LEGACY] RSA L1 listener (use_rsa=False default)
 
-  tutor/
-    profile_inference.py  — Grid-based MAP learner profile from observation trace
-    counterfactual.py     — Q-value scoring for interventions (anti-oracle verified)
-    tutor_policy.py       — argmax Q action selection
-    tutor_agent.py        — Full obs -> infer -> teach lifecycle
+tutor/
+  option_level_tutor.py      ← J-based tutor: Q_T decision + shortlist selection
+  g_learn.py                 ← G_learn estimator: ProbeEvaluator + OracleDistanceSurrogate
 
-  eval/
-    benchmark.py          — Within-grammar multi-task evaluation harness
+tests/
+  test_g_learn.py            ← 18 tests for g_learn.py
+  test_option_level.py       ← 9 tests for option_level_tutor.py
+  test_env_smoke.py          ← 24 smoke tests for env infrastructure
+  test_learner.py            ← 40 tests for learner modules
 ```
 
-## Key Design Principles
+## Running Experiments
 
-### Anti-Oracle Constraint (Section 12)
-The tutor **never** accesses `option.is_correct`. This is enforced by:
-- AST-level static analysis tests verifying no `.is_correct` attribute access
-- All tutor decisions based on semantic scores + predicted danger only
+```bash
+# Smoke test (fast, 24 jobs)
+python cls_option_tutor/exp_option_level.py --smoke --scenario A B --cond no_tutor new_probe
 
-### Within-Grammar Multi-Task
-`synthesize=True` generates novel query programs by composing the grammar's
-nouns and rules, enabling evaluation on **unseen compositions** from the same
-production system. This tests generalization within a grammar, not just
-memorization of fixed query sets.
+# Full experiment (3200 jobs, 6 workers)
+python cls_option_tutor/exp_option_level.py --workers 6
 
-### Conservative Interventions
-The tutor defaults to WAIT (Q=0 baseline) and only intervenes when
-counterfactual Q-value exceeds the wait threshold:
-- **BAN**: Only when option danger > mean danger (excess-risk criterion)
-- **HIGHLIGHT**: Only when information gain > over-reveal penalty + cost
-- **SKIP**: Only when HP critically low AND learner genuinely confused
+# Budget mode (step-count-based teach phase)
+python cls_option_tutor/exp_option_level.py --workers 6 --teach_budget 10
+```
 
 ## Running Tests
 
 ```bash
-# All phases (74 tests)
 python -m pytest cls_option_tutor/tests/ -v
-
-# Individual phases
-python -m pytest cls_option_tutor/tests/test_env_smoke.py -v  # Phase A: 24 tests
-python -m pytest cls_option_tutor/tests/test_learner.py -v    # Phase B: 23 tests
-python -m pytest cls_option_tutor/tests/test_tutor.py -v      # Phase C: 16 tests
-python -m pytest cls_option_tutor/tests/test_phase_d.py -v    # Phase D: 11 tests
 ```
 
-## Running Benchmarks
+## Objective Function
 
-```bash
-# Within-grammar benchmark (grammar 000001, 5 blocks, 3 seeds)
-python -m cls_option_tutor.eval.benchmark --task 000001 --blocks 5 --seeds 3
+```
+J = ΔEvalAcc − β·Deaths − γ·Timeouts
+  = (EVAL_SR − OBS_SR) − 0.5·DeathRate − 0.2·TimeoutRate
 ```
 
-## Performance Summary
+The tutor selects `SHORTLIST` vs `WAIT` by estimating expected ΔJ
+from probe evaluation (`ProbeEvaluator`) or oracle surrogate
+(`OracleDistanceSurrogate`).
 
-| Condition | Solve Rate | Damage | Notes |
-|-----------|-----------|--------|-------|
-| Baseline (file queries) | ~0.93 | ~6 | Learner-only, no tutor |
-| Tutor (file queries) | ~0.78 | ~10 | Tutor intervenes ~36% |
-| Baseline (synth queries) | ~0.90 | ~7 | Novel compositions |
-| Tutor (synth queries) | ~0.69 | ~14 | Harder queries |
+## Scenarios
 
-Generalisation gap (file vs synth): ~0.04 SR — minimal, confirming
-the learner generalizes within grammar.
+| Scenario | Description |
+|----------|-------------|
+| A | K=10 >> tau_t=3: shortlist forces sub-menu |
+| B | H_0=3 + 7 risky options: safety filter critical |
+| C | Deadline + safety simultaneously |
+| D | T_max >> K, no risk: no intervention expected |
 
-## Dependencies
+## Tutor Conditions
 
-- NumPy
-- Python 3.10+
-- CLS data files in `BASIC/cls_learner/data/`
+| Condition | Strategy |
+|-----------|----------|
+| `no_tutor` | Baseline: learner always sees full menu |
+| `old_tutor` | Legacy BAN/HIGHLIGHT tutor |
+| `new_baseline` | J-tutor with random shortlist selection |
+| `new_probe` | J-tutor with ProbeEvaluator shortlist ranking |
+| `new_oracle_surrogate` | J-tutor with OracleDistanceSurrogate |
+
+## Archived Code
+
+Legacy experiments, RSA implementations, and old eval harnesses are in:
+```
+archive/2026-04-12/
+  experiments/    ← legacy exp_*.py scripts
+  tutor/          ← tutor_agent, counterfactual, shadow_learner, etc.
+  eval/           ← legacy eval harness
+  tests/          ← legacy test files
+  results/        ← all historical experiment results
+  task_report/    ← historical analysis reports
+```

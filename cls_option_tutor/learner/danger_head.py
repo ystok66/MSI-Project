@@ -174,6 +174,32 @@ class DangerHead:
         """
         self.hazard.update(v, eta)
 
+    def update_from_ban(self, v: np.ndarray, omega_ban: float = 3.0) -> None:
+        """Update hazard head from BAN signal (RSA mode).
+
+        BAN semantics: option is risk-unacceptable.
+        This is a stronger signal than RISK_HINT (η=0.8) but weaker
+        than a confirmed wrong-pick reveal (y_h=1.0 with full lr).
+
+        Implementation:
+            - Uses y_h = 1.0 (definite risk label)
+            - Scales learning rate by omega_ban / (1 + omega_ban)
+              so the update magnitude matches the RSA logit shift ω_ban
+            - Does NOT update severity head (no exact damage info)
+
+        Cross-query effect: makes danger_head avoid similar options
+        in future queries when ban_teaches_risk=True.
+
+        Args:
+            v: danger vector of the banned option
+            omega_ban: RSA BAN strength (from RSAConfig.omega_ban)
+        """
+        scale = float(omega_ban) / (1.0 + float(omega_ban))
+        saved_lr = self.hazard.lr
+        self.hazard.lr = saved_lr * scale
+        self.hazard.update(v, 1.0)  # y_h = 1.0: definite risk label
+        self.hazard.lr = saved_lr
+
     @property
     def w_mean(self) -> np.ndarray:
         """Legacy: combined weight vector for snapshot."""

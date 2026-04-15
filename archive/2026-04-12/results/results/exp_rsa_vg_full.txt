@@ -1,0 +1,124 @@
+G1a_sem_gated                       n=240  OBS=0.600 TEACH=0.696 EVAL=0.697±0.018 Gap=+0.097  BAN:1.0% HIGHLIGHT:26.8% WAIT:72.1%
+G1b_sem_nogate                      n=240  OBS=0.600 TEACH=0.671 EVAL=0.721±0.017 Gap=+0.121  BAN:0.9% HIGHLIGHT:27.5% WAIT:71.6%
+G1c_noreveal_gated                  n=240  OBS=0.600 TEACH=0.627 EVAL=0.633±0.020 Gap=+0.033  BAN:0.8% HIGHLIGHT:27.0% WAIT:72.1%
+G2a_no_meta                         n=240  OBS=0.600 TEACH=0.694 EVAL=0.699±0.018 Gap=+0.099  BAN:1.0% HIGHLIGHT:26.9% WAIT:72.1%
+G2c_meta_only                       n=240  OBS=0.600 TEACH=0.690 EVAL=0.700±0.017 Gap=+0.100  BAN:1.1% HIGHLIGHT:27.5% WAIT:71.3%
+G3a_ban_teach                       n=240  OBS=0.600 TEACH=0.685 EVAL=0.697±0.017 Gap=+0.097  BAN:1.1% HIGHLIGHT:27.5% WAIT:71.3%
+G3b_ban_no_teach                    n=240  OBS=0.600 TEACH=0.690 EVAL=0.700±0.017 Gap=+0.100  BAN:1.1% HIGHLIGHT:27.6% WAIT:71.3%
+G3c_ban_l0_penalty                  n=240  OBS=0.600 TEACH=0.792 EVAL=0.686±0.019 Gap=+0.086  BAN:16.3% HIGHLIGHT:8.3% WAIT:75.4%
+
+--- JSON ---
+{
+  "G1a_sem_gated": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6958,
+    "EVAL_SR": 0.6972,
+    "EVAL_SE": 0.0184,
+    "TransferGap": 0.0972,
+    "AvgTime_s": 2.8,
+    "Actions": {
+      "BAN": 1.0,
+      "HIGHLIGHT": 26.8,
+      "WAIT": 72.1
+    }
+  },
+  "G1b_sem_nogate": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6708,
+    "EVAL_SR": 0.7208,
+    "EVAL_SE": 0.0172,
+    "TransferGap": 0.1208,
+    "AvgTime_s": 2.9,
+    "Actions": {
+      "BAN": 0.9,
+      "HIGHLIGHT": 27.5,
+      "WAIT": 71.6
+    }
+  },
+  "G1c_noreveal_gated": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6271,
+    "EVAL_SR": 0.6333,
+    "EVAL_SE": 0.0196,
+    "TransferGap": 0.0333,
+    "AvgTime_s": 1.5,
+    "Actions": {
+      "BAN": 0.8,
+      "HIGHLIGHT": 27.0,
+      "WAIT": 72.1
+    }
+  },
+  "G2a_no_meta": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6937,
+    "EVAL_SR": 0.6986,
+    "EVAL_SE": 0.0183,
+    "TransferGap": 0.0986,
+    "AvgTime_s": 2.8,
+    "Actions": {
+      "BAN": 1.0,
+      "HIGHLIGHT": 26.9,
+      "WAIT": 72.1
+    }
+  },
+  "G2c_meta_only": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6896,
+    "EVAL_SR": 0.7,
+    "EVAL_SE": 0.0172,
+    "TransferGap": 0.1,
+    "AvgTime_s": 3.0,
+    "Actions": {
+      "BAN": 1.1,
+      "HIGHLIGHT": 27.5,
+      "WAIT": 71.3
+    }
+  },
+  "G3a_ban_teach": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6854,
+    "EVAL_SR": 0.6972,
+    "EVAL_SE": 0.0169,
+    "TransferGap": 0.0972,
+    "AvgTime_s": 3.0,
+    "Actions": {
+      "BAN": 1.1,
+      "HIGHLIGHT": 27.5,
+      "WAIT": 71.3
+    }
+  },
+  "G3b_ban_no_teach": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.6896,
+    "EVAL_SR": 0.7,
+    "EVAL_SE": 0.0172,
+    "TransferGap": 0.1,
+    "AvgTime_s": 2.9,
+    "Actions": {
+      "BAN": 1.1,
+      "HIGHLIGHT": 27.6,
+      "WAIT": 71.3
+    }
+  },
+  "G3c_ban_l0_penalty": {
+    "n": 240,
+    "OBS_SR": 0.6,
+    "TEACH_SR": 0.7917,
+    "EVAL_SR": 0.6861,
+    "EVAL_SE": 0.0187,
+    "TransferGap": 0.0861,
+    "AvgTime_s": 2.8,
+    "Actions": {
+      "BAN": 16.3,
+      "HIGHLIGHT": 8.3,
+      "WAIT": 75.4
+    }
+  }
+}

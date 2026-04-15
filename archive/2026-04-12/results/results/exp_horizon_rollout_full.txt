@@ -1,0 +1,294 @@
+Condition                        N  OBS_SR  TEACH_SR  EVAL_SR     SE       ρ  Actions
+=========================================================================================================
+D0_legacy|nsup=4|nt=2           60   0.525     0.708    0.711  0.033  0.0000  BAN:1.4% HIGHLIGHT:26.7% WAIT:71.9%
+D0_legacy|nsup=6|nt=2           60   0.700     0.775    0.789  0.028  0.0000  BAN:1.4% HIGHLIGHT:28.8% WAIT:69.8%
+D0_legacy|nsup=8|nt=2           60   0.800     0.758    0.811  0.028  0.0000  BAN:2.0% HIGHLIGHT:28.5% WAIT:69.5%
+D1_H1_lp1|nsup=4|nt=2           58   0.517     0.716    0.690  0.033  0.0148  BAN:0.4% HIGHLIGHT:27.9% WAIT:71.7%
+D1_H1_lp1|nsup=6|nt=2           59   0.695     0.780    0.774  0.029 -0.0519  BAN:0.6% HIGHLIGHT:29.1% WAIT:70.3%
+D1_H1_lp1|nsup=8|nt=2           58   0.793     0.759    0.822  0.027 -0.0778  BAN:1.2% HIGHLIGHT:29.5% WAIT:69.3%
+D2_H2_lp05|nsup=4|nt=2          58   0.517     0.690    0.701  0.034  0.2577  BAN:0.4% HIGHLIGHT:28.1% WAIT:71.5%
+D2_H2_lp05|nsup=6|nt=2          59   0.695     0.780    0.785  0.030  0.0088  BAN:0.6% HIGHLIGHT:28.8% WAIT:70.5%
+D2_H2_lp05|nsup=8|nt=2          57   0.789     0.763    0.825  0.028 -0.0942  BAN:1.2% HIGHLIGHT:29.2% WAIT:69.6%
+D3_H2_lp1|nsup=4|nt=2           57   0.517     0.693    0.702  0.035  0.2605  BAN:0.4% HIGHLIGHT:28.1% WAIT:71.5%
+D3_H2_lp1|nsup=6|nt=2           59   0.695     0.780    0.780  0.029  0.0359  BAN:0.6% HIGHLIGHT:28.8% WAIT:70.6%
+D3_H2_lp1|nsup=8|nt=2           57   0.789     0.754    0.830  0.028 -0.0770  BAN:1.2% HIGHLIGHT:29.2% WAIT:69.6%
+D4_H2_lp2|nsup=4|nt=2           56   0.509     0.688    0.708  0.035  0.2458  BAN:0.5% HIGHLIGHT:28.2% WAIT:71.3%
+D4_H2_lp2|nsup=6|nt=2           59   0.695     0.780    0.780  0.029  0.0359  BAN:0.6% HIGHLIGHT:28.8% WAIT:70.6%
+D4_H2_lp2|nsup=8|nt=2           56   0.786     0.759    0.827  0.028 -0.0906  BAN:1.2% HIGHLIGHT:29.0% WAIT:69.7%
+D5_H2_lp4|nsup=4|nt=2           53   0.491     0.670    0.717  0.036  0.1680  BAN:0.9% HIGHLIGHT:27.7% WAIT:71.4%
+D5_H2_lp4|nsup=6|nt=2           59   0.695     0.780    0.774  0.029  0.0121  BAN:0.7% HIGHLIGHT:28.6% WAIT:70.7%
+D5_H2_lp4|nsup=8|nt=2           57   0.789     0.763    0.825  0.028 -0.0621  BAN:1.3% HIGHLIGHT:28.9% WAIT:69.8%
+
+--- JSON ---
+{
+  "D0_legacy|nsup=4|nt=2": {
+    "n": 60,
+    "OBS_SR": 0.525,
+    "TEACH_SR": 0.7083,
+    "EVAL_SR": 0.7111,
+    "EVAL_SE": 0.0328,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 3.6,
+    "Actions": {
+      "BAN": 1.4,
+      "HIGHLIGHT": 26.7,
+      "WAIT": 71.9
+    }
+  },
+  "D0_legacy|nsup=6|nt=2": {
+    "n": 60,
+    "OBS_SR": 0.7,
+    "TEACH_SR": 0.775,
+    "EVAL_SR": 0.7889,
+    "EVAL_SE": 0.0283,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 3.4,
+    "Actions": {
+      "BAN": 1.4,
+      "HIGHLIGHT": 28.8,
+      "WAIT": 69.8
+    }
+  },
+  "D0_legacy|nsup=8|nt=2": {
+    "n": 60,
+    "OBS_SR": 0.8,
+    "TEACH_SR": 0.7583,
+    "EVAL_SR": 0.8111,
+    "EVAL_SE": 0.0276,
+    "Spearman_rho": 0.0,
+    "Spearman_p": 1.0,
+    "AvgTime_s": 3.6,
+    "Actions": {
+      "BAN": 2.0,
+      "HIGHLIGHT": 28.5,
+      "WAIT": 69.5
+    }
+  },
+  "D1_H1_lp1|nsup=4|nt=2": {
+    "n": 58,
+    "OBS_SR": 0.5172,
+    "TEACH_SR": 0.7155,
+    "EVAL_SR": 0.6897,
+    "EVAL_SE": 0.0334,
+    "Spearman_rho": 0.0148,
+    "Spearman_p": 0.9124,
+    "AvgTime_s": 35.3,
+    "Actions": {
+      "BAN": 0.4,
+      "HIGHLIGHT": 27.9,
+      "WAIT": 71.7
+    }
+  },
+  "D1_H1_lp1|nsup=6|nt=2": {
+    "n": 59,
+    "OBS_SR": 0.6949,
+    "TEACH_SR": 0.7797,
+    "EVAL_SR": 0.774,
+    "EVAL_SE": 0.0293,
+    "Spearman_rho": -0.0519,
+    "Spearman_p": 0.6962,
+    "AvgTime_s": 30.7,
+    "Actions": {
+      "BAN": 0.6,
+      "HIGHLIGHT": 29.1,
+      "WAIT": 70.3
+    }
+  },
+  "D1_H1_lp1|nsup=8|nt=2": {
+    "n": 58,
+    "OBS_SR": 0.7931,
+    "TEACH_SR": 0.7586,
+    "EVAL_SR": 0.8218,
+    "EVAL_SE": 0.0272,
+    "Spearman_rho": -0.0778,
+    "Spearman_p": 0.5615,
+    "AvgTime_s": 31.6,
+    "Actions": {
+      "BAN": 1.2,
+      "HIGHLIGHT": 29.5,
+      "WAIT": 69.3
+    }
+  },
+  "D2_H2_lp05|nsup=4|nt=2": {
+    "n": 58,
+    "OBS_SR": 0.5172,
+    "TEACH_SR": 0.6897,
+    "EVAL_SR": 0.7011,
+    "EVAL_SE": 0.0342,
+    "Spearman_rho": 0.2577,
+    "Spearman_p": 0.0508,
+    "AvgTime_s": 55.2,
+    "Actions": {
+      "BAN": 0.4,
+      "HIGHLIGHT": 28.1,
+      "WAIT": 71.5
+    }
+  },
+  "D2_H2_lp05|nsup=6|nt=2": {
+    "n": 59,
+    "OBS_SR": 0.6949,
+    "TEACH_SR": 0.7797,
+    "EVAL_SR": 0.7853,
+    "EVAL_SE": 0.0296,
+    "Spearman_rho": 0.0088,
+    "Spearman_p": 0.947,
+    "AvgTime_s": 45.5,
+    "Actions": {
+      "BAN": 0.6,
+      "HIGHLIGHT": 28.8,
+      "WAIT": 70.5
+    }
+  },
+  "D2_H2_lp05|nsup=8|nt=2": {
+    "n": 57,
+    "OBS_SR": 0.7895,
+    "TEACH_SR": 0.7632,
+    "EVAL_SR": 0.8246,
+    "EVAL_SE": 0.0276,
+    "Spearman_rho": -0.0942,
+    "Spearman_p": 0.4859,
+    "AvgTime_s": 47.0,
+    "Actions": {
+      "BAN": 1.2,
+      "HIGHLIGHT": 29.2,
+      "WAIT": 69.6
+    }
+  },
+  "D3_H2_lp1|nsup=4|nt=2": {
+    "n": 57,
+    "OBS_SR": 0.5175,
+    "TEACH_SR": 0.693,
+    "EVAL_SR": 0.7018,
+    "EVAL_SE": 0.0348,
+    "Spearman_rho": 0.2605,
+    "Spearman_p": 0.0504,
+    "AvgTime_s": 49.8,
+    "Actions": {
+      "BAN": 0.4,
+      "HIGHLIGHT": 28.1,
+      "WAIT": 71.5
+    }
+  },
+  "D3_H2_lp1|nsup=6|nt=2": {
+    "n": 59,
+    "OBS_SR": 0.6949,
+    "TEACH_SR": 0.7797,
+    "EVAL_SR": 0.7797,
+    "EVAL_SE": 0.0295,
+    "Spearman_rho": 0.0359,
+    "Spearman_p": 0.7872,
+    "AvgTime_s": 41.4,
+    "Actions": {
+      "BAN": 0.6,
+      "HIGHLIGHT": 28.8,
+      "WAIT": 70.6
+    }
+  },
+  "D3_H2_lp1|nsup=8|nt=2": {
+    "n": 57,
+    "OBS_SR": 0.7895,
+    "TEACH_SR": 0.7544,
+    "EVAL_SR": 0.8304,
+    "EVAL_SE": 0.0276,
+    "Spearman_rho": -0.077,
+    "Spearman_p": 0.5691,
+    "AvgTime_s": 42.8,
+    "Actions": {
+      "BAN": 1.2,
+      "HIGHLIGHT": 29.2,
+      "WAIT": 69.6
+    }
+  },
+  "D4_H2_lp2|nsup=4|nt=2": {
+    "n": 56,
+    "OBS_SR": 0.5089,
+    "TEACH_SR": 0.6875,
+    "EVAL_SR": 0.7083,
+    "EVAL_SE": 0.0348,
+    "Spearman_rho": 0.2458,
+    "Spearman_p": 0.0678,
+    "AvgTime_s": 47.1,
+    "Actions": {
+      "BAN": 0.5,
+      "HIGHLIGHT": 28.2,
+      "WAIT": 71.3
+    }
+  },
+  "D4_H2_lp2|nsup=6|nt=2": {
+    "n": 59,
+    "OBS_SR": 0.6949,
+    "TEACH_SR": 0.7797,
+    "EVAL_SR": 0.7797,
+    "EVAL_SE": 0.0295,
+    "Spearman_rho": 0.0359,
+    "Spearman_p": 0.7872,
+    "AvgTime_s": 38.5,
+    "Actions": {
+      "BAN": 0.6,
+      "HIGHLIGHT": 28.8,
+      "WAIT": 70.6
+    }
+  },
+  "D4_H2_lp2|nsup=8|nt=2": {
+    "n": 56,
+    "OBS_SR": 0.7857,
+    "TEACH_SR": 0.7589,
+    "EVAL_SR": 0.8274,
+    "EVAL_SE": 0.0279,
+    "Spearman_rho": -0.0906,
+    "Spearman_p": 0.5067,
+    "AvgTime_s": 39.9,
+    "Actions": {
+      "BAN": 1.2,
+      "HIGHLIGHT": 29.0,
+      "WAIT": 69.7
+    }
+  },
+  "D5_H2_lp4|nsup=4|nt=2": {
+    "n": 53,
+    "OBS_SR": 0.4906,
+    "TEACH_SR": 0.6698,
+    "EVAL_SR": 0.717,
+    "EVAL_SE": 0.036,
+    "Spearman_rho": 0.168,
+    "Spearman_p": 0.2292,
+    "AvgTime_s": 45.8,
+    "Actions": {
+      "BAN": 0.9,
+      "HIGHLIGHT": 27.7,
+      "WAIT": 71.4
+    }
+  },
+  "D5_H2_lp4|nsup=6|nt=2": {
+    "n": 59,
+    "OBS_SR": 0.6949,
+    "TEACH_SR": 0.7797,
+    "EVAL_SR": 0.774,
+    "EVAL_SE": 0.0293,
+    "Spearman_rho": 0.0121,
+    "Spearman_p": 0.9278,
+    "AvgTime_s": 36.4,
+    "Actions": {
+      "BAN": 0.7,
+      "HIGHLIGHT": 28.6,
+      "WAIT": 70.7
+    }
+  },
+  "D5_H2_lp4|nsup=8|nt=2": {
+    "n": 57,
+    "OBS_SR": 0.7895,
+    "TEACH_SR": 0.7632,
+    "EVAL_SR": 0.8246,
+    "EVAL_SE": 0.0276,
+    "Spearman_rho": -0.0621,
+    "Spearman_p": 0.6463,
+    "AvgTime_s": 37.0,
+    "Actions": {
+      "BAN": 1.3,
+      "HIGHLIGHT": 28.9,
+      "WAIT": 69.8
+    }
+  }
+}

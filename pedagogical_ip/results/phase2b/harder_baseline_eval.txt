@@ -1,0 +1,135 @@
+Phase 2B: Harder Baseline Evaluation
+  episodes=10, seeds=5, family=harder_baseline_v2
+================================================================================
+
+--- linear_fresh ---
+  ep=0: surv=0.200 goal=0.200 risk_w=0.414 t_max=29
+  ep=1: surv=0.600 goal=0.600 risk_w=0.221 t_max=28
+  ep=2: surv=0.200 goal=0.200 risk_w=0.405 t_max=28
+  ep=3: surv=0.800 goal=0.800 risk_w=0.110 t_max=25
+  ep=4: surv=0.600 goal=0.600 risk_w=0.181 t_max=28
+  ep=5: surv=0.600 goal=0.600 risk_w=0.242 t_max=28
+  ep=6: surv=0.800 goal=0.800 risk_w=0.163 t_max=26
+  ep=7: surv=0.400 goal=0.400 risk_w=0.311 t_max=27
+  ep=8: surv=0.600 goal=0.600 risk_w=0.214 t_max=31
+  ep=9: surv=0.600 goal=0.600 risk_w=0.175 t_max=27
+
+--- linear_persist ---
+  ep=0: surv=0.200 goal=0.200 risk_w=0.414 t_max=29
+  ep=1: surv=0.600 goal=0.600 risk_w=0.206 t_max=28
+  ep=2: surv=0.200 goal=0.200 risk_w=0.386 t_max=28
+  ep=3: surv=0.600 goal=0.600 risk_w=0.181 t_max=25
+  ep=4: surv=0.600 goal=0.600 risk_w=0.154 t_max=28
+  ep=5: surv=0.600 goal=0.600 risk_w=0.220 t_max=28
+  ep=6: surv=0.800 goal=0.800 risk_w=0.134 t_max=26
+  ep=7: surv=0.400 goal=0.400 risk_w=0.292 t_max=27
+  ep=8: surv=0.600 goal=0.600 risk_w=0.165 t_max=31
+  ep=9: surv=0.800 goal=0.800 risk_w=0.084 t_max=27
+
+--- basis_fresh ---
+  ep=0: surv=1.000 goal=1.000 risk_w=0.046 t_max=29
+  ep=1: surv=0.800 goal=0.800 risk_w=0.199 t_max=28
+  ep=2: surv=1.000 goal=1.000 risk_w=0.046 t_max=28
+  ep=3: surv=1.000 goal=1.000 risk_w=0.047 t_max=25
+  ep=4: surv=1.000 goal=1.000 risk_w=0.045 t_max=28
+  ep=5: surv=0.800 goal=0.800 risk_w=0.209 t_max=28
+  ep=6: surv=1.000 goal=1.000 risk_w=0.046 t_max=26
+  ep=7: surv=1.000 goal=1.000 risk_w=0.045 t_max=27
+  ep=8: surv=1.000 goal=1.000 risk_w=0.045 t_max=31
+  ep=9: surv=1.000 goal=1.000 risk_w=0.046 t_max=27
+
+--- basis_persist ---
+  ep=0: surv=1.000 goal=1.000 risk_w=0.046 t_max=29
+  ep=1: surv=0.800 goal=0.800 risk_w=0.206 t_max=28
+  ep=2: surv=0.600 goal=0.600 risk_w=0.431 t_max=28
+  ep=3: surv=0.800 goal=0.800 risk_w=0.173 t_max=25
+  ep=4: surv=0.600 goal=0.600 risk_w=0.385 t_max=28
+  ep=5: surv=0.600 goal=0.600 risk_w=0.431 t_max=28
+  ep=6: surv=0.800 goal=0.800 risk_w=0.196 t_max=26
+  ep=7: surv=0.400 goal=0.400 risk_w=0.527 t_max=27
+  ep=8: surv=0.400 goal=0.400 risk_w=0.496 t_max=31
+  ep=9: surv=0.800 goal=0.800 risk_w=0.122 t_max=27
+
+--- slowfast_basis_0.1 ---
+  ep=0: surv=1.000 goal=1.000
+  ep=1: surv=0.800 goal=0.800
+  ep=2: surv=0.800 goal=0.800
+  ep=3: surv=1.000 goal=1.000
+  ep=4: surv=0.800 goal=0.800
+  ep=5: surv=1.000 goal=1.000
+  ep=6: surv=1.000 goal=1.000
+  ep=7: surv=1.000 goal=1.000
+  ep=8: surv=1.000 goal=1.000
+  ep=9: surv=1.000 goal=1.000
+
+--- slowfast_basis_0.2 ---
+  ep=0: surv=1.000 goal=1.000
+  ep=1: surv=1.000 goal=1.000
+  ep=2: surv=1.000 goal=1.000
+  ep=3: surv=1.000 goal=1.000
+  ep=4: surv=1.000 goal=1.000
+  ep=5: surv=1.000 goal=1.000
+  ep=6: surv=1.000 goal=1.000
+  ep=7: surv=1.000 goal=1.000
+  ep=8: surv=1.000 goal=1.000
+  ep=9: surv=1.000 goal=1.000
+
+--- slowfast_basis_0.3 ---
+  ep=0: surv=1.000 goal=1.000
+  ep=1: surv=1.000 goal=1.000
+  ep=2: surv=1.000 goal=1.000
+  ep=3: surv=1.000 goal=1.000
+  ep=4: surv=1.000 goal=1.000
+  ep=5: surv=1.000 goal=1.000
+  ep=6: surv=1.000 goal=1.000
+  ep=7: surv=1.000 goal=1.000
+  ep=8: surv=1.000 goal=1.000
+  ep=9: surv=1.000 goal=1.000
+
+--- slowfast_basis_0.5 ---
+  ep=0: surv=1.000 goal=1.000
+  ep=1: surv=1.000 goal=1.000
+  ep=2: surv=1.000 goal=1.000
+  ep=3: surv=1.000 goal=1.000
+  ep=4: surv=1.000 goal=1.000
+  ep=5: surv=1.000 goal=1.000
+  ep=6: surv=1.000 goal=1.000
+  ep=7: surv=1.000 goal=1.000
+  ep=8: surv=1.000 goal=1.000
+  ep=9: surv=1.000 goal=1.000
+
+================================================================================
+OVERALL SUMMARY
+================================================================================
+                Condition |   Surv |   Goal |  Early |   Late |    N
+--------------------------------------------------------------------
+             linear_fresh |  0.540 |  0.540 |  0.450 |  0.600 |   50
+           linear_persist |  0.540 |  0.540 |  0.400 |  0.640 |   50
+              basis_fresh |  0.960 |  0.960 |  0.950 |  0.960 |   50
+            basis_persist |  0.680 |  0.680 |  0.800 |  0.600 |   50
+       slowfast_basis_0.1 |  0.940 |  0.940 |  0.900 |  1.000 |   50
+       slowfast_basis_0.2 |  1.000 |  1.000 |  1.000 |  1.000 |   50
+       slowfast_basis_0.3 |  1.000 |  1.000 |  1.000 |  1.000 |   50
+       slowfast_basis_0.5 |  1.000 |  1.000 |  1.000 |  1.000 |   50
+
+================================================================================
+TASK B VERDICT
+================================================================================
+  linear_fresh  = 0.540
+  linear_persist= 0.540
+  basis_fresh   = 0.960
+  basis_persist = 0.680
+
+Q1: basis > linear? YES (delta=+0.420)
+Q2: basis_fresh < 1.0? NO (0.960)
+Q3: basis_persist > basis_fresh? NO (delta=-0.280)
+
+>>> basis_fresh still at ceiling — need harder params
+
+================================================================================
+TASK C: ALPHA SWEEP
+================================================================================
+  alpha=0.1: surv=0.940 early=0.900(+-0.060) late=1.000(+0.040)
+  alpha=0.2: surv=1.000 early=1.000(+0.040) late=1.000(+0.040)
+  alpha=0.3: surv=1.000 early=1.000(+0.040) late=1.000(+0.040)
+  alpha=0.5: surv=1.000 early=1.000(+0.040) late=1.000(+0.040)

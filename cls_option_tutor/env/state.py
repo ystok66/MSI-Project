@@ -5,7 +5,7 @@ Implements §15 of the spec.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import List, Optional, Set, Tuple
 import numpy as np
 
 from ..interfaces import Option, RevealEvent, RiskHintEvent, LearnerStep, TutorStep, Example
@@ -24,6 +24,10 @@ class QueryState:
     banned_indices: set = field(default_factory=set)
     risk_hints: set = field(default_factory=set)   # [V2] risk-hinted option indices
     highlighted_cells: Tuple[int, ...] = ()
+    # Option-level shortlist: learner may only pick from this set when not None.
+    # Set by OptionLevelTutorAgent via SHORTLIST action.
+    # Cleared on refresh (risk landscape changes → recompute).
+    shortlisted_indices: Optional[Set[int]] = None
     reveal_history: List[RevealEvent] = field(default_factory=list)
     risk_hint_history: List[RiskHintEvent] = field(default_factory=list)  # [V2]
     refreshes_used: int = 0
@@ -88,6 +92,10 @@ class BlockState:
     total_skips: int = 0
     total_refreshes: int = 0
 
+    # Budget-based teach phase
+    teach_step_budget: int = 0     # 0 = disabled (use fixed N_teach instead)
+    teach_steps_used: int = 0      # picks + refreshes consumed during teach phase
+
     @property
     def current_query(self) -> Optional[QueryState]:
         if self.current_query_idx < len(self.queries):
@@ -101,10 +109,19 @@ class BlockState:
     @property
     def in_teaching_phase(self) -> bool:
         teach_start = self.obs_phase_queries
-        teach_end = self.obs_phase_queries + self.teach_phase_queries
-        return teach_start <= self.current_query_idx < teach_end
+        teach_end   = self.obs_phase_queries + self.teach_phase_queries
+        in_window = teach_start <= self.current_query_idx < teach_end
+        if not in_window:
+            return False
+        # Budget mode: also check remaining steps
+        if self.teach_step_budget > 0:
+            return self.teach_steps_used < self.teach_step_budget
+        return True
 
     @property
     def in_evaluation_phase(self) -> bool:
+        # Budget mode: if budget exhausted, we're in eval regardless of query index
+        if self.teach_step_budget > 0 and self.teach_steps_used >= self.teach_step_budget:
+            return self.current_query_idx >= self.obs_phase_queries
         eval_start = self.obs_phase_queries + self.teach_phase_queries
         return self.current_query_idx >= eval_start

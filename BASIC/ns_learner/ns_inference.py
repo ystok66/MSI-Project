@@ -24,6 +24,7 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Optional
 from scipy.special import logsumexp
+import functools
 
 from .ns_primitives import (
     StackState, StackItem, PRIMITIVES, ROLES, INFIX_ROLES,
@@ -68,8 +69,11 @@ def soft_edit_distance(pred: List[Vector], target: List[Vector],
                        sigma: float = 0.5) -> float:
     """
     Soft Levenshtein distance with Gaussian substitution cost.
-    
+
     Substitution cost = 1 - exp(-||a-b||² / (2σ²))
+
+    OPTIMIZED: pre-compute full (n×m) cost matrix via NumPy broadcast,
+    then run DP with pure Python inner loop (no np calls inside).
     """
     n, m = len(pred), len(target)
     if n == 0:
@@ -77,26 +81,33 @@ def soft_edit_distance(pred: List[Vector], target: List[Vector],
     if m == 0:
         return float(n)
 
-    dp = np.zeros((n + 1, m + 1))
-    for i in range(n + 1):
-        dp[i][0] = float(i)
-    for j in range(m + 1):
-        dp[0][j] = float(j)
-
     inv_2s2 = 1.0 / (2.0 * sigma * sigma)
 
-    for i in range(1, n + 1):
-        for j in range(1, m + 1):
-            diff = pred[i - 1] - target[j - 1]
-            dist_sq = float(np.dot(diff, diff))
-            sub_cost = 1.0 - np.exp(-dist_sq * inv_2s2)
-            dp[i][j] = min(
-                dp[i - 1][j] + 1.0,
-                dp[i][j - 1] + 1.0,
-                dp[i - 1][j - 1] + sub_cost
-            )
+    # Vectorized: compute all n×m substitution costs at once
+    P = np.array(pred,   dtype=np.float64)   # (n, D)
+    T = np.array(target, dtype=np.float64)   # (m, D)
+    diff = P[:, None, :] - T[None, :, :]     # (n, m, D) broadcast
+    dist_sq = np.einsum('ijd,ijd->ij', diff, diff)   # (n, m) — faster than sum
+    sub_costs = 1.0 - np.exp(-dist_sq * inv_2s2)     # (n, m)
 
-    return float(dp[n][m])
+    # DP: must be sequential (each cell depends on 3 neighbors)
+    # but now no numpy calls inside the loop — pure Python arithmetic
+    dp = np.empty((n + 1, m + 1), dtype=np.float64)
+    dp[:, 0] = np.arange(n + 1, dtype=np.float64)
+    dp[0, :] = np.arange(m + 1, dtype=np.float64)
+
+    for i in range(1, n + 1):
+        dp_row_prev = dp[i - 1]
+        dp_row = dp[i]
+        sc_row = sub_costs[i - 1]  # pre-indexed row (avoids 2D lookup)
+        for j in range(1, m + 1):
+            a = dp_row_prev[j] + 1.0        # deletion
+            b = dp_row[j - 1] + 1.0         # insertion
+            c = dp_row_prev[j - 1] + sc_row[j - 1]  # substitution
+            dp_row[j] = a if a < b and a < c else (b if b < c else c)
+
+    return float(dp[n, m])
+
 
 
 # ── Context-Conditioned Role Prior ──────────────────────────────
@@ -106,37 +117,36 @@ def context_role_prior(word: str, instr_idx: int, n_instr: int,
                        base_alpha: Dict[str, float]) -> Dict[str, float]:
     """
     Compute context-conditioned role prior for a word.
-    
-    Unseen words (or words with weak posteriors) benefit from
-    positional cues:
-      - Sentence-final / postfix → boost REPEAT
-      - Between two expressions (infix) → boost SWAP/CONCAT
-      - Sentence-initial / no left context → boost EMIT
-    
-    Returns adjusted alpha dict for Dirichlet predictive.
+
+    Only 3 boolean context flags -> 8 possible outputs.
+    OPTIMIZED: lru_cache on inner helper avoids redundant dict copies.
     """
-    alpha = dict(base_alpha)  # copy
-
-    has_left = stack_depth > 0
+    has_left  = stack_depth > 0
+    is_final  = instr_idx == n_instr - 1
     has_right = instr_idx < n_instr - 1
-    is_final = instr_idx == n_instr - 1
+    base_tuple = tuple(base_alpha[r] for r in sorted(base_alpha))
+    return _cached_role_prior(has_left, is_final, has_right, base_tuple)
 
+
+@functools.lru_cache(maxsize=64)
+def _cached_role_prior(
+    has_left: bool, is_final: bool, has_right: bool,
+    base_tuple: tuple,
+) -> Dict[str, float]:
+    """Cached inner: only 8 unique (bool, bool, bool) combos per base_alpha."""
+    alpha = {r: v for r, v in zip(sorted(ROLES), base_tuple)}
     if has_left and (is_final or not has_right):
-        # Postfix position: boost REPEAT
         alpha['REPEAT'] *= 3.0
-        # Suppress EMIT slightly (probably an operator, not a noun)
         alpha['EMIT'] *= 0.5
     elif has_left and has_right:
-        # Infix position: boost SWAP/CONCAT
         alpha['SWAP_INFIX'] *= 2.0
         alpha['CONCAT_INFIX'] *= 2.0
-        alpha['REPEAT'] *= 1.5  # could still be postfix with more to the right
+        alpha['REPEAT'] *= 1.5
     else:
-        # No left context: almost certainly EMIT
         alpha['EMIT'] *= 3.0
         alpha['REPEAT'] *= 0.1
-
     return alpha
+
 
 
 # ── Span Prior ──────────────────────────────────────────────────

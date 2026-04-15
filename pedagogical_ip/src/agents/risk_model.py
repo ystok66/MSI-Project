@@ -93,6 +93,8 @@ class BayesianRiskHead:
         # Gradient clipping: prevent weight explosions
         grad_norm = float(np.linalg.norm(grad_w))
         max_grad_norm = 5.0
+        if not np.isfinite(grad_norm):
+            return  # skip update on NaN/Inf gradient
         if grad_norm > max_grad_norm:
             grad_w *= max_grad_norm / grad_norm
 

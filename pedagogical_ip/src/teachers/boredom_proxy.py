@@ -1,7 +1,10 @@
 """
-Boredom Proxy — Phase 1B.
+Boredom Proxy — Phase 1B.  [CANONICAL SOURCE]
 
-Provides a boredom/frustration penalty for Q_WAIT scoring.
+Provides the canonical boredom/frustration penalty for Q_WAIT scoring.
+This is the authoritative B_wait formula used by intervention_policy.py
+and surfaced to EpisodeSummary.boredom_canonical_mean via the runner's
+_boredom_trace accumulator.
 
 The boredom proxy captures a state where the agent's expected information gain
 is near zero but movement cost continues to accumulate. This corresponds to

@@ -1,0 +1,44 @@
+# Phase 1 Default Configuration
+# cls_color_selection/configs/phase1_default.yaml
+
+env:
+  n_candidates: 8
+  n_confirm_max: 5
+  max_retry_per_confirm_window: 10
+  danger_dim: 10
+  n_safe_types: 1
+  n_danger_types: 3
+  danger_ratio: 0.3
+  obs_sigma: 0.3
+  cluster_sigma: 0.5
+
+learner:
+  n_sup: 14
+  n_em: 3
+  use_hpc: false
+  cls_mode: ast
+  risk_prior_safe: 0.7
+  risk_update_lr: 0.1
+  feedback_mode: wrong_positions
+  eta_fb: 1.0
+  eps_wrong: 0.01
+  eps_eq: 0.05
+  beta_err: 2.0
+  alpha_fill: 1.0
+  alpha_risk: 0.5
+  alpha_waste: 0.3
+  confirm_fill_threshold: 1.0
+  beta_policy: 4.0
+  epsilon_policy: 0.05
+  enable_courage: false
+  n_retry_courage: 5
+
+tutor:
+  enabled: false
+
+exp:
+  seed: 42
+  n_seeds: 5
+  n_teach_queries: 8
+  n_eval_queries: 8
+  n_workers: 16

@@ -241,6 +241,7 @@ def plan_next_action(
     lambda_uncertainty: float = 0.5,
     passable_mask: Optional[np.ndarray] = None,
 ) -> tuple[str, tuple[int, int]]:
+    # DEPRECATED: V0 legacy — only used by archival BoundedRationalAgent.
     """
     Plan and return the next single action.
 
@@ -269,6 +270,7 @@ def cell_cost_v2(
     lambda_risk: float = 5.0,
     lambda_uncertainty: float = 0.1,
 ) -> float:
+    # DEPRECATED: legacy V2 path (no latent predictor). Canonical path uses cell_cost_v2_latent.
     """
     V2 cell cost using feature-based risk prediction (LEGACY path).
 
@@ -303,7 +305,7 @@ def cell_cost_v2_latent(
     latent_predictor,                   # LatentCostRiskHead (latent_predictor protocol)
     passable: np.ndarray,               # (H, W) bool
     lambda_c: float = 1.0,
-    lambda_r: float = 5.0,
+    lambda_risk: float = 5.0,
     lambda_uc: float = 0.1,
     lambda_ur: float = 0.1,
     inventory_state=None,               # InventoryState or None
@@ -357,7 +359,7 @@ def cell_cost_v2_latent(
 
     eps = 1e-4
     mu_rho = float(np.clip(risk_hat, eps, 1.0 - eps))
-    risk_penalty_full = lambda_r * (-np.log(1.0 - mu_rho))
+    risk_penalty_full = lambda_risk * (-np.log(1.0 - mu_rho))
 
     # Shield reduces risk penalty (same factor as execution)
     if inventory_state is not None and inventory_state.has_shield():
@@ -405,7 +407,14 @@ def plan_next_action_v2(
     feature_belief_var: Optional[np.ndarray] = None,
     route_necessity: float = 0.0,
 ) -> tuple[str, tuple[int, int], list[tuple[int, int]]]:
-    """V2 planning.
+    # DEPRECATED: legacy V2 fallback. Canonical path uses plan_from_belief().
+    """V2 planning — LEGACY PATH.
+
+    .. deprecated::
+        All canonical experiments use belief_planning_mode=True, which calls
+        plan_from_belief() → plan_with_alternatives_v2() instead. This function
+        is only reached when belief_planning_mode=False (the default, but unused
+        by any experiment script). Does NOT support inventory_state / shield.
 
     If latent_predictor is provided, uses joint cost+risk prediction from
     the latent model. Otherwise uses legacy risk-only path.
