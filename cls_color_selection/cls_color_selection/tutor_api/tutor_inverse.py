@@ -29,6 +29,7 @@ from .learner_model import TutorLearnerModel
 from .observation_v2 import ObservationRecord, ObservationSummaryV2
 from .hint_policy import decide_hint, HintPolicyConfig
 from .trace_analysis import analyze_trace_salience
+from .counterfactual import one_step_counterfactual
 
 
 # ── Behavioral risk tracker ──────────────────────────────────
@@ -99,6 +100,11 @@ class InverseTutor:
         self._pred_log: List[Dict] = []
         self._hint_diag_log: List[Dict] = []
 
+        # Counterfactual: available probe queries (set externally)
+        self._probe_queries: List[Tuple[List[str], List[str]]] = []
+        self._enable_counterfactual: bool = False
+        self._lambda_learn: float = 1.0  # weight for ΔLearn in final decision
+
     def init_learner_model(self, support: List[Example]):
         """[ORACLE] Initialize learner model from support (same as learner)."""
         self.learner_model.init_from_support(support)
@@ -113,12 +119,26 @@ class InverseTutor:
 
     # ── Obs phase: result-level only ─────────────────────────
 
-    def process_observation(self, record: ObservationRecord):
+    def process_observation(self, record: 'ObservationRecord',
+                             evidence_mode: str = 'strict'):
         """Update learner model from one obs result.
 
         This is the obs-phase entry point. Only result-level info is used.
+
+        Args:
+            record: one obs record
+            evidence_mode:
+                'strict'  — only use confirm evidence (submitted_output exists)
+                'partial_fallback' — also use partial completion (legacy)
         """
-        output = record.best_output
+        # Evidence gating
+        etype = record.evidence_type
+        if evidence_mode == 'strict' and etype == 'partial':
+            # Skip: partial-only evidence not used in strict mode
+            return
+
+        output = record.best_output if evidence_mode == 'partial_fallback' \
+            else record.submitted_output
         if output is None:
             return
 
@@ -134,10 +154,16 @@ class InverseTutor:
                 {'mode': 'wrong_positions', 'mask': record.wrong_mask},
             )
 
-    def process_all_observations(self, summary: ObservationSummaryV2):
-        """Process all obs records sequentially."""
+    def process_all_observations(self, summary: 'ObservationSummaryV2',
+                                  evidence_mode: str = 'strict'):
+        """Process all obs records sequentially.
+
+        Args:
+            summary: observation summary containing records
+            evidence_mode: 'strict' or 'partial_fallback'
+        """
         for record in summary.records:
-            self.process_observation(record)
+            self.process_observation(record, evidence_mode=evidence_mode)
 
     # ── Teach phase: per-step decisions (process-level) ──────
 
@@ -229,7 +255,54 @@ class InverseTutor:
         self._hint_diag_log.append(diag)
 
         if should_hint and positions:
-            # Convert to (pos, correct_color) format
+            # S3: One-step counterfactual (if enabled)
+            if self._enable_counterfactual and self._probe_queries:
+                try:
+                    probe_words = [pq[0] for pq in self._probe_queries]
+                    probe_golds = [pq[1] for pq in self._probe_queries]
+                    rho = getattr(self.learner_model.cfg, 'rho_assist', 0.3)
+
+                    cf_result = one_step_counterfactual(
+                        self.learner_model,
+                        state.query_words, gt, positions,
+                        wrong_mask, feedback,
+                        probe_words, probe_golds,
+                        rho_assist=rho)
+
+                    # Log both metrics
+                    diag['cf_delta_learn_bin'] = float(cf_result.delta_learn_bin)
+                    diag['cf_delta_learn_soft'] = float(cf_result.delta_learn_soft)
+                    diag['cf_probe_acc_hint'] = float(cf_result.probe_acc_hint)
+                    diag['cf_probe_acc_wait'] = float(cf_result.probe_acc_wait)
+                    diag['cf_probe_ll_hint'] = float(cf_result.probe_ll_hint)
+                    diag['cf_probe_ll_wait'] = float(cf_result.probe_ll_wait)
+                    diag['cf_n_probes'] = cf_result.n_probes
+
+                    # Continuous utility: adjust Q_hint with λ_learn · ΔLearn_soft
+                    q_orig = diag.get('Q_after_pollution', diag.get('Q_hint', 0))
+                    q_cf = q_orig + self._lambda_learn * cf_result.delta_learn_soft
+                    diag['Q_cf_adjusted'] = float(q_cf)
+
+                    # If CF-adjusted Q goes negative, veto
+                    if q_cf <= 0:
+                        diag['decision'] = 'WAIT'
+                        diag['reason'] = (
+                            f'CF-adjusted Q<=0 '
+                            f'(Q_orig={q_orig:.3f}, '
+                            f'dl_soft={cf_result.delta_learn_soft:.4f})')
+                        return TutorAction(action_type=TutorActionType.WAIT)
+
+                    # Catastrophic hard veto: extreme learning damage
+                    if cf_result.delta_learn_soft < -0.2:
+                        diag['decision'] = 'WAIT'
+                        diag['reason'] = (
+                            f'catastrophic CF veto '
+                            f'(dl_soft={cf_result.delta_learn_soft:.4f})')
+                        return TutorAction(action_type=TutorActionType.WAIT)
+
+                except Exception:
+                    pass  # CF failed → proceed with original decision
+
             hint_positions = [(pos, color) for pos, color in positions]
             return TutorAction(
                 action_type=TutorActionType.HINT,

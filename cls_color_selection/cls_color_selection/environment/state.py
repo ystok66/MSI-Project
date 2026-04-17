@@ -49,6 +49,10 @@ class QueryState:
     # ── Step log (for diagnostics) ──
     step_log: List[dict] = field(default_factory=list)
 
+    # ── Assist mask (Phase 6: counterfactual) ──
+    # True = position filled by tutor hint, False = filled by learner
+    assist_mask: List[bool] = field(default_factory=list)
+
     # ── Properties ──
     @property
     def is_terminal(self) -> bool:

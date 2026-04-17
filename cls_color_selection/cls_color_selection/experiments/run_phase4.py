@@ -235,18 +235,31 @@ def _do_grammar_update(
     state, feedback, predictor, target_pred,
     feedback_updater, tutor, is_shadow, cfg, diag,
 ):
-    """Apply grammar feedback to real learner (and shadow if applicable)."""
+    """Apply grammar feedback to real learner (and shadow if applicable).
+
+    Passes assist_mask from state to discount evidence at hint positions.
+    """
     submitted = [c if c is not None else '?' for c in feedback['submitted']]
 
-    # Real learner update
+    # Get assist_mask from state (Phase 6: counterfactual)
+    assist_mask = getattr(state, 'assist_mask', None)
+    if assist_mask and len(assist_mask) != len(submitted):
+        assist_mask = None  # Safety: length mismatch
+
+    # Real learner update (with assist-aware reweighting)
     q_old, q_new = feedback_updater.apply_feedback(
-        predictor, state.query_words, submitted, feedback)
+        predictor, state.query_words, submitted, feedback,
+        assist_mask=assist_mask)
     target_pred.invalidate_cache(state.query_words)
     new_target = target_pred.predict_target(state.query_words)
     if new_target != list(state.target_output):
         state.target_output = new_target
         state.completion = [None] * len(new_target)
     diag['n_feedback_updates'] = diag.get('n_feedback_updates', 0) + 1
+
+    # Track assist diagnostics
+    if assist_mask and any(assist_mask):
+        diag['assist_fraction'] = sum(assist_mask) / max(len(assist_mask), 1)
 
     # Shadow tutor: sync shadow grammar
     if is_shadow and hasattr(tutor, 'shadow') and tutor.shadow is not None:
@@ -315,6 +328,7 @@ def run_episode_phase4(
     seed: int,
     cfg: FullConfig,
     condition_overrides: dict,
+    _phase6_overrides: dict = None,
 ) -> dict:
     """Run one full Phase 4 episode.
 
@@ -388,6 +402,7 @@ def run_episode_phase4(
             belief, obs_queries, teach_queries, eval_queries,
             probe_words, probe_gold, inverse_depth, inverse_init_mode,
             task_id, seed, n_obs, n_teach, n_eval,
+            _phase6_overrides=_phase6_overrides,
         )
 
     # ══════════════════════════════════════════════════════════════
@@ -410,6 +425,7 @@ def _run_inverse_episode(
     belief, obs_queries, teach_queries, eval_queries,
     probe_words, probe_gold, inverse_depth, inverse_init_mode,
     task_id, seed, n_obs, n_teach, n_eval,
+    _phase6_overrides=None,
 ):
     """Run episode with inverse inference tutor."""
 
@@ -426,6 +442,14 @@ def _run_inverse_episode(
         update_depth=inverse_depth,
         hint_after_confirm_fail=cfg.tutor.hint_after_confirm_fail,
     )
+
+    # ── Apply Phase 6 overrides (S1/S2/S3) ──
+    # IMPORTANT: use 'in' check, not '> 0', so that 0.0 truly disables.
+    p6 = _phase6_overrides or {}
+    if 'lambda_pollution' in p6:
+        tutor._hint_cfg.lambda_pollution = p6['lambda_pollution']
+    if p6.get('enable_cf', False):
+        tutor._enable_counterfactual = True
 
     # ── Init learner model according to init_mode ──
     if inverse_init_mode == 'cold':
@@ -481,7 +505,21 @@ def _run_inverse_episode(
 
     # ── Teaching ──
     teach_results = []
+
+    # Pre-build counterfactual probe pool (all teach queries with GT)
+    _cf_probe_pool = []
+    if tutor._enable_counterfactual:
+        for qi, q in enumerate(teach_queries):
+            gt_out = task_model.ground_truth_output(q.words)
+            if gt_out:
+                _cf_probe_pool.append((qi, q.words, gt_out))
+
     for qi, query in enumerate(teach_queries):
+        # Dynamic probe: remaining teach queries AFTER current query
+        if tutor._enable_counterfactual and _cf_probe_pool:
+            remaining = [(w, g) for (idx, w, g) in _cf_probe_pool
+                         if idx > qi]
+            tutor._probe_queries = remaining[:5]
         y_star = target_pred.predict_target(query.words)
         state = env.init_query(query, query_id=n_obs + qi, target_output=y_star)
         memory = QueryMemory()

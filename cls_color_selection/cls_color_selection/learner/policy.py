@@ -61,6 +61,26 @@ class ColorSelectionPolicy:
         else:
             p_danger = np.array([])
 
+        # ── Risk gate: skip needed-but-too-risky balls if safer alternative exists ──
+        gated_indices = set()
+        if self.cfg.risk_gate_tau > 0 and n > 0:
+            # For each needed color, find min p_danger among needed balls of that color
+            color_min_risk = {}  # color -> min p_danger
+            for i, ball in enumerate(pool):
+                if ball.color in needed:
+                    prev = color_min_risk.get(ball.color, 1.0)
+                    color_min_risk[ball.color] = min(prev, p_danger[i])
+
+            # Check if ANY needed color has a safe-enough ball
+            has_safe_needed = any(v < self.cfg.risk_gate_tau for v in color_min_risk.values())
+
+            if has_safe_needed:
+                for i, ball in enumerate(pool):
+                    if (ball.color in needed
+                            and p_danger[i] > self.cfg.risk_gate_tau
+                            and color_min_risk.get(ball.color, 0) < p_danger[i]):
+                        gated_indices.add(i)
+
         # Greedy selection: pick balls that maximize marginal utility
         selected_indices = []
         selected_colors: Dict[str, int] = {}  # track how many of each color selected
@@ -71,7 +91,7 @@ class ColorSelectionPolicy:
             best_util = -np.inf
 
             for i in range(n):
-                if i in selected_indices:
+                if i in selected_indices or i in gated_indices:
                     continue
 
                 ball = pool[i]

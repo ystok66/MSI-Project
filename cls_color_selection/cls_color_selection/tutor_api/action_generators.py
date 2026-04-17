@@ -107,6 +107,9 @@ def apply_hint_to_state(
     Hint balls are "from thin air" — they go straight into the completion
     without going through the candidate pool.
 
+    Also writes assist_mask to track which positions are tutor-provided
+    (Phase 6: counterfactual learner modeling).
+
     Args:
         state: current query state (modified in place)
         hint_action: TutorAction with hint_positions
@@ -117,14 +120,20 @@ def apply_hint_to_state(
     if hint_action.hint_positions is None:
         return state
 
+    # Initialize assist_mask if needed
+    if not state.assist_mask or len(state.assist_mask) != len(state.completion):
+        state.assist_mask = [False] * len(state.completion)
+
     for pos, color in hint_action.hint_positions:
         if 0 <= pos < len(state.completion):
             state.completion[pos] = color
+            state.assist_mask[pos] = True  # Mark as tutor-assisted
 
     state.step_log.append({
         'event': 'hint',
         'positions': hint_action.hint_positions,
         'fill_ratio': state.fill_ratio,
+        'n_assisted': sum(state.assist_mask),
     })
 
     return state

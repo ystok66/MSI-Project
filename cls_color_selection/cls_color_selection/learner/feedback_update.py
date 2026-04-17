@@ -49,21 +49,30 @@ class FeedbackUpdater:
         Y_hat: List[str],
         Y_k: List[str],
         mask: List[bool],
+        assist_mask: Optional[List[bool]] = None,
     ) -> float:
-        """P(F_mask | Ŷ, Y_k, m) for wrong_positions mode.
+        """P(F_mask | Ŷ, Y_k, m, m^assist) for wrong_positions mode.
 
         For each position ℓ:
           s_{k,ℓ} = (1 - ε_eq) if y_{k,ℓ} == ŷ_ℓ else ε_eq
+          w_ℓ = ρ_assist if m^assist_ℓ else 1.0
 
-        P(F) = Π_{ℓ: m=True} s_{k,ℓ} · Π_{ℓ: m=False} (1 - s_{k,ℓ})
+        log P(F) = Σ_{ℓ: m=True} w_ℓ · log s_{k,ℓ}
+                 + Σ_{ℓ: m=False} w_ℓ · log(1 - s_{k,ℓ})
 
-        Works in log space for numerical stability.
+        When assist_mask is None or rho_assist=1.0, equivalent to original.
         """
         eps = self.cfg.eps_eq
+        rho = getattr(self.cfg, 'rho_assist', 1.0)
         L = min(len(Y_hat), len(Y_k), len(mask))
         log_lik = 0.0
 
         for ell in range(L):
+            # Evidence weight for this position
+            w = 1.0
+            if assist_mask and ell < len(assist_mask) and assist_mask[ell]:
+                w = rho  # Discount evidence at tutor-assisted positions
+
             # Match probability
             if ell < len(Y_k) and ell < len(Y_hat):
                 if Y_k[ell] == Y_hat[ell]:
@@ -75,10 +84,10 @@ class FeedbackUpdater:
 
             if mask[ell]:
                 # Position marked correct — want s high
-                log_lik += np.log(max(s, 1e-30))
+                log_lik += w * np.log(max(s, 1e-30))
             else:
                 # Position marked wrong — want (1-s) high
-                log_lik += np.log(max(1.0 - s, 1e-30))
+                log_lik += w * np.log(max(1.0 - s, 1e-30))
 
         return np.exp(log_lik)
 
@@ -87,6 +96,7 @@ class FeedbackUpdater:
         beam: List[Tuple[float, list, List[str]]],
         Y_hat: List[str],
         feedback: dict,
+        assist_mask: Optional[List[bool]] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Reweight beam posterior using feedback likelihood.
 
@@ -94,6 +104,7 @@ class FeedbackUpdater:
             beam: [(score_k, trace_k, Y_k), ...] from CLSSequencePredictor
             Y_hat: the output the learner confirmed (submitted)
             feedback: {'mode': 'wrong_only'|'wrong_positions', 'mask': [...]}
+            assist_mask: which positions were tutor-assisted (Phase 6)
 
         Returns:
             (q_old, q_new): original and reweighted posterior arrays
@@ -118,7 +129,7 @@ class FeedbackUpdater:
                 fb_liks[k] = self.compute_feedback_likelihood_wrong_only(Y_hat, Y_k)
             elif mode == 'wrong_positions':
                 fb_liks[k] = self.compute_feedback_likelihood_wrong_positions(
-                    Y_hat, Y_k, mask)
+                    Y_hat, Y_k, mask, assist_mask=assist_mask)
             else:
                 fb_liks[k] = 1.0  # no update
 
@@ -201,6 +212,7 @@ class FeedbackUpdater:
         words: List[str],
         Y_hat: List[str],
         feedback: dict,
+        assist_mask: Optional[List[bool]] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Full feedback pipeline: beam → reweight → differential M-step.
 
@@ -209,6 +221,7 @@ class FeedbackUpdater:
             words: query words
             Y_hat: submitted (wrong) output
             feedback: feedback dict with mode and mask
+            assist_mask: which positions were tutor-assisted (Phase 6)
 
         Returns:
             (q_old, q_new) for diagnostics
@@ -217,7 +230,8 @@ class FeedbackUpdater:
         if not beam:
             return np.array([]), np.array([])
 
-        q_old, q_new = self.reweight_beam_posterior(beam, Y_hat, feedback)
+        q_old, q_new = self.reweight_beam_posterior(
+            beam, Y_hat, feedback, assist_mask=assist_mask)
 
         # Apply differential M-step
         library = predictor.get_library()

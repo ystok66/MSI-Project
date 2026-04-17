@@ -52,6 +52,11 @@ class HintPolicyConfig:
     tau_flat: float = 0.85      # normalized entropy threshold for fallback
     lambda_mask: float = 0.5    # base value for wrong positions in fallback
 
+    # S2: learning-loss proxy (pollution penalty) — disabled by default
+    # Phase 6v2 showed S2 is anti-productive at current teach scale.
+    # Set >0 to activate (e.g. 2.0-3.0 for visible effect).
+    lambda_pollution: float = 0.0
+
 
 DEFAULT_HINT_CONFIG = HintPolicyConfig()
 
@@ -227,7 +232,41 @@ def select_hint_positions_greedy(
     return selected
 
 
-# ── Full policy: decide and select (Phase 5 version) ──────────
+# ── S2: Learning-loss proxy ───────────────────────────────────
+
+def compute_learning_loss(
+    analysis: BeamQueryAnalysis,
+    hint_positions: List[int],
+    trace_salience: Optional[np.ndarray] = None,
+) -> float:
+    """L^pollution(S): learning loss from hinting a set of positions.
+
+    L = (1/L) * Σ_{i ∈ S} p_wrong_i · (1 + T_i)
+
+    Intuition: positions that are high-p_wrong AND high structural
+    uncertainty are where learner should learn from mistakes.
+    Hinting them shortcircuits learning.
+
+    Returns: scalar loss in [0, ~2]
+    """
+    if not analysis.positions or not hint_positions:
+        return 0.0
+
+    L = len(analysis.positions)
+    loss = 0.0
+    for pos_idx in hint_positions:
+        if pos_idx >= len(analysis.positions):
+            continue
+        pa = analysis.positions[pos_idx]
+        T_i = 0.0
+        if trace_salience is not None and pos_idx < len(trace_salience):
+            T_i = float(trace_salience[pos_idx])
+        loss += pa.p_wrong * (1.0 + T_i)
+
+    return loss / max(L, 1)
+
+
+# ── Full policy: decide and select (Phase 6 version) ──────────
 
 def decide_hint(
     beam: list,
@@ -289,7 +328,6 @@ def decide_hint(
     if not positions:
         # P5-2 extra: if fallback still fails, try most-wrong positions
         if use_fallback:
-            # Last resort: pick wrong positions by raw p_wrong descending
             wrong_positions = []
             for pos in analysis.positions:
                 if pos.idx < len(wrong_mask) and not wrong_mask[pos.idx]:
@@ -297,7 +335,6 @@ def decide_hint(
                         wrong_positions.append(
                             (pos.idx, pos.p_wrong, pos.gt_color))
             wrong_positions.sort(key=lambda x: x[1], reverse=True)
-            # Take top 1-2 most-wrong positions
             for pos_idx, _, gt_color in wrong_positions[:2]:
                 positions.append((pos_idx, gt_color))
             diag['fallback_rescue'] = len(positions) > 0
@@ -307,9 +344,22 @@ def decide_hint(
         diag['reason'] = 'no valuable positions (even after fallback)'
         return False, [], diag
 
+    # S2: Learning-loss penalty — deduct from Q_hint
+    hint_indices = [p[0] for p in positions]
+    L_poll = compute_learning_loss(analysis, hint_indices, trace_salience)
+    Q_after_pollution = Q_hint - cfg.lambda_pollution * L_poll
+    diag['L_pollution'] = float(L_poll)
+    diag['Q_after_pollution'] = float(Q_after_pollution)
+
+    # If pollution penalty pushes utility below 0, reconsider
+    if Q_after_pollution <= 0 and not use_fallback:
+        diag['decision'] = 'WAIT'
+        diag['reason'] = 'Q_hint positive but pollution penalty too high'
+        return False, [], diag
+
     diag['decision'] = 'HINT'
     diag['n_positions'] = len(positions)
-    diag['hinted_positions'] = [p[0] for p in positions]
+    diag['hinted_positions'] = hint_indices
 
     # Per-position diagnostics
     pos_diags = []

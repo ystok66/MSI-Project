@@ -46,14 +46,17 @@ class LearnerConfig:
     eps_wrong: float = 0.01         # ε for wrong_only exact-match
     eps_eq: float = 0.05            # ε for position-match probability
     beta_err: float = 2.0           # distance scaling for wrong_only soft version
+    rho_assist: float = 0.3         # assist evidence discount (0=ignore hints, 1=no discount)
 
     # ── Policy ──
     alpha_fill: float = 1.0         # fill-gap utility weight
-    alpha_risk: float = 0.5         # risk penalty weight
+    alpha_risk: float = 2.0         # risk penalty weight
     alpha_waste: float = 0.3        # waste/redundant-color penalty weight
     confirm_fill_threshold: float = 1.0  # confirm when fill ratio ≥ this
     beta_policy: float = 4.0        # softmax temperature for select scoring
     epsilon_policy: float = 0.05    # exploration lapse rate
+    risk_gate_tau: float = 0.0      # 0 = disabled; >0 = skip needed balls with p_danger > tau
+                                    # if a safer needed alternative exists
 
     # ── Courage ──
     enable_courage: bool = False    # Phase 1 default: off (ablation A3 tests on)

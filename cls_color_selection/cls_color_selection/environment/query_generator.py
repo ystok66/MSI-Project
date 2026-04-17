@@ -269,6 +269,125 @@ def _scale_distribution(base: Dict[str, int], target_total: int) -> Dict[str, in
     return result
 
 
+# ── Banked episode generation (Phase 7+) ──────────────────────
+# Fixes the confound where n_obs changes teach/eval queries.
+# All banks are generated once; n_obs selects an obs prefix.
+
+@dataclass
+class EpisodeBank:
+    """Fixed episode query bank. teach/eval invariant to n_obs."""
+    obs_bank: List[Example]        # max obs pool (e.g. 8 queries)
+    teach_bank: List[Example]      # fixed teach pool
+    eval_bank: List[Example]       # fixed eval pool
+    obs_tags: List[str] = field(default_factory=list)
+    teach_tags: List[str] = field(default_factory=list)
+    eval_tags: List[str] = field(default_factory=list)
+
+
+def generate_episode_bank(
+    grammar: 'Grammar',
+    support: List[Example],
+    rng: np.random.Generator,
+    n_obs_max: int = 8,
+    n_teach: int = 8,
+    n_eval: int = 8,
+) -> 'EpisodeBank':
+    """Generate all banks once. teach/eval invariant to n_obs.
+
+    Uses separate RNG streams so obs generation doesn't affect
+    teach/eval randomness.
+
+    Args:
+        grammar: parsed Grammar
+        support: learner support examples (excluded from generation)
+        rng: master RNG (consumed only for deriving sub-seeds)
+        n_obs_max: maximum obs queries to pre-generate
+        n_teach: teach query count
+        n_eval: eval query count
+
+    Returns:
+        EpisodeBank with three non-overlapping query pools
+    """
+    # Derive independent seeds for each phase
+    master_seed = int(rng.integers(0, 2**31))
+    rng_obs = np.random.default_rng(master_seed + 1)
+    rng_teach = np.random.default_rng(master_seed + 2)
+    rng_eval = np.random.default_rng(master_seed + 3)
+
+    existing = {tuple(ex.words) for ex in support}
+
+    # Generate obs bank (max size)
+    obs_dist = _scale_distribution(
+        {'easy': 1, 'medium': 2, 'hard': 1}, n_obs_max)
+    obs_batch = generate_query_batch(grammar, obs_dist, rng_obs, existing)
+    existing.update(tuple(q.words) for q in obs_batch.queries)
+
+    # Generate teach bank
+    teach_dist = _scale_distribution(
+        {'easy': 2, 'medium': 3, 'hard': 3}, n_teach)
+    teach_batch = generate_query_batch(grammar, teach_dist, rng_teach, existing)
+    existing.update(tuple(q.words) for q in teach_batch.queries)
+
+    # Generate eval bank
+    eval_dist = _scale_distribution(
+        {'easy': 1, 'medium': 3, 'hard': 4}, n_eval)
+    eval_batch = generate_query_batch(grammar, eval_dist, rng_eval, existing)
+
+    return EpisodeBank(
+        obs_bank=obs_batch.queries,
+        teach_bank=teach_batch.queries,
+        eval_bank=eval_batch.queries,
+        obs_tags=obs_batch.difficulty_tags,
+        teach_tags=teach_batch.difficulty_tags,
+        eval_tags=eval_batch.difficulty_tags,
+    )
+
+
+def slice_obs_from_bank(
+    bank: EpisodeBank,
+    n_obs: int,
+) -> Tuple[List[Example], List[Example], List[Example], List[str]]:
+    """Slice obs prefix from bank. teach/eval always unchanged.
+
+    Args:
+        bank: pre-generated EpisodeBank
+        n_obs: how many obs queries to use (0 to n_obs_max)
+
+    Returns:
+        (obs_queries, teach_queries, eval_queries, all_tags)
+    """
+    obs_q = bank.obs_bank[:n_obs]
+    obs_t = bank.obs_tags[:n_obs]
+    all_tags = obs_t + bank.teach_tags + bank.eval_tags
+    return obs_q, list(bank.teach_bank), list(bank.eval_bank), all_tags
+
+
+def make_query_rng(
+    global_seed: int,
+    task_id: str,
+    query_id: int,
+    phase: str = 'teach',
+) -> np.random.Generator:
+    """Create deterministic per-query RNG.
+
+    This ensures candidate pool generation is invariant to n_obs:
+    same (task_id, query_id, phase) always produces same pool.
+
+    Args:
+        global_seed: episode-level seed
+        task_id: grammar/task identifier
+        query_id: unique query index
+        phase: 'obs', 'teach', or 'eval'
+
+    Returns:
+        independent np.random.Generator for this query
+    """
+    import hashlib
+    key = f'{global_seed}:{task_id}:{query_id}:{phase}'
+    h = int(hashlib.sha256(key.encode()).hexdigest()[:16], 16)
+    return np.random.default_rng(h)
+
+
 # ── Resample mode ─────────────────────────────────────────────
 
 def resample_queries(

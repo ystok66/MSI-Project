@@ -106,6 +106,54 @@ class GrammarTaskEnv:
         )
         return state
 
+    def init_query_with_rng(
+        self,
+        query: Example,
+        query_id: int,
+        target_output=None,
+        query_rng: np.random.Generator = None,
+    ) -> 'QueryState':
+        """Init query with a per-query RNG for candidate pool.
+
+        This ensures candidate pool generation is deterministic per query,
+        invariant to how many obs queries ran before this one.
+
+        Args:
+            query: the query Example
+            query_id: index
+            target_output: Y* from CLS. If None, uses ground truth.
+            query_rng: per-query RNG. If None, falls back to self.rng.
+        """
+        if self.grammar is None or self.danger_model is None:
+            raise RuntimeError("No task loaded. Call load_task() first.")
+
+        gt = query.output
+        y_star = target_output if target_output is not None else gt
+        colors = self.get_grammar_colors()
+        pool_rng = query_rng if query_rng is not None else self.rng
+
+        pool = generate_candidate_pool(
+            grammar_colors=colors,
+            target_output=y_star,
+            n_candidates=self.cfg.env.n_candidates,
+            danger_model=self.danger_model,
+            cfg=self.cfg.env,
+            rng=pool_rng,
+        )
+
+        state = QueryState(
+            query_id=query_id,
+            query_words=query.words,
+            target_output=y_star,
+            ground_truth=gt,
+            grammar_colors=colors,
+            completion=[None] * len(y_star),
+            candidate_pool=pool,
+            n_confirm_max=self.cfg.env.n_confirm_max,
+            max_retry_per_confirm_window=self.cfg.env.max_retry_per_confirm_window,
+        )
+        return state
+
     def step_select(
         self,
         state: QueryState,
@@ -210,6 +258,8 @@ class GrammarTaskEnv:
             'success': success,
             'confirm_count': state.confirm_count,
             'outcome': state.outcome.name,
+            'submitted': feedback.get('submitted'),
+            'mask': feedback.get('mask'),
         }
         state.step_log.append(step_info)
 

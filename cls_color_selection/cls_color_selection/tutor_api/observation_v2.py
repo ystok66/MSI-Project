@@ -43,6 +43,10 @@ class ObservationRecord:
         outcome: SUCCESS / TIMEOUT / DEATH
         correct: whether submitted matched ground truth
         wrong_mask: per-position correct/wrong (if wrong_positions feedback)
+        evidence_type: auto-classified strength of this observation
+            'confirm_mask'  — submitted + mask (strong, default for inverse update)
+            'confirm_only'  — submitted, no mask (medium)
+            'partial'       — only completion available (weak, ablation only)
     """
     query_words: List[str]
     submitted_output: Optional[List[str]]     # from last confirm attempt
@@ -50,6 +54,15 @@ class ObservationRecord:
     outcome: Outcome
     correct: bool
     wrong_mask: Optional[List[bool]] = None
+
+    @property
+    def evidence_type(self) -> str:
+        """Auto-classify evidence strength."""
+        if self.submitted_output is not None and self.wrong_mask is not None:
+            return 'confirm_mask'
+        elif self.submitted_output is not None:
+            return 'confirm_only'
+        return 'partial'
 
     @property
     def best_output(self) -> Optional[List[str]]:
