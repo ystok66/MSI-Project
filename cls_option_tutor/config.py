@@ -37,6 +37,9 @@ class EnvConfig:
 
     # Refresh (V2: risk-only)
     max_refreshes: int = 2             # max refreshes per query (V2: was 3)
+    # Controlled patch: when True, learner/policy/env must respect the
+    # per-query refresh cap. Default False preserves legacy semantics.
+    enforce_max_refreshes: bool = False
 
     # Budget-based teach phase (0 = disabled, use fixed N_teach instead)
     teach_step_budget: int = 0         # total pick+refresh steps allowed in teach phase
@@ -47,6 +50,24 @@ class EnvConfig:
     # "nonreveal" : wrong picks do NOT expose true output; learner only knows "wrong"
     # Default = "reveal" → fully backward-compatible with all existing experiments.
     feedback_mode: str = "reveal"      # "reveal" | "nonreveal"
+
+    # Phase 6E: menu generator mode
+    generator_mode: str = "v2_overlap"  # "v2_overlap" | "diagnostic_quota" |
+                                        # "diagnostic_quota_no_bounded" | "diagnostic_quota_no_high_lure" |
+                                        # "diagnostic_quota_allow_heavy" |
+                                        # "diagnostic_quota_mixed_prod_harm_heavy" |
+                                        # "diagnostic_quota_protect_critical_heavy" |
+                                        # "diagnostic_quota_boring_mastery_heavy"
+
+    # Phase 6F: highlight cell selection mode
+    highlight_mode: str = "diagnostic"  # "diagnostic" | "fixed" | "none"
+
+    # Phase 6H.5: highlight strength multiplier for next-step P(correct) shift
+    # 1.0 = current behavior, 2.0 = 2x attention weight, 4.0 = 4x attention weight
+    highlight_strength: float = 1.0
+
+    # Phase 6H.5: strict quota — retry up to 3 times before fallback
+    diagnostic_quota_strict: bool = False
 
 
 @dataclass
@@ -73,6 +94,15 @@ class LearnerConfig:
                                              # probability that a wrong-pick reveal
                                              # triggers incremental_study().
                                              # 1.0 = always (default); 0.0 = never.
+    # Phase 6I.8: budget semantic feedback separately from raw failure feedback.
+    # "raw"         : legacy behavior, every eligible reveal/correct event may
+    #                 produce a semantic update.
+    # "budgeted_v1" : each query gets one contrastive wrong-reveal ticket and
+    #                 one positive correct-consolidation ticket; only
+    #                 informative/safe/novel events spend the ticket.
+    pedagogical_feedback_mode: str = "raw"   # "raw" | "budgeted_v1"
+    bounded_reveal_credit: float = 0.5       # semantic credit for bounded diagnostic wrong
+    incidental_correct_credit: float = 0.5   # semantic credit for incidental correct pick
 
     # ── nonreveal negative evidence ──────────────────────────────────────
     # Active when feedback_mode="nonreveal" and reveal_learning_mode="nonreveal_negative".
@@ -129,6 +159,12 @@ class LearnerConfig:
     # Severity head (V2: damage regression given risky)
     severity_prior_var: float = 1.0
     severity_lr: float = 0.1
+
+    # ── Assist discount (Phase 6) ────────────────────────────────────────
+    # ω = rho_assist ** assist_rank.  Only gates SEMANTIC updates.
+    # Default 1.0 = no discount (legacy compatible).
+    # Phase 6 experiments use 0.3.
+    rho_assist: float = 1.0
 
 
 @dataclass
@@ -220,6 +256,82 @@ class TutorConfig:
     #   "protective"  : U_teach maximized subject to eval non-regression guard
     #   "pedagogical" : U_learn + η*U_teach subject to hard safety constraints
     tutor_mode: str = "current"
+
+    # Phase 6G/6H: learning-opportunity mode for online inverse tutor
+    # "off"          : no LG (existing behavior, backward-compat default)
+    # "diagnostic"   : use diagnostic labels in g_exp
+    # "safety_only"  : optimize risk only (zero g_exp)
+    # "learning_only": optimize learning only (zero risk penalty)
+    # "self_correct" : Phase 6H ALLOW/CONSOLIDATE/PROTECT trajectory-aware planning
+    tutor_lg_mode: str = "off"
+
+    # Phase 6I.5: post-reveal cue value model.
+    # "legacy"  : DeltaP + margin + drop heuristics with generic cue shaping
+    # "traj_v1" : unified trajectory value using DeltaC/DeltaM/DeltaB/V_grace/HarmfulShift
+    # "traj_v2" : HarmMass / InfoMass split with trajectory-oriented post-reveal value
+    postreveal_value_mode: str = "legacy"
+    # Phase 6I.10: when enabled, post-reveal trajectory value explicitly
+    # rewards correct-pick consolidation while the positive ticket is still
+    # available. Keep off by default for backward-compatible ablations.
+    use_postreveal_consolidation_value: bool = False
+    # Phase 6I.11 / loop_v2: promote the post-reveal positive-consolidation
+    # value directly into G_exp so it can change candidate ranking even when
+    # the trajectory-side consolidation term is too weak to move Q on its own.
+    promote_postreveal_consolidation_into_gexp: bool = False
+    # Phase 6I.6B: MIX target selector mode.
+    # "current"         : legacy danger/confusion selector
+    # "removed_badmass" : argmax removed local harmful mass π_WAIT(j) * harm_j
+    # "net_badmass"     : argmax net HarmMass drop after BAN redistribution
+    mix_target_mode: str = "current"
+    # Phase 6I.6B: optional InfoMass weight in post-reveal trajectory value.
+    # Keep at 0.0 by default so consolidation remains protection/correction-first.
+    postreveal_info_weight: float = 0.0
+    # Phase 6I.6B: optional lightweight Bayesian shrinkage flag for replay/ablation.
+    # Online policy remains deterministic unless a variant explicitly enables this.
+    use_bayesian_postreveal_value: bool = False
+    # Phase 6I.7: when enabled, post-reveal MIX candidate generation runs a
+    # small joint replay over feasible ban targets x highlight variants and
+    # replaces the default MIX candidate with the best joint spec when better.
+    joint_mix_replay_gate: bool = False
+    # Phase 6I.8: direct selector-first MIX generation. Instead of producing a
+    # legacy MIX candidate and repairing it later, shortlist ban targets by
+    # net HarmMass drop and evaluate limited joint (ban, highlight) pairs
+    # before scoring.
+    direct_mix_selector: bool = False
+    # Phase 6I.8: preserve productive safe diagnostic reveal in pre-reveal
+    # allow states. When enabled, BAN generation is suppressed in
+    # PRE_REVEAL_ALLOW states unless risk/protect conditions dominate.
+    productive_allow_planning: bool = False
+    # Controlled productive-allow routing:
+    # "phase"         : legacy PRE_REVEAL_ALLOW phase gate only
+    # "controlled_v1" : require productive InfoMass to dominate HarmMass
+    #                   before suppressing protection.
+    # "controlled_v2" : controlled_v1 plus budget-aware gates:
+    #                   both tickets available and enough rounds to finish
+    #                   a reveal -> cue/grace -> correct loop.
+    # "native_like_v1": high-precision clean allow only. Keeps
+    #                   WAIT_ALLOW_SAFE_DIAG for native-like states where the
+    #                   safe-diagnostic quality gap stays positive and
+    #                   HarmMass does not exceed productive mass.
+    productive_allow_mode: str = "phase"
+    # Phase 6I.13: optional upstream phase-calibration override. When enabled,
+    # infer_pedagogical_phase() can surface PRE_REVEAL_ALLOW from a
+    # phase-blind productive family rule before falling back to DEFAULT.
+    # This does not override hard PROTECT routing.
+    phase_allow_family_override: bool = False
+    # Fixed beam widths for direct MIX selector. These are not intended as
+    # sweep parameters; they cap compute while keeping a small joint search.
+    direct_mix_top_k: int = 3
+    direct_mix_top_m: int = 3
+
+    # Phase 6H.5: hard guard for safe diagnostic BAN protection.
+    # When True, _select_ban_target() never bans the first protectable safe_diag:
+    #   label == safe_diagnostic_wrong
+    #   AND n_safe_reveals == 0 (not yet revealed)
+    #   AND hp_after_pick > 0  (survivable)
+    #   AND rounds_after_pick >= 1 (time to self-correct)
+    # False = soft-preference only (Phase 6H behavior, backward-compat default)
+    protect_safe_diag_hard_guard: bool = False
 
     # U_teach weights (shared by protective and pedagogical).
     # U_teach = w_succ*p_success - w_death_teach*p_death - w_tout_teach*p_timeout

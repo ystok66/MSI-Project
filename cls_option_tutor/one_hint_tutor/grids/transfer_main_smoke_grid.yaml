@@ -1,0 +1,30 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: [0]
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "advantage_delta"
+  oracle_metric: "eval_cell"
+  common_randomness: true
+  hint_mode: "combined"
+  hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  prelearn_profile: "4"
+  n_obs: 4
+  teach_menu_size: 20
+  max_attempts_main: 5
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  random_hard_n: 3
+  random_same_pool_n: 3
+
+experiments:
+  - name: "transfer_main_smoke_all"
+    hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]

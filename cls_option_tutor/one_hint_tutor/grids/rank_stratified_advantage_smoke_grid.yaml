@@ -1,0 +1,39 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: "0:1"
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "advantage_delta"
+  oracle_metric: "band"
+  common_randomness: true
+  hint_mode: "free"
+  hint_families: ["free"]
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  n_obs: 4
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  prefilter_top_k: 4
+  proxy_rollout_top_k: 4
+  proxy_n_rollouts: 4
+  refine_n_rollouts: 3
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+
+experiments:
+  - name: "rank_pre4_K20_T4_adv"
+    prelearn_profile: "4"
+    teach_menu_size: 20
+    max_attempts_main: 4
+
+  - name: "rank_pre4_K30_T5_adv"
+    prelearn_profile: "4"
+    teach_menu_size: 30
+    max_attempts_main: 5

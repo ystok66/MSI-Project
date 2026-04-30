@@ -71,6 +71,7 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
         # Keys are conditioned on target_output so the same wrong program on a
         # DIFFERENT target does not receive an unjustified penalty.
         self._neg_evidence: "dict[tuple, float]" = {}
+        self.reset_debug_counters()
 
     def study(self, support: List[Example],
               n_em: int = 2, use_hpc: bool = True) -> None:
@@ -81,6 +82,7 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
             n_em: EM iterations for cortex learning
             use_hpc: whether to use hippocampal memory
         """
+        self._debug_study_calls += 1
         self._predict_cache.clear()
         self._support_history = list(support)  # track for incremental
         self._n_em = n_em
@@ -130,6 +132,7 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
         if not new_examples:
             return
 
+        self._debug_incremental_study_calls += 1
         self._support_history.extend(new_examples)
         self._predict_cache.clear()
 
@@ -153,6 +156,7 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
     def predict_output(self, option_text: List[str],
                        memory_payload: object = None) -> List[str]:
         """Predict output using CLS agent if available, else grammar render."""
+        self._debug_predict_calls += 1
         key = tuple(option_text)
         if key in self._predict_cache:
             return self._predict_cache[key]
@@ -182,6 +186,7 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
         When attention_weights provided, M = Σ w_ℓ · 1[ŷ_ℓ ≠ y*_ℓ]
         Otherwise M = count(mismatches) (uniform weights).
         """
+        self._debug_score_calls += 1
         predicted = self.predict_output(option_text, memory_payload)
         if not predicted:
             return -len(target_output) / self.tau_sem
@@ -314,6 +319,20 @@ class CLSSemanticPosterior(SemanticPosteriorProtocol, SemanticScorerProtocol):
     def clear_cache(self) -> None:
         """Clear prediction cache (e.g., after refresh)."""
         self._predict_cache.clear()
+
+    def reset_debug_counters(self) -> None:
+        self._debug_predict_calls = 0
+        self._debug_score_calls = 0
+        self._debug_incremental_study_calls = 0
+        self._debug_study_calls = 0
+
+    def debug_counters(self) -> dict:
+        return {
+            "predict_calls": int(self._debug_predict_calls),
+            "score_calls": int(self._debug_score_calls),
+            "incremental_study_calls": int(self._debug_incremental_study_calls),
+            "study_calls": int(self._debug_study_calls),
+        }
 
     @property
     def is_cls_active(self) -> bool:

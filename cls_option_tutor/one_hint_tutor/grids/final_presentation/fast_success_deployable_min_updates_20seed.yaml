@@ -1,0 +1,43 @@
+grid_mode: "scenario"
+
+tasks: ["000001"]
+seeds: "0:20"
+
+base:
+  planner_mode: "cascade"
+  ceiling_mode: "none"
+  utility_mode: "min_updates"
+  oracle_metric: "composite"
+  common_randomness: true
+  hint_mode: "combined"
+  hint_families: ["free", "operator_probe"]
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  prelearn_profile: "4"
+  n_obs: 4
+  teach_menu_size: 20
+  max_attempts_main: 5
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  random_hard_n: 5
+  random_same_pool_n: 5
+  prefilter_top_k: 4
+  proxy_rollout_top_k: 4
+  proxy_n_rollouts: 6
+  refine_n_rollouts: 4
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+  operator_probe_limit: 6
+
+  lambda_min_updates_success: 20.0
+  lambda_min_updates_wrong: 3.0
+  lambda_min_updates_tau: 1.5
+  lambda_min_updates_collapse: 3.0
+
+experiments:
+  - name: "success_fast_deployable"

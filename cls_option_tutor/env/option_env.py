@@ -24,6 +24,7 @@ from ..env.interventions import (
 from ..grammar.task_adapter import TaskAdapter, Grammar
 from ..grammar.option_generator import generate_menu
 from ..grammar.option_generator_v2 import ProgramPool, generate_menu_v2
+from ..grammar.option_generator_diagnostic import generate_menu_diagnostic
 
 
 class OptionEnv:
@@ -38,7 +39,8 @@ class OptionEnv:
     def __init__(self, cfg: Optional[FullConfig] = None,
                  data_dir: str = ""):
         self.cfg = cfg or FullConfig()
-        self.adapter = TaskAdapter(data_dir or self.cfg.cls_data_dir)
+        self.data_dir = data_dir or getattr(self.cfg, 'cls_data_dir', '')
+        self.adapter = TaskAdapter(self.data_dir)
         self._danger_model: Optional[DangerModel] = None
         self._grammar: Optional[Grammar] = None
         self._support: List[Example] = []
@@ -103,16 +105,23 @@ class OptionEnv:
         # Build QueryState for each
         query_states = []
         for qi, ex in enumerate(selected):
-            menu = self._generate_v2_menu(ex)
-            query_states.append(QueryState(
+            menu, quota_info = self._generate_v2_menu(ex)
+            qs = QueryState(
                 query_id=qi,
                 target_output=list(ex.output),
                 true_program=list(ex.words),
                 hp=self.cfg.env.H_0,
                 max_rounds=self.cfg.env.T_max,
                 max_refreshes=self.cfg.env.max_refreshes,
+                enforce_max_refreshes=getattr(self.cfg.env, "enforce_max_refreshes", False),
                 menu=menu,
-            ))
+            )
+            # Phase 6E: attach diagnostic sidecar labels
+            if quota_info is not None:
+                qs.option_confound_types = quota_info.get("confound_types", {})
+                qs.option_diag_labels = quota_info.get("diag_labels", {})
+                qs._quota_info = quota_info  # Phase 6H.6: strict diagnostics
+            query_states.append(qs)
 
         teach_budget = getattr(self.cfg.env, 'teach_step_budget', 0)
 
@@ -146,12 +155,89 @@ class OptionEnv:
             )
         return block
 
-    def _generate_v2_menu(self, ex: Example) -> List[Option]:
+    def _generate_v2_menu(self, ex: Example):
         """Generate a V2 menu: diverse valid-only options + risk.
 
         Uses ProgramPool for valid distractors with cell-level diversity.
         Falls back to V1 generator if pool is unavailable.
+
+        Returns:
+            (menu, quota_info_or_None)
         """
+        gen_mode = getattr(self.cfg.env, 'generator_mode', 'v2_overlap')
+
+        # Phase 6E: diagnostic quota generator (includes ablation modes)
+        if gen_mode.startswith('diagnostic_quota') and self._pool is not None:
+            strict = getattr(self.cfg.env, 'diagnostic_quota_strict', False)
+            max_attempts = 5 if strict else 1
+
+            best_menu, best_qi = None, None
+            for attempt in range(max_attempts):
+                # Use offset rng for retries to get different candidates
+                attempt_rng = (self._rng if attempt == 0
+                               else np.random.default_rng(
+                                   self._rng.integers(0, 2**31) + attempt))
+                menu, quota_info = generate_menu_diagnostic(
+                    target_output=ex.output,
+                    true_program=ex.words,
+                    pool=self._pool,
+                    danger_model=self._danger_model,
+                    K=self.cfg.env.K,
+                    m=self.cfg.env.danger_dim,
+                    rng=attempt_rng,
+                    quota_mode=gen_mode,
+                )
+
+                # For fallback path: re-assign risk classes from env config
+                if quota_info.get('fallback_used', False):
+                    K = len(menu)
+                    n_safe = max(0, K - self.cfg.env.n_risky)
+                    risk_classes = self._danger_model.assign_risk_classes(
+                        K, n_safe, attempt_rng)
+                    for i, opt in enumerate(menu):
+                        rc = risk_classes[i]
+                        opt.risk_class = rc
+                        opt.danger_vec = self._danger_model.sample_danger_vec(
+                            rc, attempt_rng)
+                    # Re-label with correct risk classes
+                    from ..grammar.option_generator_diagnostic import (
+                        _label_menu_post_hoc,
+                    )
+                    quota_info["confound_types"] = {}
+                    quota_info["diag_labels"] = {}
+                    _label_menu_post_hoc(menu, tuple(ex.output), quota_info)
+
+                # Check quota from FINAL post-hoc labels
+                final_labels = quota_info.get("diag_labels", {})
+                final_has_safe = any(
+                    v == "safe_diagnostic_wrong" for v in final_labels.values())
+                final_has_bounded = any(
+                    v == "bounded_diagnostic_wrong" for v in final_labels.values())
+                final_has_lure = any(
+                    v == "high_risk_lure" for v in final_labels.values())
+                final_quota_met = final_has_safe and final_has_bounded and final_has_lure
+
+                # Update quota_info with strict diagnostics
+                quota_info["quota_met"] = final_quota_met
+                quota_info["strict_attempt_count"] = attempt + 1
+                quota_info["strict_quota_satisfied"] = final_quota_met
+                quota_info["strict_mode"] = strict
+
+                if final_quota_met or not strict:
+                    best_menu, best_qi = menu, quota_info
+                    break
+                # Keep last attempt as fallback
+                best_menu, best_qi = menu, quota_info
+
+            # If strict exhausted all attempts without satisfaction
+            if strict and not best_qi.get("strict_quota_satisfied", False):
+                best_qi["strict_fallback"] = True
+            else:
+                best_qi["strict_fallback"] = False
+
+            return best_menu, best_qi
+
+        # Standard v2_overlap path
         if self._pool is not None:
             base_menu = generate_menu_v2(
                 target_output=ex.output,
@@ -175,23 +261,32 @@ class OptionEnv:
                 rng=self._rng,
             )
 
-        # Assign V2 risk classes
+        # Assign V2 risk classes — canonical: derive n_safe from n_risky
         K = len(base_menu)
+        n_safe = max(0, K - self.cfg.env.n_risky)
         risk_classes = self._danger_model.assign_risk_classes(
-            K, self.cfg.env.n_safe, self._rng)
+            K, n_safe, self._rng)
 
         for i, opt in enumerate(base_menu):
             rc = risk_classes[i]
             opt.risk_class = rc
             opt.danger_vec = self._danger_model.sample_danger_vec(rc, self._rng)
 
-        return base_menu
+        # Always label for metrics (even in v2_overlap mode)
+        from ..grammar.option_generator_diagnostic import _label_menu_post_hoc
+        quota_info = {"quota_mode": "v2_overlap", "quota_met": False,
+                      "fallback_used": False, "confound_types": {},
+                      "diag_labels": {}}
+        _label_menu_post_hoc(base_menu, tuple(ex.output), quota_info)
+
+        return base_menu, quota_info
 
     def _resample_risk(self, qs: QueryState) -> None:
         """V2 risk-only refresh: keep text, re-sample risk classes + vectors."""
         K = len(qs.menu)
+        n_safe = max(0, K - self.cfg.env.n_risky)
         risk_classes = self._danger_model.assign_risk_classes(
-            K, self.cfg.env.n_safe, self._rng)
+            K, n_safe, self._rng)
 
         for i, opt in enumerate(qs.menu):
             rc = risk_classes[i]
@@ -299,8 +394,18 @@ class OptionEnv:
     ) -> LearnerStep:
         """V2 REFRESH: keep text, re-sample risk only.
 
-        No max_refreshes limit — each refresh costs 1 round.
+        Legacy mode keeps refresh unlimited. Controlled mode enforces the
+        per-query refresh cap before spending the round.
         """
+        if (
+            qs.enforce_max_refreshes
+            and qs.refreshes_used >= qs.max_refreshes
+        ):
+            raise ValueError(
+                f"Refresh cap exceeded for query {qs.query_id}: "
+                f"{qs.refreshes_used} >= {qs.max_refreshes}"
+            )
+
         qs.refreshes_used += 1
         block.total_refreshes += 1
 
@@ -317,9 +422,7 @@ class OptionEnv:
         block.learner_trace.append(step)
         block.total_rounds += 1
         # Budget tracking: count each step during teach phase
-        if block.in_teaching_phase or (
-                block.teach_step_budget > 0
-                and block.teach_steps_used < block.teach_step_budget):
+        if block.in_teaching_phase:
             block.teach_steps_used += 1
         self._check_query_end(block, qs)
         return step
@@ -358,6 +461,8 @@ class OptionEnv:
             qs.success = True
             qs.done = True
             block.total_correct += 1
+            # Phase 6H: clear post-reveal phase on success
+            qs.post_reveal_phase = False
         else:
             # V2: damage = risk_class (deterministic)
             rendered = option.rendered_output
@@ -381,6 +486,9 @@ class OptionEnv:
             )
             qs.reveal_history.append(reveal)
 
+            # Phase 6H: update query trajectory state after wrong pick
+            self._update_query_trajectory_after_wrong_pick(qs, option, round_t)
+
         qs.rounds_used += 1
         block.total_rounds += 1
 
@@ -393,25 +501,81 @@ class OptionEnv:
         )
         block.learner_trace.append(step)
         # Budget tracking: count each step during teach phase
-        if block.in_teaching_phase or (
-                block.teach_step_budget > 0
-                and block.teach_steps_used < block.teach_step_budget):
+        if block.in_teaching_phase:
             block.teach_steps_used += 1
         self._check_query_end(block, qs)
         return step
+
+    # ── Phase 6H: trajectory state update ────────────────────────
+
+    def _update_query_trajectory_after_wrong_pick(
+        self, qs: QueryState, option: Option, round_t: int
+    ) -> None:
+        """Update query-level trajectory state after a wrong pick.
+
+        Uses sidecar diagnostic labels to track reveal type and set
+        post_reveal_phase for CONSOLIDATE logic in sparse tutor.
+        """
+        label = qs.option_diag_labels.get(option.index, "")
+
+        if label == "safe_diagnostic_wrong":
+            qs.n_safe_diag_wrong_reveals += 1
+        elif label == "bounded_diagnostic_wrong":
+            qs.n_bounded_diag_wrong_reveals += 1
+        elif label == "high_risk_lure":
+            qs.n_high_risk_wrong_reveals += 1
+
+        qs.last_wrong_diag_label = label
+        qs.last_reveal_round_t = round_t
+        qs.last_reveal_option_index = option.index
+
+        # Enter post-reveal phase after any diagnostic reveal
+        if label in ("safe_diagnostic_wrong", "bounded_diagnostic_wrong"):
+            qs.post_reveal_phase = True
 
     # ── Query termination ───────────────────────────────────────
 
     def _check_query_end(self, block: BlockState, qs: QueryState) -> None:
         """Check if current query should end, advance if so."""
+        def _record_grace_loss(reason: str) -> None:
+            if not getattr(qs, "after_highlight_grace_round", False):
+                return
+            gm = getattr(block, "_grace_metrics", None)
+            if gm is None:
+                block._grace_metrics = {
+                    "set": 0,
+                    "eligible_next_round": 0,
+                    "next_tutor_called": 0,
+                    "count": 0,
+                    "chosen_wait": 0,
+                    "chosen_override": 0,
+                    "consumed": 0,
+                    "override": 0,
+                    "blocked_by_protect": 0,
+                    "blocked_by_deadline": 0,
+                    "did_not_reach_tutor_decision": 0,
+                    "lost_query_succeeded": 0,
+                    "lost_wrong_terminal": 0,
+                    "lost_max_round": 0,
+                    "flag_reset_without_consumption": 0,
+                }
+                gm = block._grace_metrics
+            gm["did_not_reach_tutor_decision"] = gm.get("did_not_reach_tutor_decision", 0) + 1
+            gm[reason] = gm.get(reason, 0) + 1
+            qs.after_highlight_grace_round = False
+
         if qs.done:
+            if qs.success:
+                _record_grace_loss("lost_query_succeeded")
             self._advance_query(block)
             return
         if qs.hp <= 0:
+            _record_grace_loss("lost_wrong_terminal")
             qs.done = True
             self._advance_query(block)
             return
         if qs.rounds_used >= qs.max_rounds:
+            _record_grace_loss("lost_max_round")
             qs.done = True
             self._advance_query(block)
             return
@@ -450,6 +614,19 @@ class OptionEnv:
 
         ls = self.learner_act(block, learner_action, **learner_kwargs)
         return ts, ls
+
+    def force_learner_pick(
+        self,
+        block: BlockState,
+        pick_index: int,
+    ) -> LearnerStep:
+        """Force a specific learner pick (for scripted mechanism probes).
+
+        Bypasses the learner's decision logic.  The pick is executed
+        through the normal env pick transition (damage, reveal, HP update).
+        Used only in scripted_protocols.py.
+        """
+        return self.learner_act(block, "pick", pick_index=pick_index)
 
     # ── Metrics ─────────────────────────────────────────────────
 

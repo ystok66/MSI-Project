@@ -118,14 +118,21 @@ class ColorSelectionPolicy:
                     best_idx = i
 
             if best_idx < 0 or best_util < -2.0:
-                break  # No usable ball left (even mildly risky ones rejected)
+                # ── Step 2: raise stop bar after hint ──
+                break
 
             selected_indices.append(best_idx)
             c = pool[best_idx].color
             selected_colors[c] = selected_colors.get(c, 0) + 1
 
         # Epsilon-exploration: with small prob, pick a random ball instead
-        if rng.random() < self.cfg.epsilon_policy and n > 0:
+        eps = self.cfg.epsilon_policy
+        # ── Step 2: reduce exploration after hint ──
+        hinted = getattr(state, 'hinted_this_query', False)
+        if hinted and self.cfg.enable_hint_autonomy_shift:
+            eps = eps * (1.0 - self.cfg.hint_exploration_drop)
+
+        if rng.random() < eps and n > 0:
             random_idx = rng.integers(0, n)
             if random_idx not in selected_indices:
                 selected_indices = [random_idx]
@@ -138,10 +145,18 @@ class ColorSelectionPolicy:
         Phase 1 rule-based:
           - Confirm if all positions filled
           - Confirm if fill ratio ≥ threshold
+          - Step 2: lower threshold after hint (learner commits earlier)
         """
         if state.is_complete:
             return True
-        if state.fill_ratio >= self.cfg.confirm_fill_threshold:
+
+        threshold = self.cfg.confirm_fill_threshold
+        # ── Step 2: lower confirm threshold after hint ──
+        hinted = getattr(state, 'hinted_this_query', False)
+        if hinted and self.cfg.enable_hint_autonomy_shift:
+            threshold = max(0.0, threshold - self.cfg.hint_confirm_bonus)
+
+        if state.fill_ratio >= threshold:
             return True
         return False
 

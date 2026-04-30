@@ -1,0 +1,37 @@
+"""Experiment helpers and active mainline aliases for ``cls_option_tutor``."""
+
+from .condition_overrides import (
+    apply_condition_overrides,
+    extract_scripted_protocol_name,
+    resolve_condition_alias,
+)
+from .mainline_registry import (
+    ACTIVE_BASELINE_CONDITIONS,
+    ACTIVE_MAINLINE_ALIAS,
+    ACTIVE_MAINLINE_CANONICAL,
+    ACTIVE_MAINLINE_NATIVEALLOW_ALIAS,
+    ACTIVE_MAINLINE_NATIVEALLOW_CANONICAL,
+    ACTIVE_MAINLINE_NO_CONSOLIDATE_ALIAS,
+    ACTIVE_MAINLINE_NO_CONSOLIDATE_CANONICAL,
+    ACTIVE_MAINLINE_Q_PROMOTED_ALIAS,
+    ACTIVE_MAINLINE_Q_PROMOTED_CANONICAL,
+    NO_TUTOR_BUDGETED_CONDITION,
+    SCRIPTED_SAFE_GOLD_CONDITION,
+)
+
+__all__ = [
+    "ACTIVE_BASELINE_CONDITIONS",
+    "ACTIVE_MAINLINE_ALIAS",
+    "ACTIVE_MAINLINE_CANONICAL",
+    "ACTIVE_MAINLINE_NATIVEALLOW_ALIAS",
+    "ACTIVE_MAINLINE_NATIVEALLOW_CANONICAL",
+    "ACTIVE_MAINLINE_NO_CONSOLIDATE_ALIAS",
+    "ACTIVE_MAINLINE_NO_CONSOLIDATE_CANONICAL",
+    "ACTIVE_MAINLINE_Q_PROMOTED_ALIAS",
+    "ACTIVE_MAINLINE_Q_PROMOTED_CANONICAL",
+    "NO_TUTOR_BUDGETED_CONDITION",
+    "SCRIPTED_SAFE_GOLD_CONDITION",
+    "apply_condition_overrides",
+    "extract_scripted_protocol_name",
+    "resolve_condition_alias",
+]

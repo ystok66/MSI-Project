@@ -42,6 +42,33 @@ class LearnerAgent:
             self.cfg.learner.use_cls = True
         self.policy = LearnerPolicy(self.cfg.learner)
         self._scorer = None
+        # Pre-initialize attributes that may be read before init_block
+        self._negative_memory = None
+        self._teaching_examples = []
+        self._reveal_shifts = []
+        self._eval_frozen = False
+        self._persistent_hl = None
+        self._persistent_ban = None
+        self._highlight_counts = None
+        self._rsa_listener = None
+        self._last_ban_trace_len = 0
+        self._last_risk_hint_count_by_query = {}
+        self._sem_counters = {
+            "wrong_reveal_attempted": 0, "wrong_reveal_applied": 0,
+            "correct_unassisted_attempted": 0, "correct_unassisted_applied": 0,
+            "correct_assisted_attempted": 0, "correct_assisted_applied": 0,
+            "direct_answer_attempted": 0, "direct_answer_applied": 0,
+        }
+        self._src_counters = {
+            "wr_scripted_att": 0, "wr_scripted_app": 0,
+            "wr_incidental_att": 0, "wr_incidental_app": 0,
+            "cu_scripted_self_correct_att": 0, "cu_scripted_self_correct_app": 0,
+            "cu_scripted_direct_correct_att": 0, "cu_scripted_direct_correct_app": 0,
+            "cu_incidental_att": 0, "cu_incidental_app": 0,
+            "da_direct_answer_att": 0, "da_direct_answer_app": 0,
+            "da_then_answer_att": 0, "da_then_answer_app": 0,
+            "da_incidental_shortlist_att": 0, "da_incidental_shortlist_app": 0,
+        }
 
     def init_block(self, block: BlockState, grammar, support) -> None:
         """Initialize learner for a new block.
@@ -75,6 +102,33 @@ class LearnerAgent:
         # PosteriorShiftPerReveal tracking
         self._reveal_shifts: list = []  # shift in score_option per reveal
 
+        # ── Phase 6.3: Semantic update instrumentation ──────────────────
+        self._sem_counters = {
+            "wrong_reveal_attempted": 0,
+            "wrong_reveal_applied": 0,
+            "correct_unassisted_attempted": 0,
+            "correct_unassisted_applied": 0,
+            "correct_assisted_attempted": 0,
+            "correct_assisted_applied": 0,
+            "direct_answer_attempted": 0,
+            "direct_answer_applied": 0,
+        }
+
+        # ── Phase 6.5: Event-source counters ──────────────────────────────
+        self._src_counters = {
+            # Wrong reveals
+            "wr_scripted_att": 0, "wr_scripted_app": 0,
+            "wr_incidental_att": 0, "wr_incidental_app": 0,
+            # Correct unassisted
+            "cu_scripted_self_correct_att": 0, "cu_scripted_self_correct_app": 0,
+            "cu_scripted_direct_correct_att": 0, "cu_scripted_direct_correct_app": 0,
+            "cu_incidental_att": 0, "cu_incidental_app": 0,
+            # Direct answer
+            "da_direct_answer_att": 0, "da_direct_answer_app": 0,
+            "da_then_answer_att": 0, "da_then_answer_app": 0,
+            "da_incidental_shortlist_att": 0, "da_incidental_shortlist_app": 0,
+        }
+
         # ── Step 4: Persistent Highlight Prior (EMA over cell positions) ──
         # m_t: EMA attention prior vector, shape (L_max,)
         # Updated each time tutor issues HIGHLIGHT on this block.
@@ -87,6 +141,8 @@ class LearnerAgent:
         # Updated each time tutor issues BAN; applied as utility penalty.
         # None = no BAN seen yet; no penalty.
         self._persistent_ban: "np.ndarray | None" = None
+        self._last_ban_trace_len = 0
+        self._last_risk_hint_count_by_query = {}
 
         # ── RSA listener (new) ──
         # Instantiate per-block so state never leaks across blocks.
@@ -107,6 +163,90 @@ class LearnerAgent:
             self._rsa_last_processed_trace_len = 0  # idempotency guard
         else:
             self._rsa_listener = None
+
+    def prepare_probe_block(self, block: 'BlockState') -> None:
+        """Attach an already-trained learner to a fresh probe block without
+        reinitializing scorer, danger head, memory, or persistent priors.
+
+        Reset only query-local transient state:
+          - attention (will be re-created per-query in act())
+          - RSA trace pointer
+
+        This preserves all learned state (scorer, danger_head, memory,
+        persistent HL/BAN priors, negative memory, sem_counters).
+        """
+        # Reset per-query attention — will be recreated in act()
+        self.policy.attention = None
+
+        # Reset RSA trace pointer so it doesn't try to process old tutor trace
+        if hasattr(self, '_rsa_last_processed_trace_len'):
+            self._rsa_last_processed_trace_len = 0
+        self._last_ban_trace_len = 0
+        self._last_risk_hint_count_by_query = {}
+
+        # Reset _teaching_examples for the probe episode
+        # (these accumulate per-block and are not retained-learned state)
+        self._teaching_examples = []
+
+        # Reset per-query highlight counts (legacy)
+        self._highlight_counts = None
+
+        # RSA meta prior: leave initialized if already done
+        # _persistent_hl, _persistent_ban: KEEP (these are learned)
+        # _scorer, policy.danger_head, policy.memory: KEEP
+        # _negative_memory: KEEP
+        # _sem_counters, _src_counters: don't reset (probe should not update them)
+        # _reveal_shifts: reset for probe episode
+        self._reveal_shifts = []
+
+    def get_policy_snapshot_for_query(
+        self, qs: 'QueryState',
+        rng_seed: int = 0,
+    ) -> 'PolicyOutput':
+        """Compute policy outputs without taking an action and without
+        mutating any persistent state.
+
+        Reuses the same path as act() up to compute_policy(),
+        including attention, danger head, episodic memory, etc.
+
+        Phase 6H.6: Also processes qs.highlighted_cells through attention
+        (matching the highlight-reading block in act()) so that the causal
+        audit's HIGHLIGHT intervention actually affects the distribution.
+
+        Returns PolicyOutput with utilities, probs, semantic_scores, etc.
+        """
+        from ..env.interventions import get_active_menu
+        # Ensure attention is initialized for this query length
+        if self.policy.attention is None or self.policy.attention.L != len(qs.target_output):
+            L = len(qs.target_output)
+            self.policy.init_for_query(L)
+
+        # Process highlighted cells through attention (mirrors act() lines 273-323)
+        if qs.highlighted_cells and self.policy.attention is not None:
+            if self.policy.attention.highlighted_cells != qs.highlighted_cells:
+                if self._rsa_listener is not None:
+                    rcfg = self.cfg.rsa
+                    self.policy.attention.apply_rsa_highlight(
+                        qs.highlighted_cells,
+                        rho=rcfg.rho_attn,
+                        gamma=rcfg.gamma_attn,
+                    )
+                else:
+                    self.policy.attention.apply_highlight(qs.highlighted_cells)
+
+        # Compute negative memory penalties (same path as act())
+        neg_penalties = None
+        if self._negative_memory is not None:
+            active = get_active_menu(qs)
+            neg_penalties = np.array([
+                self._negative_memory.penalty(opt.text)
+                for opt in active
+            ])
+
+        # Compute policy (read-only — rng is throwaway)
+        snapshot_rng = np.random.default_rng(rng_seed)
+        return self.policy.compute_policy(
+            qs, snapshot_rng, neg_penalties=neg_penalties)
 
     def act(self, block: BlockState, env: OptionEnv) -> Optional[PolicyOutput]:
         """Execute one learner turn on the current query.
@@ -207,7 +347,8 @@ class LearnerAgent:
 
         # V2: Process RISK_HINT — update hazard head with weak labels
         if qs.risk_hint_history:
-            for hint_evt in qs.risk_hint_history:
+            last_hint_count = self._last_risk_hint_count_by_query.get(qs.query_id, 0)
+            for hint_evt in qs.risk_hint_history[last_hint_count:]:
                 opt = None
                 for o in qs.menu:
                     if o.index == hint_evt.option_index:
@@ -216,6 +357,7 @@ class LearnerAgent:
                 if opt is not None:
                     self.policy.observe_risk_hint(
                         opt.danger_vec, eta=hint_evt.eta)
+            self._last_risk_hint_count_by_query[qs.query_id] = len(qs.risk_hint_history)
 
         # Compute negative memory penalties (if active)
         neg_penalties = None
@@ -229,13 +371,15 @@ class LearnerAgent:
         # ── Step 5: Persistent Ban Prior update + penalty ──────────────
         lcfg_ban = self.cfg.learner
         if lcfg_ban.rho_ban_prior > 0.0 and block.tutor_trace:
-            # Detect new BAN events in tutor trace (cross-query persistent signal)
-            # We process all BAN actions in the trace to update n_t.
-            # Note: uses qs.menu (full menu) to look up danger_vec.
+            # Only process newly appended BAN events while the originating
+            # query menu is still available, otherwise ban_index cannot be
+            # safely resolved against the current query's menu.
             m_ban = self.cfg.env.danger_dim
-            for ts in block.tutor_trace:
+            last_ban_processed = getattr(self, '_last_ban_trace_len', 0)
+            for ts in block.tutor_trace[last_ban_processed:]:
                 if (getattr(ts, 'action', '') == 'BAN'
-                        and ts.ban_index is not None):
+                        and ts.ban_index is not None
+                        and ts.query_id == qs.query_id):
                     # Look up the banned option
                     banned_opt = next(
                         (o for o in qs.menu if o.index == ts.ban_index), None)
@@ -249,6 +393,7 @@ class LearnerAgent:
                             (1.0 - rho_ban) * self._persistent_ban
                             + rho_ban * dv / (np.linalg.norm(dv) + 1e-8)
                         )
+            self._last_ban_trace_len = len(block.tutor_trace)
 
         # Apply persistent ban penalty to active options
         if (lcfg_ban.lambda_ban_prior > 0.0
@@ -418,6 +563,7 @@ class LearnerAgent:
                 self.policy.attention.weights.copy()
                 if self.policy.attention is not None else None),
             semantic_scores=policy_out.semantic_scores.copy(),
+            pick_probs=policy_out.probs.copy(),
             learner_action=policy_out.action,
             learner_pick_index=policy_out.pick_index,
         )
@@ -426,13 +572,23 @@ class LearnerAgent:
         block._policy_snapshots.append(snap)
 
         # Execute
+        # IMPORTANT: capture teaching phase BEFORE env.learner_act() because
+        # a correct pick will advance current_query_idx, changing in_teaching_phase
+        was_in_teaching = block.in_teaching_phase
         step = env.learner_act(
             block, policy_out.action,
             pick_index=policy_out.pick_index,
         )
+        feedback_meta = self._new_feedback_meta()
 
         # Observe outcome
         if step.action == "pick" and step.correct is False:
+            feedback_meta = self._new_feedback_meta(
+                raw_feedback_kind="wrong_reveal",
+                feedback_category=self._classify_wrong_feedback(
+                    qs, qs.reveal_history[-1] if qs.reveal_history else None
+                ),
+            )
             # ── Wrong pick ─────────────────────────────────────────────
             # Find the reveal event
             if qs.reveal_history:
@@ -452,7 +608,7 @@ class LearnerAgent:
                     and self.cfg.learner.negative_evidence_mode == "exact_program_target"
                 )
                 should_handle = (
-                    block.in_teaching_phase
+                    was_in_teaching
                     and (self._is_cls_scorer()
                          or reveal_mode not in ("cortex_em",)
                          or nonreveal_active)
@@ -466,21 +622,35 @@ class LearnerAgent:
                     self._teaching_examples.append(new_example)
                     # Pass qs so _handle_reveal can access target_output
                     # in nonreveal_negative mode without using revealed output.
-                    self._handle_reveal(new_example, qs=qs)
+                    feedback_meta = self._handle_reveal(new_example, qs=qs)
 
         elif step.action == "pick" and step.correct is True:
+            feedback_meta = self._new_feedback_meta(
+                raw_feedback_kind="correct_pick",
+                feedback_category=(
+                    "correct_after_feedback"
+                    if (qs.reveal_history or qs.after_highlight_grace_round or qs.assist_level != "none")
+                    else "correct_incidental"
+                ),
+            )
             # ── Correct pick: optional positive reinforcement ───────────
             # Learner confirmed (j*.text, target_output) — a complete positive example.
             # Only triggers if correct_pick_learning_mode != "off" and in teaching phase.
-            if (block.in_teaching_phase
+            if (was_in_teaching
                     and self._is_cls_scorer()
                     and self.cfg.learner.correct_pick_learning_mode != "off"):
-                self._handle_correct_pick(qs)
+                feedback_meta = self._handle_correct_pick(qs)
 
         if step.action == "refresh":
             self.policy.on_refresh()
+            feedback_meta = self._new_feedback_meta(
+                raw_feedback_kind="refresh",
+                feedback_category="refresh",
+            )
 
-        # Phase transition: teach → eval → freeze CLS
+        self._apply_feedback_meta(qs, step, feedback_meta)
+
+        # Phase transition: teach -> eval -> freeze CLS
         if (block.in_evaluation_phase
                 and not self._eval_frozen
                 and self._is_cls_scorer()):
@@ -489,42 +659,323 @@ class LearnerAgent:
 
         return policy_out
 
+    def observe_forced_step(self, block: BlockState, step, qs: 'QueryState' = None) -> None:
+        """Observe the outcome of a forced pick (from scripted protocol).
+
+        This must be called AFTER env.force_learner_pick() to ensure
+        learner semantic updates (CLS scorer, danger head, memory, counters)
+        are properly triggered. Without this, forced picks bypass learner.act()
+        and no learning occurs.
+
+        IMPORTANT: qs must be passed explicitly because env.force_learner_pick()
+        advances block.current_query_idx on correct pick (via _advance_query),
+        so block.current_query would point to the next query by the time we run.
+
+        The code paths here mirror the observe-outcome block in act().
+        """
+        if qs is None:
+            qs = block.current_query
+        if qs is None:
+            return
+
+        # Determine if query was in teaching phase based on its index
+        # (can't use block.in_teaching_phase because current_query_idx may have advanced)
+        qi = None
+        for idx, q in enumerate(block.queries):
+            if q is qs:
+                qi = idx
+                break
+        if qi is None:
+            qi = qs.query_id
+        teach_start = block.obs_phase_queries
+        teach_end = block.obs_phase_queries + block.teach_phase_queries
+        was_in_teaching = teach_start <= qi < teach_end
+
+        if step.action == "pick" and step.correct is False:
+            feedback_meta = self._new_feedback_meta(
+                raw_feedback_kind="wrong_reveal",
+                feedback_category=self._classify_wrong_feedback(
+                    qs, qs.reveal_history[-1] if qs.reveal_history else None
+                ),
+            )
+            # Wrong pick — same path as act()
+            if qs.reveal_history:
+                last_reveal = qs.reveal_history[-1]
+                self.policy.observe_outcome(
+                    last_reveal.danger_vec,
+                    last_reveal.damage,
+                    reveal_event=last_reveal,
+                )
+
+                reveal_mode = self.cfg.learner.reveal_learning_mode
+                feedback_mode = self.cfg.env.feedback_mode
+                nonreveal_active = (
+                    feedback_mode == "nonreveal"
+                    and self.cfg.learner.negative_evidence_mode == "exact_program_target"
+                )
+                should_handle = (
+                    was_in_teaching
+                    and (self._is_cls_scorer()
+                         or reveal_mode not in ("cortex_em",)
+                         or nonreveal_active)
+                )
+                if should_handle:
+                    from ..interfaces import Example
+                    new_example = Example(
+                        words=list(last_reveal.option_text),
+                        output=list(last_reveal.revealed_output),
+                    )
+                    self._teaching_examples.append(new_example)
+                    feedback_meta = self._handle_reveal(new_example, qs=qs)
+            self._apply_feedback_meta(qs, step, feedback_meta)
+
+        elif step.action == "pick" and step.correct is True:
+            feedback_meta = self._new_feedback_meta(
+                raw_feedback_kind="correct_pick",
+                feedback_category=(
+                    "correct_after_feedback"
+                    if (qs.reveal_history or qs.after_highlight_grace_round or qs.assist_level != "none")
+                    else "correct_incidental"
+                ),
+            )
+            # Correct pick — same path as act()
+            if (was_in_teaching
+                    and self._is_cls_scorer()
+                    and self.cfg.learner.correct_pick_learning_mode != "off"):
+                feedback_meta = self._handle_correct_pick(qs)
+            self._apply_feedback_meta(qs, step, feedback_meta)
+
+
     def _is_cls_scorer(self) -> bool:
         """Check if current scorer supports incremental learning."""
         return (self._scorer is not None
                 and hasattr(self._scorer, 'incremental_study'))
 
-    def _handle_correct_pick(self, qs) -> None:
-        """CLS positive reinforcement on correct pick.
+    def _new_feedback_meta(
+        self,
+        *,
+        raw_feedback_kind: str = "none",
+        feedback_category: str = "none",
+    ) -> dict:
+        return {
+            "raw_feedback_kind": raw_feedback_kind,
+            "feedback_category": feedback_category,
+            "semantic_credit": 0.0,
+            "semantic_credit_type": "none",
+            "semantic_credit_reason": "none",
+            "semantic_update_attempted": False,
+            "semantic_update_applied": False,
+            "contrastive_ticket_consumed": False,
+            "positive_ticket_consumed": False,
+        }
 
-        Uses (j*.text, target_output) as a lightweight positive supervision signal.
-        Only called when:
-          - block.in_teaching_phase
-          - _is_cls_scorer() is True
-          - correct_pick_learning_mode != "off"
+    def _apply_feedback_meta(self, qs, step, meta: dict) -> None:
+        """Attach pedagogical-credit annotations to learner trace + query state."""
+        if step is not None:
+            step.raw_feedback_kind = str(meta.get("raw_feedback_kind", "none"))
+            step.feedback_category = str(meta.get("feedback_category", "none"))
+            step.semantic_credit = float(meta.get("semantic_credit", 0.0))
+            step.semantic_credit_type = str(meta.get("semantic_credit_type", "none"))
+            step.semantic_credit_reason = str(meta.get("semantic_credit_reason", "none"))
+            step.semantic_update_attempted = bool(meta.get("semantic_update_attempted", False))
+            step.semantic_update_applied = bool(meta.get("semantic_update_applied", False))
+            step.contrastive_ticket_consumed = bool(meta.get("contrastive_ticket_consumed", False))
+            step.positive_ticket_consumed = bool(meta.get("positive_ticket_consumed", False))
 
-        Uses n_em_override=correct_pick_n_em_override (default 1) for lighter
-        EM than full wrong-reveal restudy, to reduce overfitting risk.
+        if qs is not None:
+            qs.last_semantic_credit = float(meta.get("semantic_credit", 0.0))
+            qs.last_feedback_credit_type = str(meta.get("semantic_credit_type", "none"))
+            qs.last_feedback_credit_reason = str(meta.get("semantic_credit_reason", "none"))
 
-        Stochastic gate: updates with probability eta_correct_pick.
-        Score shift is recorded in _reveal_shifts for PosteriorShift tracking.
-        """
+    def _previous_reveal_option_index(self, qs) -> "int | None":
+        history = getattr(qs, "reveal_history", None) or []
+        if len(history) >= 2:
+            return getattr(history[-2], "option_index", None)
+        return None
+
+    def _classify_wrong_feedback(self, qs, reveal_event) -> str:
+        if qs is None or reveal_event is None:
+            return "other_wrong"
+        option_index = getattr(reveal_event, "option_index", None)
+        prev_index = self._previous_reveal_option_index(qs)
+        if prev_index is not None and option_index == prev_index:
+            return "same_wrong"
+        labels = getattr(qs, "option_diag_labels", {}) or {}
+        label = labels.get(option_index, "")
+        if label == "safe_diagnostic_wrong":
+            return "safe_diag"
+        if label == "bounded_diagnostic_wrong":
+            return "bounded_diag"
+        if label == "high_risk_lure":
+            return "high_risk"
+        if label in ("safe_far", "safe_random_wrong", "risky_far"):
+            return "far_wrong"
+        return "other_wrong"
+
+    def _compute_wrong_semantic_credit(self, qs, reveal_event) -> dict:
+        category = self._classify_wrong_feedback(qs, reveal_event)
+        meta = self._new_feedback_meta(
+            raw_feedback_kind="wrong_reveal",
+            feedback_category=category,
+        )
+        meta["semantic_credit_type"] = "contrastive"
+
+        feedback_mode = getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw")
+        if feedback_mode != "budgeted_v1":
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "raw_mode"
+            return meta
+
+        if qs is None:
+            meta["semantic_credit_reason"] = "missing_query_state"
+            return meta
+        if getattr(qs, "contrastive_update_used", False):
+            meta["semantic_credit_reason"] = "ticket_spent"
+            return meta
+
+        info = 0.0
+        if category == "safe_diag":
+            info = 1.0
+        elif category == "bounded_diag":
+            info = float(getattr(self.cfg.learner, "bounded_reveal_credit", 0.5))
+
+        risk_class = float(getattr(reveal_event, "risk_class", 0.0) if reveal_event is not None else 0.0)
+        h0 = float(max(1, getattr(self.cfg.env, "H_0", 1)))
+        safety = max(0.0, 1.0 - risk_class / h0)
+        novelty = 0.0 if category == "same_wrong" else 1.0
+        credit = float(info * safety * novelty)
+
+        meta["semantic_credit"] = credit
+        if credit > 0.0:
+            meta["semantic_credit_reason"] = category
+        elif category == "same_wrong":
+            meta["semantic_credit_reason"] = "same_wrong"
+        elif category == "high_risk":
+            meta["semantic_credit_reason"] = "high_risk"
+        elif category == "far_wrong":
+            meta["semantic_credit_reason"] = "far_wrong"
+        elif category == "other_wrong":
+            meta["semantic_credit_reason"] = "other_wrong"
+        else:
+            meta["semantic_credit_reason"] = "zero_credit"
+        return meta
+
+    def _compute_correct_semantic_credit(self, qs) -> dict:
+        assist_level = getattr(qs, "assist_level", "none") if qs is not None else "none"
+        src = getattr(qs, "learning_event_source", "incidental") if qs is not None else "incidental"
+        had_reveal = bool(getattr(qs, "reveal_history", None))
+        after_grace = bool(getattr(qs, "after_highlight_grace_round", False)) if qs is not None else False
+        pedagogical_context = (
+            had_reveal
+            or after_grace
+            or assist_level in ("highlight", "ban", "mix", "direct_answer", "shortlist")
+            or src.startswith("scripted")
+        )
+        category = "correct_after_feedback" if pedagogical_context else "correct_incidental"
+        meta = self._new_feedback_meta(
+            raw_feedback_kind="correct_pick",
+            feedback_category=category,
+        )
+        meta["semantic_credit_type"] = "positive"
+
+        feedback_mode = getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw")
+        if feedback_mode != "budgeted_v1":
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "raw_mode"
+            return meta
+
+        if qs is None:
+            meta["semantic_credit_reason"] = "missing_query_state"
+            return meta
+        if getattr(qs, "positive_update_used", False):
+            meta["semantic_credit_reason"] = "ticket_spent"
+            return meta
+
+        if after_grace:
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "after_grace"
+        elif assist_level in ("highlight", "mix"):
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "after_cue"
+        elif had_reveal or assist_level == "ban":
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "after_reveal"
+        elif pedagogical_context:
+            meta["semantic_credit"] = 1.0
+            meta["semantic_credit_reason"] = "pedagogical_correct"
+        else:
+            meta["semantic_credit"] = float(getattr(self.cfg.learner, "incidental_correct_credit", 0.5))
+            meta["semantic_credit_reason"] = "incidental_correct"
+        return meta
+
+    def _handle_correct_pick(self, qs) -> dict:
+        """CLS positive reinforcement on correct pick."""
         lcfg = self.cfg.learner
         mode = lcfg.correct_pick_learning_mode
         eta = lcfg.eta_correct_pick
         n_em_ov = lcfg.correct_pick_n_em_override
+        meta = self._compute_correct_semantic_credit(qs)
 
         if mode == "off":
-            return
+            return meta
+        credit = float(meta.get("semantic_credit", 0.0))
+        if credit <= 0.0:
+            return meta
 
-        # Stochastic gate
-        if eta < 1.0 and self.rng.random() >= eta:
-            return
+        assist_lv = getattr(qs, 'assist_level', 'none')
+        if assist_lv in ('direct_answer', 'shortlist'):
+            sem_key = "direct_answer"
+        elif assist_lv in ('highlight', 'ban', 'mix'):
+            sem_key = "correct_assisted"
+        else:
+            sem_key = "correct_unassisted"
+        self._sem_counters[f"{sem_key}_attempted"] += 1
 
-        # Get correct option text
+        src = getattr(qs, 'learning_event_source', 'incidental')
+        if sem_key == "correct_unassisted":
+            if src == "scripted_self_correct":
+                self._src_counters["cu_scripted_self_correct_att"] += 1
+            elif src == "scripted_direct_correct":
+                self._src_counters["cu_scripted_direct_correct_att"] += 1
+            else:
+                self._src_counters["cu_incidental_att"] += 1
+        elif sem_key == "direct_answer":
+            if src == "scripted_then_answer":
+                self._src_counters["da_then_answer_att"] += 1
+            elif src == "scripted_direct_answer":
+                self._src_counters["da_direct_answer_att"] += 1
+            else:
+                self._src_counters["da_incidental_shortlist_att"] += 1
+
+        omega = self._compute_assist_omega(qs)
+        effective_eta = eta * omega * credit
+        meta["semantic_update_attempted"] = True
+        if getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw") == "budgeted_v1":
+            qs.positive_update_used = True
+            meta["positive_ticket_consumed"] = True
+        if effective_eta < 1.0 and self.rng.random() >= effective_eta:
+            return meta
+        self._sem_counters[f"{sem_key}_applied"] += 1
+        meta["semantic_update_applied"] = True
+
+        if sem_key == "correct_unassisted":
+            if src == "scripted_self_correct":
+                self._src_counters["cu_scripted_self_correct_app"] += 1
+            elif src == "scripted_direct_correct":
+                self._src_counters["cu_scripted_direct_correct_app"] += 1
+            else:
+                self._src_counters["cu_incidental_app"] += 1
+        elif sem_key == "direct_answer":
+            if src == "scripted_then_answer":
+                self._src_counters["da_then_answer_app"] += 1
+            elif src == "scripted_direct_answer":
+                self._src_counters["da_direct_answer_app"] += 1
+            else:
+                self._src_counters["da_incidental_shortlist_app"] += 1
+
         correct_text = self._get_correct_pick_text(qs)
         if correct_text is None:
-            return
+            return meta
 
         from ..interfaces import Example
         pos_example = Example(
@@ -533,7 +984,6 @@ class LearnerAgent:
         )
 
         if mode == "cortex_em":
-            # Measure score BEFORE (PosteriorShiftPerReveal tracking)
             score_before = 0.0
             try:
                 score_before = self._scorer.score_option(
@@ -541,10 +991,8 @@ class LearnerAgent:
             except Exception:
                 pass
 
-            # Lightweight EM: n_em_override=1 (not full restudy strength)
             self._scorer.incremental_study([pos_example], n_em_override=n_em_ov)
 
-            # Record shift (positive expected — j* score should increase)
             try:
                 score_after = self._scorer.score_option(
                     list(qs.target_output), correct_text)
@@ -553,6 +1001,7 @@ class LearnerAgent:
                 pass
         else:
             raise ValueError(f"Unknown correct_pick_learning_mode: {mode}")
+        return meta
 
     def _get_correct_pick_text(self, qs) -> "list | None":
         """Get the text of the correct option from qs.
@@ -570,7 +1019,21 @@ class LearnerAgent:
                 return list(opt.text)
         return None
 
-    def _handle_reveal(self, example, qs=None) -> None:
+    def _compute_assist_omega(self, qs) -> float:
+        """Compute assist discount weight ω = rho_assist ** rank.
+
+        Only gates SEMANTIC updates.  Risk/damage updates are NOT gated.
+        """
+        from ..interfaces_assist import ASSIST_RANK
+        rho = self.cfg.learner.rho_assist
+        if rho >= 1.0:
+            return 1.0  # no discount
+        level = getattr(qs, 'assist_level', 'none')
+        rank = ASSIST_RANK.get(level, 0)
+        return rho ** rank
+
+
+    def _handle_reveal(self, example, qs=None) -> dict:
         """Route reveal / wrong-pick feedback through reveal_learning_mode.
 
         NOTE: This function is now a 'wrong-feedback handler', not just a
@@ -594,6 +1057,8 @@ class LearnerAgent:
         mode = self.cfg.learner.reveal_learning_mode
         eta = self.cfg.learner.eta_reveal  # in [0, 1]
         feedback_mode = self.cfg.env.feedback_mode  # "reveal" | "nonreveal"
+        reveal_event = qs.reveal_history[-1] if (qs is not None and getattr(qs, "reveal_history", None)) else None
+        meta = self._compute_wrong_semantic_credit(qs, reveal_event)
 
         # ── Nonreveal check: guard against accidental output consumption ──
         # If env is in nonreveal mode, example.output must never be used for
@@ -605,29 +1070,62 @@ class LearnerAgent:
             if neg_mode == "exact_program_target" and qs is not None:
                 mode = "nonreveal_negative"
             else:
-                return  # nonreveal + no negative evidence = off
+                return meta  # nonreveal + no negative evidence = off
 
         if mode == "cortex_em":
             # Measure score BEFORE update (PosteriorShiftPerReveal)
             score_before = 0.0
-            if hasattr(self._scorer, 'score_option') and example.output:
+            probe_target = (
+                list(qs.target_output)
+                if (qs is not None and qs.target_output)
+                else list(example.output)
+            )
+            if hasattr(self._scorer, 'score_option') and probe_target:
                 try:
                     score_before = self._scorer.score_option(
-                        list(example.output), list(example.words))
+                        probe_target, list(example.words))
                 except Exception:
                     score_before = 0.0
 
+            credit = float(meta.get("semantic_credit", 0.0))
+            if credit <= 0.0:
+                return meta
             # Stochastic gate: only update scorer with probability eta_reveal
+            # then apply assist discount (semantic only, not risk)
             updated = False
-            if eta >= 1.0 or self.rng.random() < eta:
+            omega = self._compute_assist_omega(qs) if qs is not None else 1.0
+            effective_eta = eta * omega * credit
+            # Instrumentation: wrong_reveal is attempted before gate
+            if hasattr(self, '_sem_counters'):
+                self._sem_counters["wrong_reveal_attempted"] += 1
+            # Phase 6.5: event-source wrong-reveal counter
+            wr_src = getattr(qs, 'learning_event_source', 'incidental') if qs else 'incidental'
+            if hasattr(self, '_src_counters'):
+                if wr_src.startswith('scripted'):
+                    self._src_counters["wr_scripted_att"] += 1
+                else:
+                    self._src_counters["wr_incidental_att"] += 1
+            meta["semantic_update_attempted"] = True
+            if qs is not None and getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw") == "budgeted_v1":
+                qs.contrastive_update_used = True
+                meta["contrastive_ticket_consumed"] = True
+            if effective_eta >= 1.0 or self.rng.random() < effective_eta:
                 self._scorer.incremental_study([example])
                 updated = True
+                meta["semantic_update_applied"] = True
+                if hasattr(self, '_sem_counters'):
+                    self._sem_counters["wrong_reveal_applied"] += 1
+                if hasattr(self, '_src_counters'):
+                    if wr_src.startswith('scripted'):
+                        self._src_counters["wr_scripted_app"] += 1
+                    else:
+                        self._src_counters["wr_incidental_app"] += 1
 
             # Measure score AFTER update and record shift
-            if updated and example.output:
+            if updated and probe_target:
                 try:
                     score_after = self._scorer.score_option(
-                        list(example.output), list(example.words))
+                        probe_target, list(example.words))
                     self._reveal_shifts.append(float(score_after - score_before))
                 except Exception:
                     pass
@@ -636,8 +1134,18 @@ class LearnerAgent:
             pass
         elif mode == "negative_memory":
             # Store in negative memory (penalty applied during scoring)
-            if self._negative_memory is not None:
+            credit = float(meta.get("semantic_credit", 0.0))
+            if credit <= 0.0:
+                return meta
+            omega = self._compute_assist_omega(qs) if qs is not None else 1.0
+            effective_eta = eta * omega * credit
+            meta["semantic_update_attempted"] = True
+            if qs is not None and getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw") == "budgeted_v1":
+                qs.contrastive_update_used = True
+                meta["contrastive_ticket_consumed"] = True
+            if self._negative_memory is not None and (effective_eta >= 1.0 or self.rng.random() < effective_eta):
                 self._negative_memory.add(example.words)
+                meta["semantic_update_applied"] = True
         elif mode == "nonreveal_negative":
             # Nonreveal mode: do NOT consume revealed output.
             # Record (program, target_output) as negative evidence in scorer.
@@ -647,18 +1155,29 @@ class LearnerAgent:
             assert feedback_mode == "nonreveal", (
                 "nonreveal_negative mode requires feedback_mode='nonreveal'"
             )
+            credit = float(meta.get("semantic_credit", 0.0))
+            if credit <= 0.0:
+                return meta
+            meta["semantic_update_attempted"] = True
+            if qs is not None and getattr(self.cfg.learner, "pedagogical_feedback_mode", "raw") == "budgeted_v1":
+                qs.contrastive_update_used = True
+                meta["contrastive_ticket_consumed"] = True
             if qs is not None and hasattr(self._scorer, 'add_negative_evidence'):
                 eta_neg = self.cfg.learner.eta_negative
                 if eta_neg is None:
                     eta_neg = self.cfg.learner.eta_reveal
-                if eta_neg >= 1.0 or self.rng.random() < eta_neg:
+                omega = self._compute_assist_omega(qs) if qs is not None else 1.0
+                effective_eta = eta_neg * omega * credit
+                if effective_eta >= 1.0 or self.rng.random() < effective_eta:
                     self._scorer.add_negative_evidence(
                         words=list(example.words),
                         target_output=list(qs.target_output),
-                        weight=eta_neg,
+                        weight=effective_eta,
                     )
+                    meta["semantic_update_applied"] = True
         else:
             raise ValueError(f"Unknown reveal_learning_mode: {mode}")
+        return meta
 
     def reveal_shift_stats(self) -> dict:
         """Return PosteriorShiftPerReveal statistics for the current block."""

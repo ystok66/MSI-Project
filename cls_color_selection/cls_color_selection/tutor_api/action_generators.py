@@ -129,6 +129,11 @@ def apply_hint_to_state(
             state.completion[pos] = color
             state.assist_mask[pos] = True  # Mark as tutor-assisted
 
+    # ── Populate hint tracking fields ──
+    state.hinted_this_query = True
+    state.hint_count += 1
+    state.hint_payload.extend(hint_action.hint_positions or [])
+
     state.step_log.append({
         'event': 'hint',
         'positions': hint_action.hint_positions,

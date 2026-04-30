@@ -12,6 +12,7 @@ import numpy as np
 
 from .state import QueryState
 from ..interfaces import TutorStep, RiskHintEvent
+from ..interfaces_assist import ASSIST_RANK, merge_assist_level
 
 
 def apply_wait(qs: QueryState, round_t: int) -> TutorStep:
@@ -43,6 +44,7 @@ def apply_risk_hint(
     qs.risk_hints.add(hint_index)
     event = RiskHintEvent(round_t=round_t, option_index=hint_index, eta=eta)
     qs.risk_hint_history.append(event)
+    qs.assist_level = merge_assist_level(qs.assist_level, "risk_hint")
 
     return TutorStep(
         round_t=round_t,
@@ -66,6 +68,7 @@ def apply_ban(
     if ban_index in qs.banned_indices:
         raise ValueError(f"Option {ban_index} already banned")
     qs.banned_indices.add(ban_index)
+    qs.assist_level = merge_assist_level(qs.assist_level, "ban")
     return TutorStep(
         round_t=round_t,
         query_id=qs.query_id,
@@ -92,6 +95,7 @@ def apply_highlight(
         if c < 0 or c >= L:
             raise ValueError(f"HIGHLIGHT cell {c} out of range [0, {L})")
     qs.highlighted_cells = cells
+    qs.assist_level = merge_assist_level(qs.assist_level, "highlight")
     return TutorStep(
         round_t=round_t,
         query_id=qs.query_id,
@@ -179,6 +183,7 @@ def apply_mix(
 
     # Apply HIGHLIGHT (overwrites existing; V2 persists through refresh)
     qs.highlighted_cells = highlight_cells
+    qs.assist_level = merge_assist_level(qs.assist_level, "mix")
 
     return TutorStep(
         round_t=round_t,
@@ -211,6 +216,7 @@ def apply_shortlist(
     if not indices:
         raise ValueError("SHORTLIST requires at least one index")
     qs.shortlisted_indices = set(indices)
+    qs.assist_level = merge_assist_level(qs.assist_level, "direct_answer")
     return TutorStep(
         round_t=round_t,
         query_id=qs.query_id,

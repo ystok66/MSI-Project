@@ -171,7 +171,15 @@ class LearnerPolicy:
         top_danger = danger_preds[best_sem]
 
         # Refresh if predicted damage of best option >= current HP
-        should_refresh = (top_danger >= qs.hp and qs.rounds_used < qs.max_rounds - 1)
+        refresh_cap_reached = bool(
+            qs.enforce_max_refreshes
+            and qs.refreshes_used >= qs.max_refreshes
+        )
+        should_refresh = (
+            not refresh_cap_reached
+            and top_danger >= qs.hp
+            and qs.rounds_used < qs.max_rounds - 1
+        )
 
         if should_refresh:
             U_refresh = np.max(U_pick) + 1.0

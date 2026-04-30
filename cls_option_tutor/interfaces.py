@@ -74,6 +74,17 @@ class LearnerStep:
     menu_size: int = 0                  # effective menu after bans
     semantic_scores: Optional[List[float]] = None
     danger_preds: Optional[List[float]] = None
+    # Phase 6I.8: separate raw failure/correct outcomes from semantic
+    # pedagogical credit so teach-time feedback can be budgeted.
+    raw_feedback_kind: str = "none"     # "wrong_reveal" | "correct_pick" | "refresh" | "none"
+    feedback_category: str = "none"     # safe_diag | bounded_diag | same_wrong | far_wrong | ...
+    semantic_credit: float = 0.0
+    semantic_credit_type: str = "none"  # "contrastive" | "positive" | "none"
+    semantic_credit_reason: str = "none"
+    semantic_update_attempted: bool = False
+    semantic_update_applied: bool = False
+    contrastive_ticket_consumed: bool = False
+    positive_ticket_consumed: bool = False
 
 
 @dataclass
@@ -173,6 +184,7 @@ class PolicyStateSnapshot:
 
     # Semantic scores computed at decision time
     semantic_scores: Optional[np.ndarray] = None
+    pick_probs: Optional[np.ndarray] = None
 
     # What the learner actually did
     learner_action: Optional[str] = None       # "pick" or "refresh"

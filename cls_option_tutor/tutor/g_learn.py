@@ -414,9 +414,17 @@ class ProbeEvaluator:
         acc_before = self.probe_accuracy(scorer, probe_queries)
 
         # Step 3: simulate expected wrong picks (same probabilistic filter)
-        simulated_reveals = self.simulate_expected_reveals(
-            qs, shortlist_indices, learner_agent, p_a=p_a
-        )
+        try:
+            simulated_reveals = self.simulate_expected_reveals(
+                qs, shortlist_indices, learner_agent, p_a=p_a
+            )
+        except TypeError:
+            # Backward-compatible test/mocking path: older call sites and unit
+            # tests patch simulate_expected_reveals(qs, shortlist, learner)
+            # without the optional p_a keyword.
+            simulated_reveals = self.simulate_expected_reveals(
+                qs, shortlist_indices, learner_agent
+            )
         if not simulated_reveals:
             # No expected wrong picks -> G_learn = 0
             assert_scorer_state_equal(scorer, snapshot)   # integrity check

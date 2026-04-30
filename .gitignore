@@ -2,3 +2,10 @@
 *.json
 *.pyc
 *.log
+*.txt
+*.csv
+*summary.md
+maze/runs/*
+archive/*
+docs/*
+*/results/*

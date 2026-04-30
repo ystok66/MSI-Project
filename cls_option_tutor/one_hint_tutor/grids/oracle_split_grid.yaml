@@ -1,0 +1,39 @@
+grid_mode: "scenario"
+
+tasks: ["000001"]
+seeds: "0:10"
+
+base:
+  planner_mode: "cascade"
+  common_randomness: true
+  hint_mode: "free"
+  hint_families: ["free"]
+  teach_difficulty: "hard"
+  teach_menu_size: 20
+  max_attempts_main: 4
+  n_obs: 4
+  prelearn_profile: "4"
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+
+experiments:
+  - name: "current_free_reference"
+    ceiling_mode: "none"
+    oracle_metric: "composite"
+
+  - name: "oracle_success_free"
+    ceiling_mode: "oracle_best_family"
+    oracle_metric: "success"
+
+  - name: "oracle_band_free"
+    ceiling_mode: "oracle_best_family"
+    oracle_metric: "band"
+
+  - name: "oracle_eval_cell_free"
+    ceiling_mode: "oracle_best_family"
+    oracle_metric: "eval_cell"
+
+  - name: "oracle_composite_free"
+    ceiling_mode: "oracle_best_family"
+    oracle_metric: "composite"

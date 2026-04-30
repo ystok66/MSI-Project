@@ -150,6 +150,47 @@ CONDITIONS_PP_TUTOR = [
     "sparse_protective_nr",     # nonreveal + protective + g_learn=probe
     "sparse_pedagogical_nr",    # nonreveal + pedagogical + g_learn=probe
 ]
+# Inverse predictor conditions (Phase 5: observation boundary)
+CONDITIONS_INVERSE = [
+    "sparse_oracle_forward",       # predictor=OracleForwardPredictor (ceiling)
+    "sparse_inverse_shadow",       # predictor=InverseShadowPredictor (mainline)
+    "sparse_inverse_profile_only", # profile only, no shadow semantic/risk updates
+    "sparse_inverse_sem_only",     # shadow semantic update only, no risk
+    "sparse_inverse_risk_only",    # shadow risk update only, no semantic
+]
+# Phase 6: learning-increment benchmark conditions
+CONDITIONS_PHASE6 = [
+    "direct_answer",                    # DirectAnswerTutor: SHORTLIST([j*])
+    "script_direct_answer",             # scripted SHORTLIST on every teach query
+    "script_direct_correct",            # forced correct pick (unassisted upper bound)
+    # Phase 6.3: then_answer (wrong → SHORTLIST)
+    "script_wrong1_correct_safe",
+    "script_wrong1_correct_bounded_risk",
+    "script_wrong1_correct_high_risk",
+    "script_wrong2_correct_safe",
+    "script_wrong2_mixed_safe_bounded",
+    "script_wrong2_mixed_bounded_high",
+    # Phase 6.4: then_answer explicit naming
+    "script_wrong1_then_answer_safe",
+    "script_wrong1_then_answer_bounded",
+    "script_wrong1_then_answer_high",
+    # Phase 6.4: self_correct (wrong → force correct w/o SHORTLIST)
+    "script_wrong1_self_correct_safe",
+    "script_wrong1_self_correct_bounded",
+    "script_wrong1_self_correct_high",
+    "script_wrong2_self_correct_safe",
+    "script_wrong2_self_correct_safe_bounded",
+    "script_wrong2_self_correct_bounded_high",
+    # Phase 6.4: diagnostic vs random wrong selection
+    "script_wrong1_self_correct_diagnostic_safe",
+    "script_wrong1_self_correct_random_safe",
+    # No-tutor baselines
+    "no_tutor_reveal",
+    "no_tutor_nonreveal_neg",
+    # Legacy aliases
+    "script_wrong1_risky_correct",
+    "script_wrong2_mixed_correct",
+]
 
 # J objective weights (defaults — override via CLI if needed)
 J_BETA  = 0.5   # death penalty
@@ -1046,6 +1087,77 @@ def run_job(args):
             cfg.tutor.t_max_margin = 0.03
             tutor = SparseTutorAgent(cfg=cfg)
             block = tutor.run_block(env, learner, grammar_id, seed=seed)
+
+        # ── Inverse predictor conditions (Phase 5) ──────────────────
+        elif cond == "sparse_oracle_forward":
+            from cls_option_tutor.tutor.sparse_tutor import SparseTutorAgent
+            from cls_option_tutor.tutor.oracle_predictor import OracleForwardPredictor
+            cfg.tutor.rollout_mode = "proxy"
+            tutor = SparseTutorAgent(cfg=cfg)
+            oracle_pred = OracleForwardPredictor(tutor)
+            tutor._predictor = oracle_pred
+            block = tutor.run_block(env, learner, grammar_id, seed=seed)
+
+        elif cond in ("sparse_inverse_shadow",
+                      "sparse_inverse_profile_only",
+                      "sparse_inverse_sem_only",
+                      "sparse_inverse_risk_only"):
+            from cls_option_tutor.tutor.sparse_tutor import SparseTutorAgent
+            from cls_option_tutor.tutor.inverse_predictor import InverseShadowPredictor
+            from cls_option_tutor.tutor.learner_model import ShadowLearnerModel, PROFILE_GRID
+            from cls_option_tutor.learner.cls_adapter import create_scorer as create_shadow_scorer
+            from cls_option_tutor.learner.danger_head import DangerHead as ShadowDangerHead
+
+            # Update mask per condition
+            update_sem = cond in ("sparse_inverse_shadow", "sparse_inverse_sem_only")
+            update_risk = cond in ("sparse_inverse_shadow", "sparse_inverse_risk_only")
+
+            cfg.tutor.rollout_mode = "proxy"
+            support_pub, _, grammar_pub = env.adapter.load_task(grammar_id)
+
+            # Build shadow model from public support (NOT cloned from learner)
+            shadow_scorer = create_shadow_scorer(
+                grammar_pub, support_pub,
+                use_cls=True, n_sup=cfg.learner.n_sup,
+                n_em=cfg.learner.n_em, use_hpc=cfg.learner.use_hpc,
+            )
+            shadow_dh = ShadowDangerHead(m=cfg.env.danger_dim)
+            shadow = ShadowLearnerModel(
+                scorer=shadow_scorer,
+                danger_head=shadow_dh,
+                attention_L=4,
+                rho_H=cfg.learner.rho_H,
+            )
+            inverse_pred = InverseShadowPredictor(
+                shadow_model=shadow,
+                profile_grid=list(PROFILE_GRID),
+                rollout_mode="proxy",
+                update_semantic=update_sem,
+                update_risk=update_risk,
+            )
+            tutor = SparseTutorAgent(cfg=cfg, predictor=inverse_pred)
+            block = tutor.run_block(env, learner, grammar_id, seed=seed)
+
+        # ── Phase 6: learning-increment benchmark conditions ─────────
+        elif cond == "direct_answer":
+            from cls_option_tutor.tutor.direct_answer_tutor import DirectAnswerTutor
+            da_tutor = DirectAnswerTutor(cfg=cfg)
+            block = da_tutor.run_block(env, learner, grammar_id, seed=seed)
+
+        elif cond.startswith("script_") or cond.startswith("no_tutor_"):
+            from cls_option_tutor.tutor.scripted_protocols import ScriptedProtocolRunner
+
+            # nonreveal conditions need config adjustments
+            if cond == "no_tutor_nonreveal_neg":
+                cfg.env.feedback_mode = "nonreveal"
+                cfg.learner.reveal_learning_mode = "nonreveal_negative"
+                cfg.learner.negative_evidence_mode = "exact_program_target"
+
+            runner = ScriptedProtocolRunner(cfg=cfg, protocol=cond)
+            sresult = runner.run_block(env, learner, grammar_id, seed=seed)
+            block = sresult.block
+            # Stash scripted result for metrics extraction
+            block._scripted_result = sresult
 
         else:
             raise ValueError(f"Unknown condition: {cond}")

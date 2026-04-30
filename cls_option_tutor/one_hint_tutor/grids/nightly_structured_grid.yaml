@@ -1,0 +1,186 @@
+tasks: ["000001"]
+seeds: "0:10"  # Python-style end-exclusive => seeds 0..9
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "band_delta"
+  teach_difficulty: "hard"
+  teach_menu_size: 20
+  max_attempts_main: 6
+  max_attempts_no_tutor_extra: 7
+  hint_mode: "combined"
+  hint_families: ["free"]
+  prelearn_profile: "4"
+  n_obs: 4
+  reveal_learning_mode: "cortex_em"
+  eta_reveal: 1.0
+  target_neighborhood_limit: 16
+  target_neighborhood_atom_replacements: 8
+  target_neighborhood_min_words: 2
+  target_neighborhood_rank_min: 3
+  target_neighborhood_rank_max: 10
+  target_neighborhood_robust_rank_max: 10
+  target_neighborhood_robust_collapse_ratio: 0.863
+  oracle_candidate_limit: 12
+  two_hint_pair_limit: 8
+  after_first_wrong_pre_limit: 6
+  after_first_wrong_post_limit: 6
+
+experiments:
+  - name: current_free
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+
+  - name: menu_correct_ceiling
+    ceiling_mode: "menu_correct"
+    hint_mode: "menu_correct_ceiling"
+    allow_abstain: false
+
+  - name: oracle_best_free
+    ceiling_mode: "oracle_best_family"
+    hint_mode: "free"
+    hint_families: ["free"]
+
+  - name: oracle_best_operator
+    ceiling_mode: "oracle_best_family"
+    hint_mode: "operator_probe"
+    hint_families: ["operator_probe"]
+
+  - name: oracle_best_target
+    ceiling_mode: "oracle_best_family"
+    hint_mode: "target_neighborhood"
+    hint_families: ["target_neighborhood"]
+
+  - name: two_hint_pre_ceiling
+    ceiling_mode: "two_hint_pre"
+    hint_mode: "combined"
+    hint_families: ["free", "operator_probe", "target_neighborhood"]
+
+  - name: after_first_wrong_hint_ceiling
+    ceiling_mode: "after_first_wrong_hint"
+    hint_mode: "combined"
+    hint_families: ["free", "operator_probe", "target_neighborhood"]
+
+  - name: reveal_eta05
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    reveal_learning_mode: "cortex_em"
+    eta_reveal: 0.5
+
+  - name: reveal_eta025
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    reveal_learning_mode: "cortex_em"
+    eta_reveal: 0.25
+
+  - name: reveal_negative_memory
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    reveal_learning_mode: "negative_memory"
+
+  - name: reveal_delayed_study
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    reveal_learning_mode: "delayed_study"
+
+  - name: correct_only
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    reveal_learning_mode: "off"
+    correct_pick_learning_mode: "cortex_em"
+
+  - name: medium_K20_T6
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    teach_difficulty: "medium"
+    teach_menu_size: 20
+    max_attempts_main: 6
+
+  - name: hard_K10_T6
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    teach_difficulty: "hard"
+    teach_menu_size: 10
+    max_attempts_main: 6
+
+  - name: hard_K15_T6
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    teach_difficulty: "hard"
+    teach_menu_size: 15
+    max_attempts_main: 6
+
+  - name: hard_K20_T8
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    teach_difficulty: "hard"
+    teach_menu_size: 20
+    max_attempts_main: 8
+
+  - name: hard_K20_T10
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    teach_difficulty: "hard"
+    teach_menu_size: 20
+    max_attempts_main: 10
+
+  - name: prelearn_8
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    prelearn_profile: "8"
+
+  - name: prelearn_12
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    prelearn_profile: "12"
+
+  - name: obs_0
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    n_obs: 0
+
+  - name: obs_8
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    n_obs: 8
+
+  - name: obs_12
+    ceiling_mode: "none"
+    hint_mode: "free"
+    hint_families: ["free"]
+    n_obs: 12
+
+  - name: target_rank_filtered
+    ceiling_mode: "none"
+    hint_mode: "target_neighborhood_rank_filtered"
+    hint_families: ["target_neighborhood_rank_filtered"]
+
+  - name: target_robust_filtered
+    ceiling_mode: "none"
+    hint_mode: "target_neighborhood_robust_filtered"
+    hint_families: ["target_neighborhood_robust_filtered"]
+
+  - name: free_plus_target_robust
+    ceiling_mode: "none"
+    hint_mode: "combined"
+    hint_families: ["free", "target_neighborhood_robust_filtered"]
+
+  - name: free_plus_operator_plus_target_robust
+    ceiling_mode: "none"
+    hint_mode: "combined"
+    hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]

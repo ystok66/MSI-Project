@@ -105,6 +105,12 @@ class InverseTutor:
         self._enable_counterfactual: bool = False
         self._lambda_learn: float = 1.0  # weight for ΔLearn in final decision
 
+        # ── Ablation overrides (Group B / C experiments) ──
+        self._pos_mode: str = 'policy'     # 'policy' | 'random'
+        self._gate_mode: str = 'policy'    # 'policy' | 'random_matched'
+        self._matched_hint_rate: float = 0.5  # P(hint) when gate_mode='random_matched'
+        self._rng = np.random.default_rng(42)
+
     def init_learner_model(self, support: List[Example]):
         """[ORACLE] Initialize learner model from support (same as learner)."""
         self.learner_model.init_from_support(support)
@@ -251,10 +257,51 @@ class InverseTutor:
             words=state.query_words,
             cfg=self._hint_cfg)
 
+        # ── Hook 1: gating override (Group C ablation) ──
+        diag['hint_gate_mode'] = self._gate_mode
+        diag['hint_pos_mode'] = self._pos_mode
+        diag['hint_decision_policy_should_hint'] = should_hint
+
+        if self._gate_mode == 'random_matched':
+            # Override policy gating with random coin flip
+            should_hint = (self._rng.random() < self._matched_hint_rate)
+            diag['hint_decision_random_gate'] = should_hint
+            if should_hint and not positions:
+                # Policy said no positions but random gate says hint:
+                # generate fallback positions from wrong mask
+                wrong_positions = [
+                    i for i in range(len(gt))
+                    if i < len(wrong_mask) and not wrong_mask[i]
+                ]
+                if wrong_positions:
+                    k = min(self.cfg.max_hint_balls, len(wrong_positions))
+                    chosen = self._rng.choice(
+                        wrong_positions, size=k, replace=False)
+                    positions = [(int(p), gt[p]) for p in chosen]
+
         # Log diagnostics
         self._hint_diag_log.append(diag)
 
         if should_hint and positions:
+            # ── Hook 2: position override (Group B ablation) ──
+            if self._pos_mode == 'random':
+                # Keep k from policy, randomize which positions
+                k = len(positions)
+                wrong_positions = [
+                    i for i in range(len(gt))
+                    if i < len(wrong_mask) and not wrong_mask[i]
+                ]
+                if wrong_positions:
+                    actual_k = min(k, len(wrong_positions))
+                    chosen = self._rng.choice(
+                        wrong_positions, size=actual_k, replace=False)
+                    positions = [(int(p), gt[p]) for p in chosen]
+                diag['hint_positions_randomized'] = True
+            else:
+                diag['hint_positions_randomized'] = False
+
+            diag['hint_k'] = len(positions)
+            diag['hint_decision_final_given'] = True
             # S3: One-step counterfactual (if enabled)
             if self._enable_counterfactual and self._probe_queries:
                 try:
@@ -309,6 +356,7 @@ class InverseTutor:
                 hint_positions=hint_positions,
                 message=f"Fine-grained hint: {len(positions)} positions.")
 
+        diag['hint_decision_final_given'] = False
         return TutorAction(action_type=TutorActionType.WAIT)
 
     def on_courage_check(self, state: QueryState) -> TutorAction:

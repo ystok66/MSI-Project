@@ -1,0 +1,89 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: "0:10"
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "delta_vs_no_tutor_bonus"
+  common_randomness: true
+  hint_mode: "free"
+  hint_families: ["free"]
+  teach_difficulty: "hard"
+  n_obs: 4
+  max_attempts_no_tutor_extra: 7
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: false
+  prefilter_top_k: 4
+  proxy_rollout_top_k: 4
+  proxy_n_rollouts: 6
+  refine_n_rollouts: 4
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+  regime_no_tutor_success_min: 0.35
+  regime_no_tutor_success_max: 0.75
+  regime_oracle_success_headroom_min: 0.15
+  regime_oracle_eval_cell_headroom_min: 0.03
+
+experiments:
+  - name: "pre4_K20_T3"
+    prelearn_profile: "4"
+    teach_menu_size: 20
+    max_attempts_main: 3
+
+  - name: "pre4_K20_T4"
+    prelearn_profile: "4"
+    teach_menu_size: 20
+    max_attempts_main: 4
+
+  - name: "pre4_K20_T5"
+    prelearn_profile: "4"
+    teach_menu_size: 20
+    max_attempts_main: 5
+
+  - name: "pre4_K30_T4"
+    prelearn_profile: "4"
+    teach_menu_size: 30
+    max_attempts_main: 4
+
+  - name: "pre4_K30_T5"
+    prelearn_profile: "4"
+    teach_menu_size: 30
+    max_attempts_main: 5
+
+  - name: "pre4_K40_T5"
+    prelearn_profile: "4"
+    teach_menu_size: 40
+    max_attempts_main: 5
+
+  - name: "pre12_K20_T3"
+    prelearn_profile: "12"
+    teach_menu_size: 20
+    max_attempts_main: 3
+
+  - name: "pre12_K20_T4"
+    prelearn_profile: "12"
+    teach_menu_size: 20
+    max_attempts_main: 4
+
+  - name: "pre12_K20_T5"
+    prelearn_profile: "12"
+    teach_menu_size: 20
+    max_attempts_main: 5
+
+  - name: "pre12_K30_T4"
+    prelearn_profile: "12"
+    teach_menu_size: 30
+    max_attempts_main: 4
+
+  - name: "pre12_K30_T5"
+    prelearn_profile: "12"
+    teach_menu_size: 30
+    max_attempts_main: 5
+
+  - name: "pre12_K40_T5"
+    prelearn_profile: "12"
+    teach_menu_size: 40
+    max_attempts_main: 5

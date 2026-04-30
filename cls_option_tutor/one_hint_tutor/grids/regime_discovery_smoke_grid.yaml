@@ -1,0 +1,35 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: "0:1"
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "delta_vs_no_tutor_bonus"
+  common_randomness: true
+  hint_mode: "combined"
+  hint_families: ["free", "operator_probe"]
+  teach_difficulty: "hard"
+  n_obs: 4
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: false
+  prefilter_top_k: 3
+  proxy_rollout_top_k: 3
+  proxy_n_rollouts: 2
+  refine_n_rollouts: 2
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 2
+  free_hint_pool_hard: 2
+  operator_probe_limit: 4
+
+experiments:
+  - name: "smoke_pre4_K20_T4"
+    prelearn_profile: "4"
+    teach_menu_size: 20
+    max_attempts_main: 4
+
+  - name: "smoke_pre12_K30_T5"
+    prelearn_profile: "12"
+    teach_menu_size: 30
+    max_attempts_main: 5

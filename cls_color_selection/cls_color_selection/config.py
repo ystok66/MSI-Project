@@ -62,6 +62,17 @@ class LearnerConfig:
     enable_courage: bool = False    # Phase 1 default: off (ablation A3 tests on)
     n_retry_courage: int = 5        # consecutive retries before courage trigger
 
+    # ── Hint-aware inference (Step 1: hint bias) ──
+    enable_hint_bias: bool = False   # if True, hint payload biases target prediction
+    hint_infer_mode: str = 'hard'    # 'hard' = filter traces, 'soft' = reweight
+    beta_hint: float = 2.0           # soft-mode reweighting strength
+
+    # ── Hint-induced autonomy shift (Step 2) ──
+    enable_hint_autonomy_shift: bool = False  # if True, hints change policy behavior
+    hint_confirm_bonus: float = 0.25          # lower confirm threshold after hint
+    hint_exploration_drop: float = 0.8        # reduce exploration epsilon after hint
+    hint_stop_shift: float = 0.5              # raise util stop bar after hint
+
 
 @dataclass
 class TutorConfig:

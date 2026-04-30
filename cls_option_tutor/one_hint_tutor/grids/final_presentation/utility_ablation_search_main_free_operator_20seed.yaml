@@ -1,0 +1,91 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: "0:20"
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "advantage_delta"
+  oracle_metric: "band"
+  common_randomness: true
+  hint_mode: "combined"
+  hint_families: ["free", "operator_probe"]
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  prelearn_profile: "4"
+  n_obs: 4
+  teach_menu_size: 20
+  max_attempts_main: 5
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  random_hard_n: 5
+  random_same_pool_n: 5
+  prefilter_top_k: 4
+  proxy_rollout_top_k: 4
+  proxy_n_rollouts: 6
+  refine_n_rollouts: 4
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+  operator_probe_limit: 6
+
+  # Baseline-equivalent advantage utility:
+  # current (lambda_success=3, lambda_fail=8) simplified into success-only coefficient 11
+  lambda_success: 11.0
+  lambda_fail: 0.0
+  lambda_eval_cell: 2.0
+  lambda_soft_tau: 2.0
+  lambda_exposure: 0.5
+  lambda_collapse: 3.0
+  early_success_reject_prob: 0.40
+  early_success_eval_margin: 0.01
+  early_no_transfer_penalty: 4.0
+
+experiments:
+  - name: "utility_baseline_equiv"
+
+  - name: "utility_failprob_equiv_check"
+    lambda_success: 3.0
+    lambda_fail: 8.0
+
+  - name: "utility_no_success"
+    lambda_success: 0.0
+    lambda_fail: 0.0
+
+  - name: "utility_no_eval"
+    lambda_eval_cell: 0.0
+
+  - name: "utility_no_soft_tau"
+    lambda_soft_tau: 0.0
+
+  - name: "utility_no_collapse"
+    lambda_collapse: 0.0
+
+  - name: "utility_no_exposure"
+    lambda_exposure: 0.0
+
+  - name: "utility_no_early_gate"
+    early_success_reject_prob: 2.0
+    early_no_transfer_penalty: 0.0
+
+  - name: "utility_strong_early_guard"
+    early_success_reject_prob: 0.25
+    early_success_eval_margin: 0.02
+    early_no_transfer_penalty: 8.0
+
+  - name: "utility_success_only"
+    lambda_eval_cell: 0.0
+    lambda_soft_tau: 0.0
+    lambda_exposure: 0.0
+    lambda_collapse: 0.0
+    early_success_reject_prob: 2.0
+    early_no_transfer_penalty: 0.0
+
+  - name: "utility_search_minimal"
+    lambda_eval_cell: 0.0
+    lambda_soft_tau: 0.0
+    lambda_exposure: 0.0

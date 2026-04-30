@@ -1,0 +1,92 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: "0:20"
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "advantage_delta"
+  oracle_metric: "band"
+  common_randomness: true
+  hint_mode: "combined"
+  hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  prelearn_profile: "4"
+  n_obs: 4
+  teach_menu_size: 20
+  max_attempts_main: 5
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  random_hard_n: 5
+  random_same_pool_n: 5
+  prefilter_top_k: 4
+  proxy_rollout_top_k: 4
+  proxy_n_rollouts: 6
+  refine_n_rollouts: 4
+  free_hint_pool_easy: 2
+  free_hint_pool_medium: 3
+  free_hint_pool_hard: 3
+  operator_probe_limit: 6
+  target_neighborhood_limit: 12
+  target_neighborhood_atom_replacements: 8
+  target_neighborhood_min_words: 2
+  target_neighborhood_rank_min: 3
+  target_neighborhood_rank_max: 10
+  target_neighborhood_robust_rank_max: 10
+  target_neighborhood_robust_collapse_ratio: 0.863
+
+experiments:
+  - name: "target_robust_baseline"
+
+  - name: "target_robust_success_eval0"
+    lambda_success: 5.0
+    lambda_eval_cell: 0.0
+
+  - name: "target_robust_success_eval05"
+    lambda_success: 5.0
+    lambda_eval_cell: 0.5
+
+  - name: "target_robust_success_softtau3"
+    lambda_success: 5.0
+    lambda_eval_cell: 0.5
+    lambda_soft_tau: 3.0
+
+  - name: "target_robust_success_collapse5"
+    lambda_success: 5.0
+    lambda_eval_cell: 0.5
+    lambda_collapse: 5.0
+    conservative_reveal_penalty_weight: 5.0
+
+  - name: "target_robust_early_guard"
+    lambda_success: 4.0
+    lambda_eval_cell: 1.0
+    lambda_soft_tau: 2.0
+    early_no_transfer_penalty: 8.0
+    early_success_reject_prob: 0.25
+    early_success_eval_margin: 0.02
+
+  - name: "target_robust_balanced_loweval"
+    lambda_success: 4.0
+    lambda_eval_cell: 1.0
+    lambda_soft_tau: 2.5
+    lambda_collapse: 4.0
+
+  - name: "target_robust_transfer_balanced"
+    lambda_success: 3.0
+    lambda_eval_cell: 3.0
+
+  - name: "target_robust_transfer_high"
+    lambda_success: 2.5
+    lambda_eval_cell: 4.0
+    lambda_soft_tau: 1.5
+
+  - name: "target_robust_transfer_safe"
+    lambda_success: 3.0
+    lambda_eval_cell: 4.0
+    lambda_collapse: 5.0
+    conservative_reveal_penalty_weight: 5.0

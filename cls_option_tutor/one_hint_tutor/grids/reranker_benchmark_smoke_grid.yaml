@@ -1,0 +1,49 @@
+grid_mode: "regime_discovery"
+
+tasks: ["000001"]
+seeds: [0]
+
+base:
+  planner_mode: "cascade"
+  utility_mode: "advantage_delta"
+  oracle_metric: "band"
+  common_randomness: true
+  hint_mode: "combined"
+  teach_difficulty: "hard"
+  menu_difficulty_mode: "rank_stratified"
+  teach_probe_mode: "initial_rank"
+  target_initial_rank_min: 5
+  target_initial_rank_max: 12
+  prelearn_profile: "4"
+  n_obs: 4
+  teach_menu_size: 20
+  max_attempts_main: 5
+  hint_count_budget: 1
+  no_tutor_bonus_attempts: 1
+  eval_aware: true
+  random_hard_n: 3
+  random_same_pool_n: 3
+  reranker_enabled: true
+  reranker_model_path: "cls_option_tutor/one_hint_tutor/grids/models/neutral_search_reranker.json"
+  reranker_alpha: 1.0
+
+experiments:
+  - name: "reranker_smoke_search_neutral"
+    hint_families: ["free", "operator_probe"]
+    reranker_enabled: false
+
+  - name: "reranker_smoke_search_model"
+    hint_families: ["free", "operator_probe"]
+    reranker_enabled: true
+    reranker_model_path: "cls_option_tutor/one_hint_tutor/grids/models/search_reranker_smoke.json"
+    reranker_target: "search"
+
+  - name: "reranker_smoke_transfer_neutral"
+    hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]
+    reranker_enabled: false
+
+  - name: "reranker_smoke_transfer_model"
+    hint_families: ["free", "operator_probe", "target_neighborhood_robust_filtered"]
+    reranker_enabled: true
+    reranker_model_path: "cls_option_tutor/one_hint_tutor/grids/models/transfer_reranker_smoke.json"
+    reranker_target: "transfer"

@@ -53,6 +53,12 @@ class QueryState:
     # True = position filled by tutor hint, False = filled by learner
     assist_mask: List[bool] = field(default_factory=list)
 
+    # ── Hint tracking (hint modeling / over-help) ──
+    hinted_this_query: bool = False
+    hint_count: int = 0
+    hint_payload: List[Tuple[int, str]] = field(default_factory=list)
+    hint_target_flipped: bool = False
+
     # ── Properties ──
     @property
     def is_terminal(self) -> bool:

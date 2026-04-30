@@ -32,9 +32,31 @@ class QueryState:
     risk_hint_history: List[RiskHintEvent] = field(default_factory=list)  # [V2]
     refreshes_used: int = 0
     max_refreshes: int = 2                # V2: was 3
+    enforce_max_refreshes: bool = False
     done: bool = False
     success: bool = False
     skipped: bool = False
+    assist_level: str = "none"            # tracks highest intervention level
+    learning_event_source: str = "incidental"  # Phase 6.5: event source tag
+    # Phase 6E: diagnostic confound labels (sidecar, not on Option)
+    option_confound_types: dict = field(default_factory=dict)   # {opt_index: ConfoundType.value}
+    option_diag_labels: dict = field(default_factory=dict)      # {opt_index: DiagnosticRiskLabel.value}
+    # Phase 6H: query-level teaching trajectory state
+    n_safe_diag_wrong_reveals: int = 0
+    n_bounded_diag_wrong_reveals: int = 0
+    n_high_risk_wrong_reveals: int = 0
+    last_wrong_diag_label: str = ""
+    post_reveal_phase: bool = False
+    last_reveal_round_t: int = -1
+    last_reveal_option_index: Optional[int] = None
+    # Phase 6H.5: grace round after HIGHLIGHT/MIX in consolidate state
+    after_highlight_grace_round: bool = False
+    # Phase 6I.8: query-level pedagogical feedback budget bookkeeping.
+    contrastive_update_used: bool = False
+    positive_update_used: bool = False
+    last_semantic_credit: float = 0.0
+    last_feedback_credit_type: str = "none"
+    last_feedback_credit_reason: str = "none"
 
 
 @dataclass

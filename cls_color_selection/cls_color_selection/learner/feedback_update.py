@@ -149,14 +149,15 @@ class FeedbackUpdater:
         beam: List[Tuple[float, list, List[str]]],
         q_old: np.ndarray,
         q_new: np.ndarray,
+        eta_scale: float = 1.0,
     ):
         """Apply differential M-step to the CLS concept library.
 
         For each word w and role r in the beam traces:
-          Δn_{w,r} = η_fb · Σ_k (q̃_k - q_k) · C_{w,r}(π_k)
+          Δn_{w,r} = η_fb · eta_scale · Σ_k (q̃_k - q_k) · C_{w,r}(π_k)
 
         For emission stats:
-          ΔS_w = η_fb · Σ_k (q̃_k - q_k) · T_w(π_k)
+          ΔS_w = η_fb · eta_scale · Σ_k (q̃_k - q_k) · T_w(π_k)
 
         Directly modifies the NeuroConcept objects in the library.
 
@@ -165,8 +166,9 @@ class FeedbackUpdater:
             beam: [(score, trace, Y_k), ...] with trace as list of steps
             q_old: original beam posterior
             q_new: reweighted beam posterior
+            eta_scale: multiplier on eta_fb (Route B: < 1.0 for weak writes)
         """
-        eta = self.cfg.eta_fb
+        eta = self.cfg.eta_fb * eta_scale
         K = len(beam)
 
         for k in range(K):
@@ -213,6 +215,7 @@ class FeedbackUpdater:
         Y_hat: List[str],
         feedback: dict,
         assist_mask: Optional[List[bool]] = None,
+        eta_scale: float = 1.0,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Full feedback pipeline: beam → reweight → differential M-step.
 
@@ -222,6 +225,8 @@ class FeedbackUpdater:
             Y_hat: submitted (wrong) output
             feedback: feedback dict with mode and mask
             assist_mask: which positions were tutor-assisted (Phase 6)
+            eta_scale: multiplier for learning rate (Route B: use < 1.0
+                       for weak wrong writes, 0.0 for no grammar change)
 
         Returns:
             (q_old, q_new) for diagnostics
@@ -233,8 +238,10 @@ class FeedbackUpdater:
         q_old, q_new = self.reweight_beam_posterior(
             beam, Y_hat, feedback, assist_mask=assist_mask)
 
-        # Apply differential M-step
-        library = predictor.get_library()
-        self.differential_m_step(library, beam, q_old, q_new)
+        if eta_scale > 0:
+            # Apply differential M-step (scaled)
+            library = predictor.get_library()
+            self.differential_m_step(
+                library, beam, q_old, q_new, eta_scale=eta_scale)
 
         return q_old, q_new
